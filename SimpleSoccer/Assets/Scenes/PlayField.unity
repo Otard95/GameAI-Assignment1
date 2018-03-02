@@ -456,11 +456,6 @@ Prefab:
       propertyPath: m_Name
       value: Red Player 1
       objectReference: {fileID: 0}
-    - target: {fileID: 23537709110144174, guid: 2e7d7045d2dbad14db482974951ea0ea,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d17b3a853cd7b1f4c9f3462248083b7b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
   m_IsPrefabParent: 0
@@ -477,7 +472,7 @@ GameObject:
   - component: {fileID: 233950826}
   m_Layer: 0
   m_Name: Pitch
-  m_TagString: Untagged
+  m_TagString: Pitch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

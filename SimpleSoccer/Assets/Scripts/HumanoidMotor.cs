@@ -6,6 +6,7 @@ using UnityEngine;
 public class HumanoidMotor : MonoBehaviour {
 
 	[SerializeField] float moveForce = 60;
+	[SerializeField] float stoppingRadius = 1;
 
 	Vector3 _target_point;
 	List<Vector3> _movements;
@@ -13,6 +14,8 @@ public class HumanoidMotor : MonoBehaviour {
 
 	void Start () {
 		_rb = GetComponent<Rigidbody>();
+		_target_point = transform.position;
+		_movements = new List<Vector3>();
 	}
 
 	void FixedUpdate () {
@@ -39,7 +42,8 @@ public class HumanoidMotor : MonoBehaviour {
 			move += m;
 		}
 
-		move += _target_point - transform.position;
+		Vector3 dir_to_point = _target_point - transform.position;
+		move += dir_to_point.magnitude < stoppingRadius ? Vector3.zero : dir_to_point;
 
 		_rb.AddForce(move.normalized * moveForce * Time.deltaTime, ForceMode.Force);
 
@@ -49,7 +53,7 @@ public class HumanoidMotor : MonoBehaviour {
 
 	private void Rotate () {
 
-		transform.rotation = Quaternion.LookRotation(_rb.velocity, Vector3.up);
+		transform.rotation = Quaternion.LookRotation(_rb.velocity == Vector3.zero ? transform.forward : _rb.velocity, Vector3.up);
 
 	}
 
