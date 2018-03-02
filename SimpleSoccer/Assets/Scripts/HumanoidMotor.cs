@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class HumanoidMotor : MonoBehaviour {
 
+	[SerializeField] float moveForce = 60;
 
-
-	List<Force> _forces;
+	Vector3 _target_point;
+	List<Vector3> _movements;
 	Rigidbody _rb;
 
 	void Start () {
@@ -15,38 +16,41 @@ public class HumanoidMotor : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		Vector3 force = Vector3.zero;
-		Vector3 impulse = Vector3.zero;
 
-		foreach (Force f in _forces) {
-			if (f.mode == ForceMode.Force)
-				force += f.dir;
-			else if (f.mode == ForceMode.Impulse)
-				impulse += f.dir;
-		}
+		Movement();
 
-		_rb.AddForce(force * Time.deltaTime, ForceMode.Force);
-		_rb.AddForce(impulse * Time.deltaTime, ForceMode.Impulse);
-
-		_forces.Clear();
+		Rotate();
 
 	}
 
 	public void MoveToPoint(Vector3 point) {
+		_target_point = point;
+	}
+
+	public void AddMovement(Vector3 movement) {
+		_movements.Add(movement);
+	}
+
+	private void Movement() {
+
+		Vector3 move = Vector3.zero;
+
+		foreach (Vector3 m in _movements) {
+			move += m;
+		}
+
+		move += _target_point - transform.position;
+
+		_rb.AddForce(move.normalized * moveForce * Time.deltaTime, ForceMode.Force);
+
+		_movements.Clear();
+		
+	}
+
+	private void Rotate () {
+
+		transform.rotation = Quaternion.LookRotation(_rb.velocity, Vector3.up);
 
 	}
 
-	public void AddForce(Vector3 force, ForceMode mode) {
-		_forces.Add(new Force(force, mode));
-	}
-
-}
-
-struct Force {
-	public Vector3 dir;
-	public ForceMode mode;
-	public Force(Vector3 _force, ForceMode _mode) {
-		dir = _force;
-		mode = _mode;
-	}
 }
