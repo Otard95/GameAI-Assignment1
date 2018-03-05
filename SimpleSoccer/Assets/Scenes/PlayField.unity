@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 63648290}
+  - component: {fileID: 63648291}
   m_Layer: 0
   m_Name: Blue Team
   m_TagString: Untagged
@@ -156,6 +157,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &63648291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 63648289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _players: []
 --- !u!4 &132299799 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -2105,6 +2118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84703787b176f846a22d1ae652eebc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teams:
+  - {fileID: 63648291}
+  - {fileID: 1394306630}
   ball: {fileID: 1456494829}
 --- !u!1001 &1480968100
 Prefab:
