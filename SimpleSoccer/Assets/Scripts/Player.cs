@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
-	Transform teamBaseTransform;
+	protected Transform teamBaseTransform;
 
 	public void SetBasePos(Transform t) {
 		teamBaseTransform = t;
@@ -13,8 +14,8 @@ public class Player : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	void Update () {
-		
+
+	public virtual void Update () {
+
 	}
 }
