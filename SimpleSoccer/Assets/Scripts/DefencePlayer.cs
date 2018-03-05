@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class DefencePlayer : Player {
 
-
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+	[SerializeField] float defaultOffenciveScalar = -15;
+	[SerializeField] float defaultRightScalar = -10;
 	
 	// Update is called once per frame
 	void Update () {
