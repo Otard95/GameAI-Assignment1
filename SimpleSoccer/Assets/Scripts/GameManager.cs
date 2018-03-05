@@ -6,7 +6,10 @@ public class GameManager : MonoBehaviour
 {
 	private bool _isKickOff;
 	private GameManager _instance;
+
+	[SerializeField] Team [] teams;
 	[SerializeField] Transform ball;
+
 	public GameManager Instance
 	{
 		get { return _instance;  }
@@ -19,8 +22,8 @@ public class GameManager : MonoBehaviour
 
 	// Use this for initialization
 	void Start ()
-	{
-		_isKickOff = false;
+	{ 
+		_isKickOff = true;
 	}
 	
 	// Update is called once per frame
@@ -28,8 +31,16 @@ public class GameManager : MonoBehaviour
 		
 	}
 
-	void Goal(int team)
+	void Goal(int teamID)
 	{
-	
+		/* Possible implementation
+		_isKickOff = true;
+		teams[teamID].Score++;
+
+		for (int i = 0; i < teams.Length; i++)
+		{
+			teams[i].KickOff();
+		}
+		*/
 	}
 }
