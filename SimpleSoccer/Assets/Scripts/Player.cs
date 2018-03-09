@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
+	public bool HasBall { set; get; }
+
 	protected Transform teamBaseTransform;
 	protected HumanoidMotor _motor;
 

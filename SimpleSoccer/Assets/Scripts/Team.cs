@@ -27,6 +27,7 @@ public class Team : MonoBehaviour {
 			}
 		}
 
+
 	}
 
 }
