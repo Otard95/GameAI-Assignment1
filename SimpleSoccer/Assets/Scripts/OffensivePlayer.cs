@@ -153,4 +153,14 @@ public class OffensivePlayer : Player {
 			} 
 		}
 	}
+
+	private void RecieveBall()
+	{
+
+	}
+
+	private void KickBall()
+	{
+
+	}
 }
