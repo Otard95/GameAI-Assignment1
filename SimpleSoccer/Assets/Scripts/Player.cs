@@ -6,16 +6,13 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	protected Transform teamBaseTransform;
+	protected HumanoidMotor _motor;
 
 	public void SetBasePos(Transform t) {
 		teamBaseTransform = t;
 	}
 
-	void Start () {
-		
-	}
-
-	public virtual void Update () {
-
+	protected void Start () {
+		_motor = GetComponent<HumanoidMotor>();
 	}
 }
