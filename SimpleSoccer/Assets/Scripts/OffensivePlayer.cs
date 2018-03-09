@@ -39,6 +39,7 @@ public class OffensivePlayer : Player {
 		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
 
+		//State transition
 		switch(_state)
 		{
 			case States.idle:
@@ -107,6 +108,46 @@ public class OffensivePlayer : Player {
 				{
 					_state = States.drible;
 				}
+				break;
+			} 
+		}
+
+		//State action
+		switch (_state)
+		{
+			case States.idle:
+			{
+				
+				break;
+			}
+			case States.chaseBall:
+			{
+				
+				break;
+			} 
+			case States.drible:
+			{
+				
+				break;
+			} 
+			case States.kickBall:
+			{
+				
+				break;
+			} 
+			case States.recieveBall:
+			{
+				
+				break;
+			}
+			case States.returnHome:
+			{
+
+				break;
+			}
+			case States.support:
+			{
+				
 				break;
 			} 
 		}
