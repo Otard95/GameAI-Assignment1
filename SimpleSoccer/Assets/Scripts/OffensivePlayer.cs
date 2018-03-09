@@ -21,8 +21,12 @@ public class OffensivePlayer : Player {
 	HumanoidMotor _motor;
 
 	States _state;
+
+	//TEMP
 	bool _teamGotBall;
 	bool _gotBall;
+	bool _inPosition;
+	//ENDTEMP
 
 	void Start () {
 		_motor = GetComponent<HumanoidMotor>();
@@ -63,7 +67,7 @@ public class OffensivePlayer : Player {
 				{
 					_state = States.chaseBall;
 				}
-				else if ()
+				else if (_inPosition)
 				{
 					_state = States.kickBall;
 				}
