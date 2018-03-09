@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
-	public bool HasBall { set; get; }
+	protected bool _has_ball;
+	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
 
 	[SerializeField] protected float defaultOffenciveScalar = -15;
 	[SerializeField] protected float defaultRightScalar = -10;
@@ -20,4 +21,5 @@ public class Player : MonoBehaviour {
 	protected void Start () {
 		_motor = GetComponent<HumanoidMotor>();
 	}
+
 }
