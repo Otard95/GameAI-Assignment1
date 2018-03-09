@@ -7,6 +7,9 @@ public class Player : MonoBehaviour {
 
 	public bool HasBall { set; get; }
 
+	[SerializeField] protected float defaultOffenciveScalar = -15;
+	[SerializeField] protected float defaultRightScalar = -10;
+
 	protected Transform teamBaseTransform;
 	protected HumanoidMotor _motor;
 

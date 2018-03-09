@@ -15,9 +15,6 @@ enum States
 
 public class OffensivePlayer : Player {
 
-	[SerializeField] float defaultOffenciveScalar = -5;
-	[SerializeField] float defaultRightScalar = -10;
-
 	HumanoidMotor _motor;
 
 	States _state;
@@ -156,7 +153,7 @@ public class OffensivePlayer : Player {
 
 	private void RecieveBall()
 	{
-
+		
 	}
 
 	private void KickBall()

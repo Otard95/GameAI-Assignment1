@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class KeeperPlayer : Player {
 
-	[SerializeField] float defaultOffenciveScalar = -25;
-	[SerializeField] float defaultRightScalar = 0;
-
 	new void Start () {
 		base.Start();
 	}
