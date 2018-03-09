@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class OffensivePlayer : Player {
 
-	[SerializeField] float defaultOffenciveScalar = -5;
-	[SerializeField] float defaultRightScalar = -10;
-
 	new void Start () {
 		base.Start();
 	}

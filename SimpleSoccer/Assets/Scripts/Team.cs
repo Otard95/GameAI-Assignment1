@@ -10,6 +10,7 @@ public class Team : MonoBehaviour {
 	public int Goals { private set { _goals = value; } get { return _goals; } }
 
 	private bool _has_ball;
+	public bool HasBall { private set { _has_ball = value; } get { return _has_ball; } }
 
 	void Start () {
 		foreach (Player p in _players) {
@@ -23,10 +24,11 @@ public class Team : MonoBehaviour {
 		_has_ball = false;
 		foreach (Player p in _players) {
 			if (p.HasBall) {
-				_has_ball = true;
+				HasBall = true;
 			}
 		}
 
+		
 
 	}
 
