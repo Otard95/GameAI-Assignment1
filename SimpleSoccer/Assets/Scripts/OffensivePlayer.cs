@@ -14,10 +14,12 @@ enum States
 };
 
 public class OffensivePlayer : Player {
-
-	HumanoidMotor _motor;
+	Rigidbody _rigidBody;
 
 	States _state;
+	GameObject _ball;
+	float _speed;
+	float _kickForce;
 
 	//TEMP
 	bool _teamGotBall;
@@ -26,7 +28,11 @@ public class OffensivePlayer : Player {
 	//ENDTEMP
 
 	void Start () {
-		_motor = GetComponent<HumanoidMotor>();
+		_rigidBody = GetComponent<Rigidbody>();
+		_ball = null;
+		_speed = 10;
+		_state = States.idle;
+		_kickForce = 50;
 	}
 
 	// Update is called once per frame
@@ -35,8 +41,17 @@ public class OffensivePlayer : Player {
 		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
 
-		_state = States.idle;
+		if(_gotBall)
+		{
+			float distanceToBall = Vector3.Distance(transform.position, _ball.transform.position);
+			if(distanceToBall > 10)
+			{
+				_gotBall = false;
+				_ball = null;
+			}
+		}
 
+		#region State Transitions
 		//State transition
 		switch(_state)
 		{
@@ -80,6 +95,10 @@ public class OffensivePlayer : Player {
 					{
 						_state = States.support;
 					}
+					else
+					{
+						_state = States.chaseBall;
+					}
 				}
 				break;
 			} 
@@ -88,6 +107,10 @@ public class OffensivePlayer : Player {
 				if(_gotBall)
 				{
 					_state = States.drible;
+				}
+				else
+				{
+					_state = States.chaseBall;
 				}
 				break;
 			}
@@ -109,7 +132,9 @@ public class OffensivePlayer : Player {
 				break;
 			} 
 		}
+		#endregion
 
+		#region State Actions
 		//State action
 		switch (_state)
 		{
@@ -130,12 +155,12 @@ public class OffensivePlayer : Player {
 			} 
 			case States.kickBall:
 			{
-				
+				KickBall();
 				break;
 			} 
 			case States.recieveBall:
 			{
-				
+				RecieveBall();
 				break;
 			}
 			case States.returnHome:
@@ -150,14 +175,44 @@ public class OffensivePlayer : Player {
 			} 
 		}
 	}
+	#endregion
 
 	private void RecieveBall()
 	{
-		
+		Vector3 newDirection = Vector3.RotateTowards(transform.position, _ball.transform.position, 0, 0.0f);
+
+		if(Vector3.Angle(transform.forward, _ball.transform.position - transform.position) == 0)
+		{
+			_state = States.drible;
+		}
+		else
+		{
+			transform.rotation = Quaternion.LookRotation(newDirection);
+		}		
 	}
 
 	private void KickBall()
 	{
+		Rigidbody rb = _ball.GetComponent<Rigidbody>();
+		//Vector3 direction = target.transform.position - transform.position;
 
+		rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.name == "Soccer Ball")
+		{
+			Rigidbody ballRigidbody = _ball.GetComponent<Rigidbody>();
+
+			_state = States.recieveBall;
+			_ball = collision.gameObject;
+
+			_teamGotBall = true;
+			_gotBall = true;
+
+			ballRigidbody.velocity = Vector3.zero;
+			_rigidBody.velocity = Vector3.zero;
+		}
 	}
 }
