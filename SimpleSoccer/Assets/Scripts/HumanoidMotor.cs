@@ -26,6 +26,14 @@ public class HumanoidMotor : MonoBehaviour {
 
 	}
 
+	public void Pursuit(GameObject Target)
+	{
+		int steps = 5;
+		Rigidbody rb = Target.GetComponent<Rigidbody>();
+		Vector3 newTarget = Target.transform.position + rb.velocity * steps;
+		MoveToPoint(newTarget);
+	}
+
 	public void MoveToPoint(Vector3 point) {
 		_target_point = point;
 	}
