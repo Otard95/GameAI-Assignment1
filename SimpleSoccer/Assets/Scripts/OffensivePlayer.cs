@@ -4,24 +4,24 @@ using UnityEngine;
 
 enum States
 {
-	idle,
-	chaseBall,
-	drible,
-	recieveBall,
-	support,
-	returnHome,
-	kickBall
+	Idle,
+	ChaseBall,
+	Drible,
+	Recieve,
+	Support,
+	KickBall
 };
 
 public class OffensivePlayer : Player {
 	Rigidbody _rigidBody;
 
 	States _state;
-	GameObject _ball;
 	float _speed;
 	float _kickForce;
 
 	//TEMP
+	[SerializeField] GameObject _ball;
+	[SerializeField] GameObject _goal;
 	bool _teamGotBall;
 	bool _gotBall;
 	bool _inPosition;
@@ -31,7 +31,7 @@ public class OffensivePlayer : Player {
 		_rigidBody = GetComponent<Rigidbody>();
 		_ball = null;
 		_speed = 10;
-		_state = States.idle;
+		_state = States.Idle;
 		_kickForce = 50;
 	}
 
@@ -47,7 +47,6 @@ public class OffensivePlayer : Player {
 			if(distanceToBall > 10)
 			{
 				_gotBall = false;
-				_ball = null;
 			}
 		}
 
@@ -55,79 +54,74 @@ public class OffensivePlayer : Player {
 		//State transition
 		switch(_state)
 		{
-			case States.idle:
+			case States.Idle:
 			{
 				if(_teamGotBall)
 				{
-					_state = States.support;
+					_state = States.Support;
 				}
 				else
 				{
-					_state = States.chaseBall;
+					_state = States.ChaseBall;
 				}
 				break;
 			}
-			case States.chaseBall:
+			case States.ChaseBall:
 			{
 				if(_teamGotBall)
 				{
-					_state = States.support;
+					_state = States.Support;
 				}
 				break;
 			} 
-			case States.drible:
+			case States.Drible:
 			{
 				if(!_gotBall)
 				{
-					_state = States.chaseBall;
+					_state = States.ChaseBall;
 				}
 				else if (_inPosition)
 				{
-					_state = States.kickBall;
+					_state = States.KickBall;
 				}
 				break;
 			} 
-			case States.kickBall:
+			case States.KickBall:
 			{
 				if(!_gotBall)
 				{
 					if(_teamGotBall)
 					{
-						_state = States.support;
+						_state = States.Support;
 					}
 					else
 					{
-						_state = States.chaseBall;
+						_state = States.ChaseBall;
 					}
 				}
 				break;
 			} 
-			case States.recieveBall:
+			case States.Recieve:
 			{
 				if(_gotBall)
 				{
-					_state = States.drible;
+					_state = States.Drible;
 				}
 				else
 				{
-					_state = States.chaseBall;
+					_state = States.ChaseBall;
 				}
 				break;
-			}
-			case States.returnHome:
-			{
-
-				break;
-			}
-			case States.support:
+			}			
+			case States.Support:
 			{
 				if(!_teamGotBall)
 				{
-					_state = States.chaseBall;
+					_state = States.ChaseBall;
 				}
 				else if (_gotBall)
 				{
-					_state = States.drible;
+					_state = States.Drible;
 				}
 				break;
 			} 
@@ -138,37 +132,32 @@ public class OffensivePlayer : Player {
 		//State action
 		switch (_state)
 		{
-			case States.idle:
+			case States.Idle:
 			{
 				
 				break;
 			}
-			case States.chaseBall:
+			case States.ChaseBall:
 			{
 				
 				break;
 			} 
-			case States.drible:
+			case States.Drible:
 			{
 				
 				break;
 			} 
-			case States.kickBall:
+			case States.KickBall:
 			{
 				KickBall();
 				break;
 			} 
-			case States.recieveBall:
+			case States.Recieve:
 			{
 				RecieveBall();
 				break;
 			}
-			case States.returnHome:
-			{
-
-				break;
-			}
-			case States.support:
+			case States.Support:
 			{
 				
 				break;
@@ -183,7 +172,7 @@ public class OffensivePlayer : Player {
 
 		if(Vector3.Angle(transform.forward, _ball.transform.position - transform.position) == 0)
 		{
-			_state = States.drible;
+			_state = States.Drible;
 		}
 		else
 		{
@@ -201,12 +190,11 @@ public class OffensivePlayer : Player {
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.name == "Soccer Ball")
+		if (collision.gameObject == _ball)
 		{
 			Rigidbody ballRigidbody = _ball.GetComponent<Rigidbody>();
 
-			_state = States.recieveBall;
-			_ball = collision.gameObject;
+			_state = States.Recieve;
 
 			_teamGotBall = true;
 			_gotBall = true;
