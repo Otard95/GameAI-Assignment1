@@ -180,6 +180,11 @@ public class OffensivePlayer : Player {
 		}		
 	}
 
+	private void Drible()
+	{
+		
+	}
+
 	private void KickBall()
 	{
 		Rigidbody rb = _ball.GetComponent<Rigidbody>();
