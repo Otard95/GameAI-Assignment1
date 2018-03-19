@@ -23,7 +23,6 @@ public class OffensivePlayer : Player {
 	float _kickForce;
 
 	//TEMP
-	[SerializeField] GameObject _ball;
 	[SerializeField] GameObject _goal;
 	bool _teamGotBall;
 	bool _gotBall;
@@ -32,7 +31,6 @@ public class OffensivePlayer : Player {
 
 	void Start () {
 		_rigidBody = GetComponent<Rigidbody>();
-		_ball = null;
 		_speed = 10;
 		_state = States.Idle;
 		_kickForce = 50;
@@ -46,10 +44,14 @@ public class OffensivePlayer : Player {
 
 		if(_gotBall)
 		{
-			float distanceToBall = Vector3.Distance(transform.position, _ball.transform.position);
-			if(distanceToBall > 10)
+			if(_game_manager.ball != null)
 			{
-				_gotBall = false;
+				float distanceToBall = Vector3.Distance(transform.position, _game_manager.ball.transform.position);
+
+				if(distanceToBall > 10)
+				{
+					_gotBall = false;
+				}
 			}
 		}
 
@@ -185,7 +187,7 @@ public class OffensivePlayer : Player {
 
 	private void ChaseBall()
 	{
-		_motor.Pursuit(_ball);
+		_motor.Pursuit(_game_manager.ball);		
 	}
 
 	private void Drible()
@@ -195,7 +197,7 @@ public class OffensivePlayer : Player {
 
 	private void KickBall()
 	{
-		Rigidbody rb = _ball.GetComponent<Rigidbody>();
+		Rigidbody rb = _game_manager.ball.GetComponent<Rigidbody>();
 		//Vector3 direction = target.transform.position - transform.position;
 
 		rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
@@ -203,9 +205,9 @@ public class OffensivePlayer : Player {
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject == _ball)
+		if (collision.gameObject == _game_manager.ball)
 		{
-			Rigidbody ballRigidbody = _ball.GetComponent<Rigidbody>();
+			Rigidbody ballRigidbody = _game_manager.ball.GetComponent<Rigidbody>();
 
 			_state = States.Recieve;
 
