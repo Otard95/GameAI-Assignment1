@@ -13,16 +13,23 @@ public class DefencePlayer : Player {
 	}
 
 	/**
+	 * ## Unity Proporties
+	*/
+
+	[SerializeField] LayerMask sphereCastLayerMask;
+	[SerializeField] float sphereCastRadius = 1.5f;
+
+	/**
 	 * ## Private Fields
 	*/
-	
+
 	States _current_state;
 
 	[UsedImplicitly]
 	new void Start () {
 		base.Start();
 		GetComponent<Transform>();
-		
+
 		_current_state = States.Idle;
 	}
 
@@ -71,13 +78,10 @@ public class DefencePlayer : Player {
 	*/
 
 	void IdleTransitions () {
-		if (!_game_manager.IsKickoff) {
-			_current_state = States.Support;
-		}
+		if (!_game_manager.IsKickoff) _current_state = States.Support;
 	}
 
-	void DribbleTransitions ()
-	{
+	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
 	}
@@ -97,6 +101,9 @@ public class DefencePlayer : Player {
 		// if player is being passed the ball go to Recieve state
 		if (_is_being_passed_ball) _current_state = States.Receive;
 
+		// if players team gets the ball support them
+		if (_team.HasBall) _current_state = States.Support;
+
 		// if player got the ball go to Dirbble state
 		if (_has_ball) _current_state = States.Dribble;
 	}
@@ -107,8 +114,8 @@ public class DefencePlayer : Player {
 	}
 
 	void PassTransitions () {
-		// if opposing team got the ball during the pass go to Block state
-		if (!_team.HasBall) _current_state = States.Support;
+		// player goes to Support state when ball is passed
+		if (!_has_ball) _current_state = States.Support;
 	}
 
 	/**
@@ -120,6 +127,47 @@ public class DefencePlayer : Player {
 	}
 
 	void Support () {
+
+		// Have the player deside if hes in a good position to recieve the ball.
+
+		Vector3 ball_to_self = transform.position - _game_manager.ball.transform.position;
+
+		Ray ray = new Ray(_game_manager.ball.transform.position, ball_to_self);
+		if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+			EventCanRecieve.Invoke(gameObject, false);
+
+		} else {
+
+			bool hitRight = false;
+			bool hitLeft = false;
+
+			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
+			ray.direction += ball_to_self_normal * sphereCastRadius;
+
+			if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
+				hitRight = true;
+			}
+
+			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
+
+			if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
+				hitLeft = true;
+			}
+
+			if (hitLeft && hitRight) {
+				EventCanRecieve.Invoke(gameObject, false);
+			} else if (hitLeft != hitRight) {
+				EventCanRecieve.Invoke(gameObject, true);
+			} else {
+				EventCanRecieve.Invoke(gameObject, true);
+			}
+		
+		}
+
+		// TODO: Implement hide behaviour but use the inverse of the result
+
+
 
 	}
 
