@@ -173,9 +173,9 @@ public class OffensivePlayer : Player {
 
 	private void RecieveBall()
 	{
-		Vector3 newDirection = Vector3.RotateTowards(transform.position, _ball.transform.position, 0, 0.0f);
+		Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.ball.transform.position, 0, 0.0f);
 
-		if(Vector3.Angle(transform.forward, _ball.transform.position - transform.position) == 0)
+		if(Vector3.Angle(transform.forward, _game_manager.ball.transform.position - transform.position) == 0)
 		{
 			_state = States.Drible;
 		}
