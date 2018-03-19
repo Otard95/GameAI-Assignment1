@@ -15,16 +15,14 @@ public class DefencePlayer : Player {
 	/**
 	 * ## Private Fields
 	*/
-
-	GameManager _game_manager;
+	
 	States _current_state;
 
 	[UsedImplicitly]
 	new void Start () {
 		base.Start();
 		GetComponent<Transform>();
-
-		_game_manager = GameManager.Instance;
+		
 		_current_state = States.Idle;
 	}
 
@@ -78,27 +76,39 @@ public class DefencePlayer : Player {
 		}
 	}
 
-	void DribbleTransitions () {
-
+	void DribbleTransitions ()
+	{
+		// if player lost the ball to an opponent go to Block state
+		if (!_has_ball) _current_state = States.Block;
 	}
 
 	void SupportTransitions () {
-		if (!_team.HasBall) {
-			_current_state = States.Block;
-		}
+		// if team lost the ball go to Block state
+		if (!_team.HasBall) _current_state = States.Block;
 
+		// if player got the ball go to Dirbble state
+		if (_has_ball) _current_state = States.Dribble;
+
+		// if player is being passed the ball go to Recieve state
+		if (_is_being_passed_ball) _current_state = States.Receive;
 	}
 
 	void BlockTransitions () {
+		// if player is being passed the ball go to Recieve state
+		if (_is_being_passed_ball) _current_state = States.Receive;
 
+		// if player got the ball go to Dirbble state
+		if (_has_ball) _current_state = States.Dribble;
 	}
 
 	void ReceiveTransitions () {
-
+		// if opposing team got the ball during the pass go to Block state
+		if (!_team.HasBall) _current_state = States.Block;
 	}
 
 	void PassTransitions () {
-
+		// if opposing team got the ball during the pass go to Block state
+		if (!_team.HasBall) _current_state = States.Support;
 	}
 
 	/**
