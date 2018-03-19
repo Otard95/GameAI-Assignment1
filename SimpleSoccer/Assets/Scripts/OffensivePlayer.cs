@@ -2,31 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< HEAD
-
-=======
-enum States
-{
-	idle,
-	chaseBall,
-	drible,
-	recieveBall,
-	support,
-	returnHome,
-	kickBall
-};
->>>>>>> origin/GameManager
 
 public class OffensivePlayer : Player {
 
 	enum States
 	{
-		Idle,
-		ChaseBall,
-		Drible,
-		Recieve,
-		Support,
-		KickBall
+		Idle, 			//Default state. Goes back to start position and wait for kickoff.
+		Chase,			//Chase after the ball and try to take it.
+		Drible,			//Move with the ball.
+		Recieve,		//Standing by to recieve the ball.
+		Support,		//Move to a good position for recieving the ball.
+		Kick,			//Shoot at goal.
+		Pass			//Pass the ball.
 	};
 
 	Rigidbody _rigidBody;
@@ -56,7 +43,6 @@ public class OffensivePlayer : Player {
 
 		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
-<<<<<<< HEAD
 
 		if(_gotBall)
 		{
@@ -79,11 +65,11 @@ public class OffensivePlayer : Player {
 				}
 				else
 				{
-					_state = States.ChaseBall;
+					_state = States.Chase;
 				}
 				break;
 			}
-			case States.ChaseBall:
+			case States.Chase:
 			{
 				if(_teamGotBall)
 				{
@@ -95,15 +81,15 @@ public class OffensivePlayer : Player {
 			{
 				if(!_gotBall)
 				{
-					_state = States.ChaseBall;
+					_state = States.Chase;
 				}
 				else if (_inPosition)
 				{
-					_state = States.KickBall;
+					_state = States.Kick;
 				}
 				break;
 			} 
-			case States.KickBall:
+			case States.Kick:
 			{
 				if(!_gotBall)
 				{
@@ -113,7 +99,7 @@ public class OffensivePlayer : Player {
 					}
 					else
 					{
-						_state = States.ChaseBall;
+						_state = States.Chase;
 					}
 				}
 				break;
@@ -126,7 +112,7 @@ public class OffensivePlayer : Player {
 				}
 				else
 				{
-					_state = States.ChaseBall;
+					_state = States.Chase;
 				}
 				break;
 			}			
@@ -134,7 +120,7 @@ public class OffensivePlayer : Player {
 			{
 				if(!_teamGotBall)
 				{
-					_state = States.ChaseBall;
+					_state = States.Chase;
 				}
 				else if (_gotBall)
 				{
@@ -154,7 +140,7 @@ public class OffensivePlayer : Player {
 				
 				break;
 			}
-			case States.ChaseBall:
+			case States.Chase:
 			{
 				
 				break;
@@ -164,7 +150,7 @@ public class OffensivePlayer : Player {
 				
 				break;
 			} 
-			case States.KickBall:
+			case States.Kick:
 			{
 				KickBall();
 				break;
@@ -224,7 +210,5 @@ public class OffensivePlayer : Player {
 			ballRigidbody.velocity = Vector3.zero;
 			_rigidBody.velocity = Vector3.zero;
 		}
-=======
->>>>>>> origin/GameManager
 	}
 }
