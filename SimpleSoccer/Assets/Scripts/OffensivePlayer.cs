@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 public class OffensivePlayer : Player {
 
@@ -142,7 +142,7 @@ public class OffensivePlayer : Player {
 			}
 			case States.Chase:
 			{
-				
+				ChaseBall();
 				break;
 			} 
 			case States.Drible:
@@ -181,6 +181,11 @@ public class OffensivePlayer : Player {
 		{
 			transform.rotation = Quaternion.LookRotation(newDirection);
 		}		
+	}
+
+	private void ChaseBall()
+	{
+		_motor.Pursuit(_ball);
 	}
 
 	private void Drible()
