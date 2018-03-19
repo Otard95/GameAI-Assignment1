@@ -5,12 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	private bool _isKickOff;
-	private GameManager _instance;
+	private static GameManager _instance;
 
 	[SerializeField] Team [] teams;
 	[SerializeField] Transform ball;
 
-	public GameManager Instance
+	public static GameManager Instance
 	{
 		get { return _instance;  }
 	}
