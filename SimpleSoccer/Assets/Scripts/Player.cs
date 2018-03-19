@@ -11,14 +11,17 @@ public class Player : MonoBehaviour {
 	[SerializeField] protected float defaultOffenciveScalar = -15;
 	[SerializeField] protected float defaultRightScalar = -10;
 
-	protected Transform teamBaseTransform;
+	protected Transform _team_base_transform;
+	protected Team _team;
 	protected HumanoidMotor _motor;
 
 	public void SetBasePos(Transform t) {
-		teamBaseTransform = t;
+		_team_base_transform = t;
 	}
 
-	protected void Start () {
+	protected void Start ()
+	{
+		_team = transform.parent.GetComponent<Team>();
 		_motor = GetComponent<HumanoidMotor>();
 	}
 

@@ -22,7 +22,7 @@ public class OffensivePlayer : Player {
 	// Update is called once per frame
 	void Update () {
 
-		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
+		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
 	}
 }
