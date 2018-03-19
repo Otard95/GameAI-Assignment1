@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum States
-{
-	Idle,
-	ChaseBall,
-	Drible,
-	Recieve,
-	Support,
-	KickBall
-};
+
 
 public class OffensivePlayer : Player {
+
+	enum States
+	{
+		Idle,
+		ChaseBall,
+		Drible,
+		Recieve,
+		Support,
+		KickBall
+	};
+
 	Rigidbody _rigidBody;
 
 	States _state;
