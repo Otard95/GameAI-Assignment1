@@ -12,6 +12,10 @@ public class DefencePlayer : Player {
 		Pass     // The player has the ball and is trying to pass it to another player(offensive)
 	}
 
+	/**
+	 * ## Private Fields
+	*/
+
 	GameManager _game_manager;
 	States _current_state;
 
@@ -23,42 +27,42 @@ public class DefencePlayer : Player {
 		_game_manager = GameManager.Instance;
 		_current_state = States.Idle;
 	}
-	
+
 	[UsedImplicitly]
 	void Update () {
 
-		//Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
+		//Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		//_motor.MoveToPoint(defaultPos);
 
 		switch (_current_state) {
 			case States.Idle:
 				// Do nothing
-				IdleTransition();
+				IdleTransitions();
 				break;
 
 			case States.Dribble:
 				Dribble();
-				DribbleTransition();
+				DribbleTransitions();
 				break;
 
 			case States.Support:
 				Support();
-				SupportTransition();
+				SupportTransitions();
 				break;
 
 			case States.Block:
 				Block();
-				BlockTransition();
+				BlockTransitions();
 				break;
 
 			case States.Receive:
 				Receive();
-				ReceiveTransition();
+				ReceiveTransitions();
 				break;
 
 			case States.Pass:
 				Pass();
-				PassTransition();
+				PassTransitions();
 				break;
 		}
 
@@ -68,27 +72,32 @@ public class DefencePlayer : Player {
 	 * ## Transitions
 	*/
 
-	void IdleTransition () {
-		
+	void IdleTransitions () {
+		if (!_game_manager.IsKickoff) {
+			_current_state = States.Support;
+		}
 	}
 
-	void DribbleTransition () {
-
-	}
-
-	void SupportTransition () {
-
-	}
-
-	void BlockTransition () {
+	void DribbleTransitions () {
 
 	}
 
-	void ReceiveTransition () {
+	void SupportTransitions () {
+		if (!_team.HasBall) {
+			_current_state = States.Block;
+		}
 
 	}
 
-	void PassTransition () {
+	void BlockTransitions () {
+
+	}
+
+	void ReceiveTransitions () {
+
+	}
+
+	void PassTransitions () {
 
 	}
 
