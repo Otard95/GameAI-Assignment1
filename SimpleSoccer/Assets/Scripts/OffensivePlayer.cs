@@ -2,7 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 
+=======
+enum States
+{
+	idle,
+	chaseBall,
+	drible,
+	recieveBall,
+	support,
+	returnHome,
+	kickBall
+};
+>>>>>>> origin/GameManager
 
 public class OffensivePlayer : Player {
 
@@ -43,6 +56,7 @@ public class OffensivePlayer : Player {
 
 		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
+<<<<<<< HEAD
 
 		if(_gotBall)
 		{
@@ -210,5 +224,7 @@ public class OffensivePlayer : Player {
 			ballRigidbody.velocity = Vector3.zero;
 			_rigidBody.velocity = Vector3.zero;
 		}
+=======
+>>>>>>> origin/GameManager
 	}
 }
