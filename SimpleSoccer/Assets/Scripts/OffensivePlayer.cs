@@ -3,219 +3,218 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class OffensivePlayer : Player {
+public class OffensivePlayer : Player
+{
 
-	enum States
-	{
-		Idle, 			//Default state. Goes back to start position and wait for kickoff.
-		Chase,			//Chase after the ball and try to take it.
-		Drible,			//Move with the ball.
-		Recieve,		//Standing by to recieve the ball.
-		Support,		//Move to a good position for recieving the ball.
-		Kick,			//Shoot at goal.
-		Pass			//Pass the ball.
-	};
+    enum States
+    {
+        Idle,           //Default state. Goes back to start position and wait for kickoff.
+        Chase,          //Chase after the ball and try to take it.
+        Drible,         //Move with the ball.
+        Recieve,        //Standing by to recieve the ball.
+        Support,        //Move to a good position for recieving the ball.
+        Kick,           //Shoot at goal.
+        Pass            //Pass the ball.
+    };
 
-	Rigidbody _rigidBody;
+    Rigidbody _rigidBody;
 
-	States _state;
-	float _speed;
-	float _kickForce;
+    States _state;
+    float _speed;
+    float _kickForce;
 
-	//TEMP
-	[SerializeField] GameObject _goal;
-	bool _teamGotBall;
-	bool _gotBall;
-	bool _inPosition;
-	//ENDTEMP
+    //TEMP
+    [SerializeField] GameObject _goal;
+    bool _inPosition;
+    //ENDTEMP
 
-	void Start () {
-		_rigidBody = GetComponent<Rigidbody>();
-		_speed = 10;
-		_state = States.Idle;
-		_kickForce = 50;
-	}
+    void Start()
+    {
+        _rigidBody = GetComponent<Rigidbody>();
+        _speed = 10;
+        _state = States.Idle;
+        _kickForce = 50;
+    }
 
-	// Update is called once per frame
-	public void Update () {
+    // Update is called once per frame
+    public void Update()
+    {
 
-		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
-		_motor.MoveToPoint(defaultPos);
+        Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
+        _motor.MoveToPoint(defaultPos);
 
-		if(_gotBall)
-		{
-			if(_game_manager.ball != null)
-			{
-				float distanceToBall = Vector3.Distance(transform.position, _game_manager.ball.transform.position);
+        if (_has_ball)
+        {
+            if (_game_manager.ball != null)
+            {
+                float distanceToBall = Vector3.Distance(transform.position, _game_manager.ball.transform.position);
 
-				if(distanceToBall > 10)
-				{
-					_gotBall = false;
-				}
-			}
-		}
+                if (distanceToBall > 10)
+                {
+                    _has_ball = false;
+                }
+            }
+        }
 
-		#region State Transitions
-		//State transition
-		switch(_state)
-		{
-			case States.Idle:
-			{
-				if(_teamGotBall)
-				{
-					_state = States.Support;
-				}
-				else
-				{
-					_state = States.Chase;
-				}
-				break;
-			}
-			case States.Chase:
-			{
-				if(_teamGotBall)
-				{
-					_state = States.Support;
-				}
-				break;
-			} 
-			case States.Drible:
-			{
-				if(!_gotBall)
-				{
-					_state = States.Chase;
-				}
-				else if (_inPosition)
-				{
-					_state = States.Kick;
-				}
-				break;
-			} 
-			case States.Kick:
-			{
-				if(!_gotBall)
-				{
-					if(_teamGotBall)
-					{
-						_state = States.Support;
-					}
-					else
-					{
-						_state = States.Chase;
-					}
-				}
-				break;
-			} 
-			case States.Recieve:
-			{
-				if(_gotBall)
-				{
-					_state = States.Drible;
-				}
-				else
-				{
-					_state = States.Chase;
-				}
-				break;
-			}			
-			case States.Support:
-			{
-				if(!_teamGotBall)
-				{
-					_state = States.Chase;
-				}
-				else if (_gotBall)
-				{
-					_state = States.Drible;
-				}
-				break;
-			} 
-		}
-		#endregion
+        #region State Transitions
+        //State transition
+        switch (_state)
+        {
+            case States.Idle:
+                {
+                    if (_team.HasBall)
+                    {
+                        _state = States.Support;
+                    }
+                    else
+                    {
+                        _state = States.Chase;
+                    }
+                    break;
+                }
+            case States.Chase:
+                {
+                    if (_team.HasBall)
+                    {
+                        _state = States.Support;
+                    }
+                    break;
+                }
+            case States.Drible:
+                {
+                    if (!HasBall)
+                    {
+                        _state = States.Chase;
+                    }
+                    else if (_inPosition)
+                    {
+                        _state = States.Kick;
+                    }
+                    break;
+                }
+            case States.Kick:
+                {
+                    if (!HasBall)
+                    {
+                        if (_team.HasBall)
+                        {
+                            _state = States.Support;
+                        }
+                        else
+                        {
+                            _state = States.Chase;
+                        }
+                    }
+                    break;
+                }
+            case States.Recieve:
+                {
+                    if (HasBall)
+                    {
+                        _state = States.Drible;
+                    }
+                    else
+                    {
+                        _state = States.Chase;
+                    }
+                    break;
+                }
+            case States.Support:
+                {
+                    if (!_team.HasBall)
+                    {
+                        _state = States.Chase;
+                    }
+                    else if (HasBall)
+                    {
+                        _state = States.Drible;
+                    }
+                    break;
+                }
+        }
+        #endregion
 
-		#region State Actions
-		//State action
-		switch (_state)
-		{
-			case States.Idle:
-			{
-				
-				break;
-			}
-			case States.Chase:
-			{
-				ChaseBall();
-				break;
-			} 
-			case States.Drible:
-			{
-				
-				break;
-			} 
-			case States.Kick:
-			{
-				KickBall();
-				break;
-			} 
-			case States.Recieve:
-			{
-				RecieveBall();
-				break;
-			}
-			case States.Support:
-			{
-				
-				break;
-			} 
-		}
-	}
-	#endregion
+        #region State Actions
+        //State action
+        switch (_state)
+        {
+            case States.Idle:
+                {
 
-	private void RecieveBall()
-	{
-		Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.ball.transform.position, 0, 0.0f);
+                    break;
+                }
+            case States.Chase:
+                {
+                    ChaseBall();
+                    break;
+                }
+            case States.Drible:
+                {
 
-		if(Vector3.Angle(transform.forward, _game_manager.ball.transform.position - transform.position) == 0)
-		{
-			_state = States.Drible;
-		}
-		else
-		{
-			transform.rotation = Quaternion.LookRotation(newDirection);
-		}		
-	}
+                    break;
+                }
+            case States.Kick:
+                {
+                    KickBall();
+                    break;
+                }
+            case States.Recieve:
+                {
+                    RecieveBall();
+                    break;
+                }
+            case States.Support:
+                {
 
-	private void ChaseBall()
-	{
-		_motor.Pursuit(_game_manager.ball);		
-	}
+                    break;
+                }
+        }
+    }
+    #endregion
 
-	private void Drible()
-	{
-		
-	}
+    private void RecieveBall()
+    {
+        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.ball.transform.position, 0, 0.0f);
 
-	private void KickBall()
-	{
-		Rigidbody rb = _game_manager.ball.GetComponent<Rigidbody>();
-		//Vector3 direction = target.transform.position - transform.position;
+        if (Vector3.Angle(transform.forward, _game_manager.ball.transform.position - transform.position) == 0)
+        {
+            _state = States.Drible;
+        }
+        else
+        {
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
+    }
 
-		rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
-	}
+    private void ChaseBall()
+    {
+        _motor.Pursuit(_game_manager.ball);
+    }
 
-	void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject == _game_manager.ball)
-		{
-			Rigidbody ballRigidbody = _game_manager.ball.GetComponent<Rigidbody>();
+    private void Drible()
+    {
 
-			_state = States.Recieve;
+    }
 
-			_teamGotBall = true;
-			_gotBall = true;
+    private void KickBall()
+    {
+        Rigidbody rb = _game_manager.ball.GetComponent<Rigidbody>();
+        //Vector3 direction = target.transform.position - transform.position;
 
-			ballRigidbody.velocity = Vector3.zero;
-			_rigidBody.velocity = Vector3.zero;
-		}
-	}
+        rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == _game_manager.ball)
+        {
+            Rigidbody ballRigidbody = _game_manager.ball.GetComponent<Rigidbody>();
+
+            _state = States.Recieve;
+            HasBall = true;
+
+            ballRigidbody.velocity = Vector3.zero;
+            _rigidBody.velocity = Vector3.zero;
+        }
+    }
 }
