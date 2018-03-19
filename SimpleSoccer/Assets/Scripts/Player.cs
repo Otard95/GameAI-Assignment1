@@ -1,6 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class PlayerEvent : UnityEvent<Player> {
+}
 
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
@@ -11,15 +17,34 @@ public class Player : MonoBehaviour {
 	[SerializeField] protected float defaultOffenciveScalar = -15;
 	[SerializeField] protected float defaultRightScalar = -10;
 
-	protected Transform teamBaseTransform;
+	/**
+	 * ## Public Fields
+	*/
+
+	public PlayerEvent CanRecieve;
+
+	/**
+	 * ## Protected Filds
+	*/
+
+	protected Transform _team_base_transform;
+	protected Team _team;
 	protected HumanoidMotor _motor;
 
-	public void SetBasePos(Transform t) {
-		teamBaseTransform = t;
+	[UsedImplicitly]
+	void Awake () {
+		if (CanRecieve == null) CanRecieve = new PlayerEvent();
+	}
+
+	public void SetBasePos (Transform t) {
+		_team_base_transform = t;
 	}
 
 	protected void Start () {
+		_team = transform.parent.GetComponent<Team>();
 		_motor = GetComponent<HumanoidMotor>();
 	}
+
+	public virtual void EventCanRecieve (Player player) {}
 
 }
