@@ -34,6 +34,7 @@ public class Player : MonoBehaviour {
 	 * ## Protected Filds
 	*/
 
+	protected GameManager _game_manager;
 	protected List<GameObject> _can_pass_to;
 	// TODO: Replace with event
 	protected bool _is_being_passed_ball;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour {
 	}
 
 	protected void Start () {
+		_game_manager = GameManager.Instance;
 		_can_pass_to = new List<GameObject>();
 		_team_base_transform = transform.parent;
 		_team = transform.parent.GetComponent<Team>();
