@@ -14,12 +14,14 @@ public class DefencePlayer : Player {
 		Pass     // The player has the ball and is trying to pass it to another player(offensive)
 	}
 
+	GameManager _game_manager;
 	States _current_state;
 
 	new void Start () {
 		base.Start();
 		GetComponent<Transform>();
 
+		_game_manager = GameManager.Instance;
 		_current_state = States.Idle;
 	}
 	
