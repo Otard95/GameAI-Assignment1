@@ -12,11 +12,18 @@ public class PlayerEvent : UnityEvent<GameObject, bool> {
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
-	protected bool _has_ball;
-	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
+	/**
+	 * ## Unity Proporties
+	*/
 
 	[SerializeField] protected float defaultOffenciveScalar = -15;
 	[SerializeField] protected float defaultRightScalar = -10;
+
+	/**
+	 * ## Class Propories
+	*/
+	protected bool _has_ball;
+	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
 
 	/**
 	 * ## Public Fields
@@ -29,6 +36,8 @@ public class Player : MonoBehaviour {
 	*/
 
 	protected List<GameObject> _can_pass_to;
+	// TODO: Replace with event
+	protected bool _is_being_passed_ball;
 	protected Transform _team_base_transform;
 	protected Team _team;
 	protected HumanoidMotor _motor;
