@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum States
+{
+	idle,
+	chaseBall,
+	drible,
+	recieveBall,
+	support,
+	returnHome,
+	kickBall
+};
+
 public class OffensivePlayer : Player {
 
 	new void Start () {
@@ -13,6 +24,5 @@ public class OffensivePlayer : Player {
 
 		Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
 		_motor.MoveToPoint(defaultPos);
-
 	}
 }
