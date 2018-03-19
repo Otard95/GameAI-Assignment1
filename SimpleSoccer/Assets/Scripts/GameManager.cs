@@ -1,38 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
-{
-	private bool _isKickOff;
-	private static GameManager _instance;
+public class GameManager : MonoBehaviour {
 
+	/**
+	 * ## Unity Proporties
+	*/
 	[SerializeField] Team [] teams;
 	[SerializeField] Transform ball;
 
-	public static GameManager Instance
-	{
-		get { return _instance;  }
+	/**
+	 * ## Class proporties
+	*/
+	public bool IsKickoff { get; private set; }
+
+	#region Singelton
+
+	public static GameManager Instance { get; set; }
+
+	void Awake () {
+		Instance = this;
 	}
 
-	void Awake()
-	{
-		_instance = this;
-	}
+#endregion
 
 	// Use this for initialization
-	void Start ()
-	{ 
-		_isKickOff = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	[UsedImplicitly]
+	void Start () {
+		IsKickoff = true;
 	}
 
-	void Goal(int teamID)
-	{
+	// Update is called once per frame
+	[UsedImplicitly]
+	void Update () {
+
+	}
+
+	void Goal (int teamID) {
 		/* Possible implementation
 		_isKickOff = true;
 		teams[teamID].Score++;
