@@ -14,10 +14,15 @@ public class Team : MonoBehaviour {
 
 	void Start () {
 		foreach (Player p in _players) {
-			p.SetBasePos(transform);
+			// Add events
+			foreach (Player otherPlayer in _players) {
+				if (otherPlayer != p) {
+					p.EventCanRecieve.AddListener(otherPlayer.EventHandlerCanRecieve);
+				}
+			}
 		}
 	}
-	
+
 	void Update () {
 
 		// Update _has_ball var.
