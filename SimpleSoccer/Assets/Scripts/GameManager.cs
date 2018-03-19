@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	 * ## Unity Proporties
 	*/
 	[SerializeField] Team [] teams;
-	public GameManager ball;
+	public GameObject ball;
 
 	/**
 	 * ## Class proporties
