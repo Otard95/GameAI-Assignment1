@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 
 public class DefencePlayer : Player {
@@ -17,6 +15,7 @@ public class DefencePlayer : Player {
 	GameManager _game_manager;
 	States _current_state;
 
+	[UsedImplicitly]
 	new void Start () {
 		base.Start();
 		GetComponent<Transform>();
@@ -25,6 +24,7 @@ public class DefencePlayer : Player {
 		_current_state = States.Idle;
 	}
 	
+	[UsedImplicitly]
 	void Update () {
 
 		//Vector3 defaultPos = teamBaseTransform.position + (teamBaseTransform.forward * defaultOffenciveScalar) + (teamBaseTransform.right * defaultRightScalar);
