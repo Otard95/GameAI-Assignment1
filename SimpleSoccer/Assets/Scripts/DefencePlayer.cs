@@ -138,10 +138,10 @@ public class DefencePlayer : Player {
 		/**
 		 *  Have the player deside if hes in a good position to recieve the ball.
 		*/
-		Vector3 ball_to_self = transform.position - _game_manager.ball.transform.position;
+		Vector3 ball_to_self = transform.position - _game_manager.Ball.transform.position;
 
 		RaycastHit hit;
-		Ray ray = new Ray(_game_manager.ball.transform.position, ball_to_self);
+		Ray ray = new Ray(_game_manager.Ball.transform.position, ball_to_self);
 
 		// a list of any opponents that are hindering a safe pass
 		List<Collider> opponentsColliders = new List<Collider>();
@@ -195,11 +195,11 @@ public class DefencePlayer : Player {
 
 		// For any player that is hindering a safe pass use a inverse hide behavior to get to a good position.
 		foreach (Collider opponent in opponentsColliders) {
-			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.ball.transform.position;
+			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.Ball.transform.position;
 
 			ball_to_opponent *= ball_to_self.magnitude / ball_to_opponent.magnitude;
 
-			Vector3 steering = transform.position - (_game_manager.ball.transform.position + ball_to_opponent);
+			Vector3 steering = transform.position - (_game_manager.Ball.transform.position + ball_to_opponent);
 
 			steering *= (1 / steering.magnitude) * sphereCastRadius * 2 * 3;
 
