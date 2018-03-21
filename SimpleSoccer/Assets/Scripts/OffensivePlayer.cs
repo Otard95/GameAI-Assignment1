@@ -150,7 +150,7 @@ public class OffensivePlayer : Player
                 }
             case States.Drible:
                 {
-
+                    Drible();
                     break;
                 }
             case States.Kick:
