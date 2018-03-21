@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
 	}
 
 	protected void DefaultSeek () {
-		offenciveScalar = defaultOffenciveScalar + (_game_manager.ball.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplyer;
+		offenciveScalar = defaultOffenciveScalar + (_game_manager.Ball.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplyer;
 
 		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * offenciveScalar) + (_team_base_transform.right * rightScalar);
 		_motor.Seek(defaultPos);
