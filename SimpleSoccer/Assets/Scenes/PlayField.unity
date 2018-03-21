@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -707,6 +707,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
   defaultRightScalar: 10
+  sphereCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sphereCastRadius: 1.5
 --- !u!1 &388873135 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1447,6 +1451,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
   defaultRightScalar: -10
+  sphereCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sphereCastRadius: 1.5
 --- !u!1 &1020287195 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1465,6 +1473,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
   defaultRightScalar: -10
+  sphereCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sphereCastRadius: 1.5
 --- !u!4 &1031128576 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -2429,6 +2441,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
   defaultRightScalar: 10
+  sphereCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sphereCastRadius: 1.5
 --- !u!4 &1593113837 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,

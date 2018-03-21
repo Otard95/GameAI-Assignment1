@@ -25,10 +25,15 @@ public class Player : MonoBehaviour {
 	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
 
 	/**
-	 * ## Public Fields
+	 * ## Events
 	*/
 
-	public PlayerEvent EventCanRecieve;
+	protected PlayerEvent _eventCanRecieve;
+
+	public void AddCanRecieveListner(UnityAction<GameObject, bool> action)
+	{
+		_eventCanRecieve.AddListener(action);
+	}
 
 	/**
 	 * ## Protected Filds
@@ -44,7 +49,7 @@ public class Player : MonoBehaviour {
 
 	[UsedImplicitly]
 	void Awake () {
-		if (EventCanRecieve == null) EventCanRecieve = new PlayerEvent();
+		if (_eventCanRecieve == null) _eventCanRecieve = new PlayerEvent();
 	}
 
 	protected void Start () {
