@@ -706,6 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: 10
   sphereCastLayerMask:
     serializedVersion: 2
@@ -728,6 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -25
+  offensiveScalarMultiplyer: 0.7
   defaultRightScalar: 0
 --- !u!4 &389523462 stripped
 Transform:
@@ -751,6 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -5
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: 10
 --- !u!1 &411445306 stripped
 GameObject:
@@ -769,6 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -25
+  offensiveScalarMultiplyer: 0.7
   defaultRightScalar: 0
 --- !u!4 &496966790 stripped
 Transform:
@@ -1011,7 +1015,7 @@ MonoBehaviour:
   teams:
   - {fileID: 1394306630}
   - {fileID: 63648291}
-  ball: {fileID: 1456494829}
+  ball: {fileID: 1035522261}
 --- !u!1 &779740880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,6 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: -10
   sphereCastLayerMask:
     serializedVersion: 2
@@ -1472,6 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: -10
   sphereCastLayerMask:
     serializedVersion: 2
@@ -1482,6 +1488,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
     type: 2}
   m_PrefabInternal: {fileID: 1216157532}
+--- !u!1 &1035522261 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1975457108487340, guid: ec3e8f3ed27e2244caaedaf589590a03,
+    type: 2}
+  m_PrefabInternal: {fileID: 1456494828}
 --- !u!1 &1099426639 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1499,6 +1510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -5
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: -10
 --- !u!1 &1099595479 stripped
 GameObject:
@@ -1517,6 +1529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -5
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: 10
 --- !u!1 &1132805600
 GameObject:
@@ -1695,7 +1708,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name
@@ -1983,8 +1996,8 @@ Transform:
   - {fileID: 1153783254}
   - {fileID: 2085105701}
   - {fileID: 137464975}
-  - {fileID: 1180879953}
   - {fileID: 1672714750}
+  - {fileID: 1180879953}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -2279,11 +2292,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1456494829 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4935240531098310, guid: ec3e8f3ed27e2244caaedaf589590a03,
-    type: 2}
-  m_PrefabInternal: {fileID: 1456494828}
 --- !u!1 &1475763195
 GameObject:
   m_ObjectHideFlags: 0
@@ -2440,6 +2448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -15
+  offensiveScalarMultiplyer: 0.6
   defaultRightScalar: 10
   sphereCastLayerMask:
     serializedVersion: 2
@@ -2487,7 +2496,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name
@@ -2901,6 +2910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOffenciveScalar: -5
+  offensiveScalarMultiplyer: 0.7
   defaultRightScalar: -10
 --- !u!4 &2092426229 stripped
 Transform:

@@ -19,7 +19,7 @@ public class DefencePlayer : Player {
 
 	[SerializeField] LayerMask sphereCastLayerMask;
 	[SerializeField] float sphereCastRadius = 1.5f;
-	
+
 
 	/**
 	 * ## Private Fields
@@ -81,6 +81,7 @@ public class DefencePlayer : Player {
 
 	void IdleTransitions () {
 		if (!_game_manager.IsKickoff) _current_state = States.Support;
+		DefaultSeek();
 	}
 
 	void DribbleTransitions () {
@@ -125,10 +126,14 @@ public class DefencePlayer : Player {
 	*/
 
 	void Dribble () {
+		
+		DefaultSeek();
 
 	}
 
 	void Support () {
+
+		DefaultSeek();
 
 		/**
 		 *  Have the player deside if hes in a good position to recieve the ball.
@@ -143,7 +148,7 @@ public class DefencePlayer : Player {
 
 		// if a player is between the player and the ball
 		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
-			
+
 			// add to list of opponents
 			opponentsColliders.Add(hit.collider);
 
@@ -154,11 +159,11 @@ public class DefencePlayer : Player {
 
 			bool hitRight = false;
 			bool hitLeft = false;
-			
+
 			/**
 			 *  Check for opponets to either side
 			*/
-			
+
 			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
 			ray.direction += ball_to_self_normal * sphereCastRadius;
 
@@ -185,12 +190,11 @@ public class DefencePlayer : Player {
 			} else { // if no opponets
 				_eventCanRecieve.Invoke(gameObject, true);
 			}
-		
+
 		}
-		
+
 		// For any player that is hindering a safe pass use a inverse hide behavior to get to a good position.
-		foreach (Collider opponent in opponentsColliders)
-		{
+		foreach (Collider opponent in opponentsColliders) {
 			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.ball.transform.position;
 
 			ball_to_opponent *= ball_to_self.magnitude / ball_to_opponent.magnitude;

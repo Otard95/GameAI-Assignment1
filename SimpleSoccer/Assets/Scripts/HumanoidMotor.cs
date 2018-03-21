@@ -31,10 +31,10 @@ public class HumanoidMotor : MonoBehaviour {
 	{
 		Rigidbody rb = Target.GetComponent<Rigidbody>();
 		Vector3 newTarget = Target.transform.position + rb.velocity * pursuitSteps;
-		MoveToPoint(newTarget);
+		Seek(newTarget);
 	}
 
-	public void MoveToPoint(Vector3 point) {
+	public void Seek(Vector3 point) {
 		_target_point = point;
 	}
 
