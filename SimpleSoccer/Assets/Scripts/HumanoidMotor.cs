@@ -34,6 +34,13 @@ public class HumanoidMotor : MonoBehaviour {
 		Seek(newTarget);
 	}
 
+	public void Flee(Vector3 target, float speed)
+	{
+		Vector3 desired_velocity = (transform.position - target).normalized * speed;
+
+		AddMovement(desired_velocity);
+	}
+
 	public void Seek(Vector3 point) {
 		_target_point = point;
 	}
@@ -52,7 +59,7 @@ public class HumanoidMotor : MonoBehaviour {
 
 		Vector3 dir_to_point = _target_point - transform.position;
 		move += dir_to_point;
-		move = move.magnitude < stoppingRadius ? Vector3.zero : move.normalized; 
+		move = move.magnitude < stoppingRadius ? Vector3.zero : move.normalized;
 
 		_rb.AddForce(move * moveForce * Time.deltaTime, ForceMode.Force);
 
