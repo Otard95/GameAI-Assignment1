@@ -17,9 +17,8 @@ public class DefencePlayer : Player {
 	 * ## Unity Proporties
 	*/
 
-	[SerializeField] LayerMask sphereCastLayerMask;
+	[SerializeField] LayerMask opponetLayerMask;
 	[SerializeField] float sphereCastRadius = 1.5f;
-
 
 	/**
 	 * ## Private Fields
@@ -32,7 +31,7 @@ public class DefencePlayer : Player {
 		base.Start();
 		GetComponent<Transform>();
 
-		_current_state = States.Idle;
+		_current_state = States.Dribble;
 	}
 
 	[UsedImplicitly]
@@ -86,7 +85,8 @@ public class DefencePlayer : Player {
 
 	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
-		if (!_has_ball) _current_state = States.Block;
+		// TODO: Uncomment
+		//if (!_has_ball) _current_state = States.Block;
 	}
 
 	void SupportTransitions () {
@@ -126,7 +126,18 @@ public class DefencePlayer : Player {
 	*/
 
 	void Dribble () {
-		
+
+		SeekDefaultPosition();
+
+		_motor.AddMovement(_game_manager.GetGoal(!_team.TeamId).transform.position - transform.position);
+
+		// Avoid opponets
+		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, opponetLayerMask);
+
+		foreach (var opponent in opponents) {
+			_motor.Flee(opponent.transform.position, fleeSpeed);
+		}
+
 	}
 
 	void Support () {
@@ -145,7 +156,7 @@ public class DefencePlayer : Player {
 		List<Collider> opponentsColliders = new List<Collider>();
 
 		// if a player is between the player and the ball
-		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
 
 			// add to list of opponents
 			opponentsColliders.Add(hit.collider);
@@ -165,7 +176,7 @@ public class DefencePlayer : Player {
 			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
 			ray.direction += ball_to_self_normal * sphereCastRadius;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 
@@ -174,7 +185,7 @@ public class DefencePlayer : Player {
 
 			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 
