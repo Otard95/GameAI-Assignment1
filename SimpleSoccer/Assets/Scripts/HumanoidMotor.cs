@@ -62,7 +62,7 @@ public class HumanoidMotor : MonoBehaviour {
 
 	private void Rotate () {
 
-		transform.rotation = Quaternion.LookRotation(_rb.velocity == Vector3.zero ? transform.forward : _rb.velocity, Vector3.up);
+		transform.rotation = Quaternion.LookRotation(_rb.velocity.magnitude > .8f ? transform.forward : _rb.velocity, Vector3.up);
 
 	}
 
