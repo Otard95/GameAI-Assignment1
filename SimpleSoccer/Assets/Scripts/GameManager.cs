@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	 * ## Unity Proporties
 	*/
 	[SerializeField] Team [] teams;
+	public  GameObject LeftGoal;
+	public GameObject RightGoal;
 	public GameObject ball;
 
 	/**
