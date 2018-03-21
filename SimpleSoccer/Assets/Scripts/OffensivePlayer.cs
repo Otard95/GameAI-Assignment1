@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class OffensivePlayer : Player
 {
-<<<<<<< HEAD
 
     enum States
     {
@@ -46,9 +45,9 @@ public class OffensivePlayer : Player
 
         if (_has_ball)
         {
-            if (_game_manager.ball != null)
+            if (_game_manager.Ball != null)
             {
-                float distanceToBall = Vector3.Distance(transform.position, _game_manager.ball.transform.position);
+                float distanceToBall = Vector3.Distance(transform.position, _game_manager.Ball.transform.position);
 
                 if (distanceToBall > 10)
                 {
@@ -175,9 +174,9 @@ public class OffensivePlayer : Player
 
     private void RecieveBall()
     {
-        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.ball.transform.position, 0, 0.0f);
+        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.Ball.transform.position, 0, 0.0f);
 
-        if (Vector3.Angle(transform.forward, _game_manager.ball.transform.position - transform.position) == 0)
+        if (Vector3.Angle(transform.forward, _game_manager.Ball.transform.position - transform.position) == 0)
         {
             _state = States.Drible;
         }
@@ -189,17 +188,17 @@ public class OffensivePlayer : Player
 
     private void ChaseBall()
     {
-        _motor.Pursuit(_game_manager.ball);
+        _motor.Pursuit(_game_manager.Ball);
     }
 
     private void Drible()
     {
-        
+        _motor.Seek(_game_manager.GetGoal(!_team.TeamId).transform.position); //seek opposing teams goal
     }
 
     private void KickBall()
     {
-        Rigidbody rb = _game_manager.ball.GetComponent<Rigidbody>();
+        Rigidbody rb = _game_manager.Ball.GetComponent<Rigidbody>();
         //Vector3 direction = target.transform.position - transform.position;
 
         rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
@@ -207,9 +206,9 @@ public class OffensivePlayer : Player
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == _game_manager.ball)
+        if (collision.gameObject == _game_manager.Ball)
         {
-            Rigidbody ballRigidbody = _game_manager.ball.GetComponent<Rigidbody>();
+            Rigidbody ballRigidbody = _game_manager.Ball.GetComponent<Rigidbody>();
             _state = States.Drible;
             HasBall = true;
 
@@ -218,27 +217,3 @@ public class OffensivePlayer : Player
         }
     }
 }
-=======
-	idle,
-	chaseBall,
-	drible,
-	recieveBall,
-	support,
-	returnHome,
-	kickBall
-};
-
-public class OffensivePlayer : Player {
-
-	new void Start () {
-		base.Start();
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
-		_motor.Seek(defaultPos);
-	}
-}
->>>>>>> origin/Defensive-Player
