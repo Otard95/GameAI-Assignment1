@@ -28,8 +28,9 @@ public class OffensivePlayer : Player
     bool _inPosition;
     //ENDTEMP
 
-    void Start()
+    new void Start()
     {
+        base.Start();
         _rigidBody = GetComponent<Rigidbody>();
         _speed = 10;
         _state = States.Idle;
@@ -193,7 +194,7 @@ public class OffensivePlayer : Player
 
     private void Drible()
     {
-
+        
     }
 
     private void KickBall()
@@ -209,8 +210,7 @@ public class OffensivePlayer : Player
         if (collision.gameObject == _game_manager.ball)
         {
             Rigidbody ballRigidbody = _game_manager.ball.GetComponent<Rigidbody>();
-
-            _state = States.Recieve;
+            _state = States.Drible;
             HasBall = true;
 
             ballRigidbody.velocity = Vector3.zero;
