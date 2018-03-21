@@ -18,7 +18,9 @@ public class Player : MonoBehaviour {
 	[SerializeField] protected float defaultOffenciveScalar = -15;
 	[SerializeField] protected float offensiveScalarMultiplyer = .7f;
 	[SerializeField] protected float defaultRightScalar = -10;
-	
+	[SerializeField] protected float fleeRadius = 3;
+	[SerializeField] protected float fleeSpeed = 2;
+
 	/**
 	 * ## Class Propories
 	*/
@@ -49,6 +51,12 @@ public class Player : MonoBehaviour {
 	protected float offenciveScalar;
 	protected float rightScalar;
 
+	/**
+	 * ## Components
+	*/
+
+	protected Rigidbody _rb;
+
 	[UsedImplicitly]
 	void Awake () {
 		if (_eventCanRecieve == null) _eventCanRecieve = new PlayerEvent();
@@ -63,12 +71,19 @@ public class Player : MonoBehaviour {
 
 		offenciveScalar = defaultOffenciveScalar;
 		rightScalar = defaultRightScalar;
+
+		_rb = GetComponent<Rigidbody>();
 	}
 
 	protected void DefaultSeek () {
 		offenciveScalar = defaultOffenciveScalar + (_game_manager.Ball.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplyer;
 
-		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * offenciveScalar) + (_team_base_transform.right * rightScalar);
+		Vector3 targetPosition = _team_base_transform.position + (_team_base_transform.forward * offenciveScalar) + (_team_base_transform.right * rightScalar);
+		_motor.Seek(targetPosition);
+	}
+
+	protected void SeekDefaultPosition () {
+		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		_motor.Seek(defaultPos);
 	}
 
