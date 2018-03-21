@@ -42,7 +42,7 @@ public class OffensivePlayer : Player
     {
 
         Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
-        _motor.MoveToPoint(defaultPos);
+        _motor.Seek(defaultPos);
 
         if (_has_ball)
         {

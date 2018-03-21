@@ -29,7 +29,7 @@ public class TestMotor : MonoBehaviour {
 					var h = hit[i];
 
 					if (h.collider.CompareTag("Pitch")) {
-						motor.MoveToPoint(h.point);
+						motor.Seek(h.point);
 					}
 				}
 
