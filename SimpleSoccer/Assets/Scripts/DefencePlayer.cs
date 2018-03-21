@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class DefencePlayer : Player {
@@ -18,6 +19,7 @@ public class DefencePlayer : Player {
 
 	[SerializeField] LayerMask sphereCastLayerMask;
 	[SerializeField] float sphereCastRadius = 1.5f;
+	
 
 	/**
 	 * ## Private Fields
@@ -128,46 +130,78 @@ public class DefencePlayer : Player {
 
 	void Support () {
 
-		// Have the player deside if hes in a good position to recieve the ball.
-
+		/**
+		 *  Have the player deside if hes in a good position to recieve the ball.
+		*/
 		Vector3 ball_to_self = transform.position - _game_manager.ball.transform.position;
 
+		RaycastHit hit;
 		Ray ray = new Ray(_game_manager.ball.transform.position, ball_to_self);
-		if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
 
-			EventCanRecieve.Invoke(gameObject, false);
+		// a list of any opponents that are hindering a safe pass
+		List<Collider> opponentsColliders = new List<Collider>();
 
-		} else {
+		// if a player is between the player and the ball
+		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+			
+			// add to list of opponents
+			opponentsColliders.Add(hit.collider);
+
+			// Anounce that a pass is not possible
+			_eventCanRecieve.Invoke(gameObject, false);
+
+		} else { // if no player is directly betewwn the player and the ball
 
 			bool hitRight = false;
 			bool hitLeft = false;
-
+			
+			/**
+			 *  Check for opponets to either side
+			*/
+			
 			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
 			ray.direction += ball_to_self_normal * sphereCastRadius;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+				opponentsColliders.Add(hit.collider);
+
 				hitRight = true;
 			}
 
 			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, ball_to_self.magnitude, sphereCastLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+				opponentsColliders.Add(hit.collider);
+
 				hitLeft = true;
 			}
 
-			if (hitLeft && hitRight) {
-				EventCanRecieve.Invoke(gameObject, false);
-			} else if (hitLeft != hitRight) {
-				EventCanRecieve.Invoke(gameObject, true);
-			} else {
-				EventCanRecieve.Invoke(gameObject, true);
+			if (hitLeft && hitRight) { // if opponents on both sides
+				_eventCanRecieve.Invoke(gameObject, false);
+			} else if (hitLeft != hitRight) { // if opponets on one side
+				_eventCanRecieve.Invoke(gameObject, true);
+			} else { // if no opponets
+				_eventCanRecieve.Invoke(gameObject, true);
 			}
 		
 		}
+		
+		// For any player that is hindering a safe pass use a inverse hide behavior to get to a good position.
+		foreach (Collider opponent in opponentsColliders)
+		{
+			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.ball.transform.position;
 
-		// TODO: Implement hide behaviour but use the inverse of the result
+			ball_to_opponent *= ball_to_self.magnitude / ball_to_opponent.magnitude;
 
+			Vector3 steering = transform.position - (_game_manager.ball.transform.position + ball_to_opponent);
 
+			steering *= (1 / steering.magnitude) * sphereCastRadius * 2 * 3;
+
+			_motor.AddMovement(steering);
+
+		}
 
 	}
 
