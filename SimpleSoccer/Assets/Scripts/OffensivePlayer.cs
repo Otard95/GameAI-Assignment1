@@ -24,7 +24,6 @@ public class OffensivePlayer : Player
     float _kickForce;
 
     //TEMP
-    [SerializeField] GameObject _goal;
     bool _inPosition;
     //ENDTEMP
 
