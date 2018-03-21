@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class DefencePlayer : Player {
@@ -13,16 +14,24 @@ public class DefencePlayer : Player {
 	}
 
 	/**
+	 * ## Unity Proporties
+	*/
+
+	[SerializeField] LayerMask sphereCastLayerMask;
+	[SerializeField] float sphereCastRadius = 1.5f;
+
+
+	/**
 	 * ## Private Fields
 	*/
-	
+
 	States _current_state;
 
 	[UsedImplicitly]
 	new void Start () {
 		base.Start();
 		GetComponent<Transform>();
-		
+
 		_current_state = States.Idle;
 	}
 
@@ -71,13 +80,11 @@ public class DefencePlayer : Player {
 	*/
 
 	void IdleTransitions () {
-		if (!_game_manager.IsKickoff) {
-			_current_state = States.Support;
-		}
+		if (!_game_manager.IsKickoff) _current_state = States.Support;
+		DefaultSeek();
 	}
 
-	void DribbleTransitions ()
-	{
+	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
 	}
@@ -97,6 +104,9 @@ public class DefencePlayer : Player {
 		// if player is being passed the ball go to Recieve state
 		if (_is_being_passed_ball) _current_state = States.Receive;
 
+		// if players team gets the ball support them
+		if (_team.HasBall) _current_state = States.Support;
+
 		// if player got the ball go to Dirbble state
 		if (_has_ball) _current_state = States.Dribble;
 	}
@@ -107,8 +117,8 @@ public class DefencePlayer : Player {
 	}
 
 	void PassTransitions () {
-		// if opposing team got the ball during the pass go to Block state
-		if (!_team.HasBall) _current_state = States.Support;
+		// player goes to Support state when ball is passed
+		if (!_has_ball) _current_state = States.Support;
 	}
 
 	/**
@@ -116,10 +126,86 @@ public class DefencePlayer : Player {
 	*/
 
 	void Dribble () {
+		
+		DefaultSeek();
 
 	}
 
 	void Support () {
+
+		DefaultSeek();
+
+		/**
+		 *  Have the player deside if hes in a good position to recieve the ball.
+		*/
+		Vector3 ball_to_self = transform.position - _game_manager.ball.transform.position;
+
+		RaycastHit hit;
+		Ray ray = new Ray(_game_manager.ball.transform.position, ball_to_self);
+
+		// a list of any opponents that are hindering a safe pass
+		List<Collider> opponentsColliders = new List<Collider>();
+
+		// if a player is between the player and the ball
+		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+			// add to list of opponents
+			opponentsColliders.Add(hit.collider);
+
+			// Anounce that a pass is not possible
+			_eventCanRecieve.Invoke(gameObject, false);
+
+		} else { // if no player is directly betewwn the player and the ball
+
+			bool hitRight = false;
+			bool hitLeft = false;
+
+			/**
+			 *  Check for opponets to either side
+			*/
+
+			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
+			ray.direction += ball_to_self_normal * sphereCastRadius;
+
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+				opponentsColliders.Add(hit.collider);
+
+				hitRight = true;
+			}
+
+			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
+
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, sphereCastLayerMask)) {
+
+				opponentsColliders.Add(hit.collider);
+
+				hitLeft = true;
+			}
+
+			if (hitLeft && hitRight) { // if opponents on both sides
+				_eventCanRecieve.Invoke(gameObject, false);
+			} else if (hitLeft != hitRight) { // if opponets on one side
+				_eventCanRecieve.Invoke(gameObject, true);
+			} else { // if no opponets
+				_eventCanRecieve.Invoke(gameObject, true);
+			}
+
+		}
+
+		// For any player that is hindering a safe pass use a inverse hide behavior to get to a good position.
+		foreach (Collider opponent in opponentsColliders) {
+			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.ball.transform.position;
+
+			ball_to_opponent *= ball_to_self.magnitude / ball_to_opponent.magnitude;
+
+			Vector3 steering = transform.position - (_game_manager.ball.transform.position + ball_to_opponent);
+
+			steering *= (1 / steering.magnitude) * sphereCastRadius * 2 * 3;
+
+			_motor.AddMovement(steering);
+
+		}
 
 	}
 

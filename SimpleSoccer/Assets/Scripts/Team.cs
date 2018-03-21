@@ -17,7 +17,7 @@ public class Team : MonoBehaviour {
 			// Add events
 			foreach (Player otherPlayer in _players) {
 				if (otherPlayer != p) {
-					p.EventCanRecieve.AddListener(otherPlayer.EventHandlerCanRecieve);
+					p.AddCanRecieveListner(otherPlayer.EventHandlerCanRecieve);
 				}
 			}
 		}

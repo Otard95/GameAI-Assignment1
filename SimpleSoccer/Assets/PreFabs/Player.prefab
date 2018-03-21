@@ -227,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveForce: 5000
   stoppingRadius: 1
+  pursuitSteps: 5
 --- !u!135 &135940305788005438
 SphereCollider:
   m_ObjectHideFlags: 1
