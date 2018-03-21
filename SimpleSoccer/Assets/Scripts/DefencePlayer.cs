@@ -127,8 +127,6 @@ public class DefencePlayer : Player {
 
 	void Dribble () {
 		
-		DefaultSeek();
-
 	}
 
 	void Support () {
