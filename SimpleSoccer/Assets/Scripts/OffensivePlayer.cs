@@ -45,9 +45,9 @@ public class OffensivePlayer : Player
 
         if (_has_ball)
         {
-            if (_game_manager.Ball != null)
+            if (_game_manager.SoccerBall != null)
             {
-                float distanceToBall = Vector3.Distance(transform.position, _game_manager.Ball.transform.position);
+                float distanceToBall = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position);
 
                 if (distanceToBall > 10)
                 {
@@ -174,9 +174,9 @@ public class OffensivePlayer : Player
 
     private void RecieveBall()
     {
-        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.Ball.transform.position, 0, 0.0f);
+        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.SoccerBall.transform.position, 0, 0.0f);
 
-        if (Vector3.Angle(transform.forward, _game_manager.Ball.transform.position - transform.position) == 0)
+        if (Vector3.Angle(transform.forward, _game_manager.SoccerBall.transform.position - transform.position) == 0)
         {
             _state = States.Drible;
         }
@@ -188,7 +188,7 @@ public class OffensivePlayer : Player
 
     private void ChaseBall()
     {
-        _motor.Pursuit(_game_manager.Ball);
+        _motor.Pursuit(_game_manager.SoccerBall.gameObject);
     }
 
     private void Drible()
@@ -198,7 +198,7 @@ public class OffensivePlayer : Player
 
     private void KickBall()
     {
-        Rigidbody rb = _game_manager.Ball.GetComponent<Rigidbody>();
+        Rigidbody rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
         //Vector3 direction = target.transform.position - transform.position;
 
         rb.AddForce(transform.forward * _kickForce, ForceMode.Force);
@@ -206,9 +206,9 @@ public class OffensivePlayer : Player
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == _game_manager.Ball)
+        if (collision.gameObject == _game_manager.SoccerBall.gameObject)
         {
-            Rigidbody ballRigidbody = _game_manager.Ball.GetComponent<Rigidbody>();
+            Rigidbody ballRigidbody = _game_manager.SoccerBall.GetComponent<Rigidbody>();
             _state = States.Drible;
             HasBall = true;
 

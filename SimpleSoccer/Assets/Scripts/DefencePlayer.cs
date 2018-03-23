@@ -146,10 +146,10 @@ public class DefencePlayer : Player {
 		/**
 		 *  Have the player deside if hes in a good position to recieve the ball.
 		*/
-		Vector3 ball_to_self = transform.position - _game_manager.Ball.transform.position;
+		Vector3 ball_to_self = transform.position - _game_manager.SoccerBall.transform.position;
 
 		RaycastHit hit;
-		Ray ray = new Ray(_game_manager.Ball.transform.position, ball_to_self);
+		Ray ray = new Ray(_game_manager.SoccerBall.transform.position, ball_to_self);
 
 		// a list of any opponents that are hindering a safe pass
 		List<Collider> opponentsColliders = new List<Collider>();
@@ -220,7 +220,9 @@ public class DefencePlayer : Player {
 	void Block () {
 		// Use interpose to predict there to stand to block a pass
 
-	
+		Player[] opponetPlayers = _team.OtherTeam.GetPlayersByAggretion();
+
+		
 
 	}
 

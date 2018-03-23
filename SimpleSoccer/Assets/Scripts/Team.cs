@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Team : MonoBehaviour {
 
-	[SerializeField] Player[] _players;
+	[SerializeField] Player[] players;
+	[SerializeField] float playersSortInterval = .5f;
 	[SerializeField] GameObject goal;
 
 	int _goals;
@@ -15,37 +16,44 @@ public class Team : MonoBehaviour {
 	private bool _has_ball;
 	public bool HasBall { private set { _has_ball = value; } get { return _has_ball; } }
 
+	float _last_sort = 0;
+
 	void Start () {
-		foreach (Player p in _players) {
+		
+		foreach (Player p in players) {
 			// Add events
-			foreach (Player otherPlayer in _players) {
+			foreach (Player otherPlayer in players) {
 				if (otherPlayer != p) {
 					p.AddCanRecieveListner(otherPlayer.EventHandlerCanRecieve);
 				}
 			}
 		}
+
 	}
 
 	void Update () {
 
 		// Update _has_ball var.
 		_has_ball = false;
-		foreach (Player p in _players) {
+		foreach (Player p in players) {
 			if (p.HasBall) {
 				HasBall = true;
 			}
 		}
 
+		_last_sort -= Time.deltaTime;
+
 	}
 
-	public Player[] GetPlayersByAggretion () {
-		
-		Player[] playersOut = new Player[_players.Length];
-		Array.Copy(_players, playersOut, _players.Length);
+	public Player[] GetPlayersByAggretion ()
+	{
 
-		QuickSortPlayers(ref playersOut, 0, _players.Length-1);
+		if (_last_sort <= 0) { // No point in sorting the list every frame.
+			QuickSortPlayers(ref players, 0, players.Length - 1);
+			_last_sort = playersSortInterval;
+		}
 
-		return playersOut;
+		return players;
 
 	}
 
@@ -59,12 +67,12 @@ public class Team : MonoBehaviour {
 		float pivotDot = Vector3.Dot(transform.forward, pivot.transform.position - transform.position);
 
 		while (i <= j) {
-			
-			while (Vector3.Dot(transform.forward, arr[i].transform.position - transform.position) > pivotDot) {
+
+			while (Vector3.Dot(transform.forward, (arr[i].transform.position - transform.position).normalized) > pivotDot) {
 				i++;
 			}
 
-			while (Vector3.Dot(transform.forward, arr[j].transform.position - transform.position) < pivotDot) {
+			while (Vector3.Dot(transform.forward, (arr[j].transform.position - transform.position).normalized) < pivotDot) {
 				j--;
 			}
 

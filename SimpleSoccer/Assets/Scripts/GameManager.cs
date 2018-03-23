@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour {
 	 * ## Unity Proporties
 	*/
 	[SerializeField] Team [] teams;
-	[SerializeField] GameObject ball;
-	public GameObject Ball { get { return ball; } }
+	[SerializeField] Ball ball;
+	public Ball SoccerBall { get { return ball; } }
 
 	/**
 	 * ## Class proporties
