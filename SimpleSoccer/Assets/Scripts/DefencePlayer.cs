@@ -249,6 +249,8 @@ public class DefencePlayer : Player {
 
 		Vector3 passDirection = newTarget - transform.position;
 
+		KickBall(passDirection);
+
 	}
 
 }
