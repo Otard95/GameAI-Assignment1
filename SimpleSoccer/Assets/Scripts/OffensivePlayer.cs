@@ -193,7 +193,7 @@ public class OffensivePlayer : Player
 
     private void Drible()
     {
-        _motor.Seek(_game_manager.GetGoal(!_team.TeamId).transform.position); //seek opposing teams goal
+        _motor.Seek(_team.OtherTeam.transform.position); //seek opposing teams goal
     }
 
     private void KickBall()

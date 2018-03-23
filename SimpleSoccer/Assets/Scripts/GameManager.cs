@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour {
 	 * ## Unity Proporties
 	*/
 	[SerializeField] Team [] teams;
-	[SerializeField] GameObject [] goals;
 	[SerializeField] GameObject ball;
 	public GameObject Ball { get { return ball; } }
 
@@ -32,22 +31,10 @@ public class GameManager : MonoBehaviour {
 	[UsedImplicitly]
 	void Start () {
 		IsKickoff = true;
-
-		if(teams.Length != 2)
+		for (int i = 0; i < teams.Length; i++)
 		{
-			Debug.LogError("Team array invalid");
+			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
 		}
-		else
-		{
-			teams[0].TeamId = false; 	//ID 0
-			teams[1].TeamId = true;		//ID 1
-		}
-	}
-
-	// Update is called once per frame
-	[UsedImplicitly]
-	void Update () {
-
 	}
 
 	void Goal (int teamID) {
@@ -61,16 +48,5 @@ public class GameManager : MonoBehaviour {
 		}
 		*/
 	}
-
-	public GameObject GetGoal(bool id)
-	{
-		if(id)
-		{
-			return goals[1];
-		}
-		else
-		{
-			return goals[0];
-		}
-	}
+	
 }

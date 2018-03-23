@@ -31,7 +31,7 @@ public class DefencePlayer : Player {
 		base.Start();
 		GetComponent<Transform>();
 
-		_current_state = States.Dribble;
+		_current_state = States.Idle;
 	}
 
 	[UsedImplicitly]
@@ -85,8 +85,7 @@ public class DefencePlayer : Player {
 
 	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
-		// TODO: Uncomment
-		//if (!_has_ball) _current_state = States.Block;
+		if (!_has_ball) _current_state = States.Block;
 	}
 
 	void SupportTransitions () {
@@ -129,7 +128,7 @@ public class DefencePlayer : Player {
 
 		SeekDefaultPosition();
 
-		_motor.AddMovement(_game_manager.GetGoal(!_team.TeamId).transform.position - transform.position);
+		_motor.AddMovement(_team.OtherTeam.transform.position - transform.position);
 
 		// Avoid opponets
 		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, opponetLayerMask);
@@ -219,6 +218,9 @@ public class DefencePlayer : Player {
 	}
 
 	void Block () {
+		// Use interpose to predict there to stand to block a pass
+
+	
 
 	}
 
