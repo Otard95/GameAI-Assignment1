@@ -221,12 +221,17 @@ public class DefencePlayer : Player {
 		// Use interpose to predict there to stand to block a pass
 
 		Player[] opponetPlayers = _team.OtherTeam.GetPlayersByAggretion();
-
-		
+	
+		if (_game_manager.SoccerBall.Owner != null) { 
+			_motor.Interpose(_game_manager.SoccerBall.Owner.gameObject,
+											 (opponetPlayers[0].gameObject != _game_manager.SoccerBall.Owner.gameObject) ? opponetPlayers[0].gameObject : opponetPlayers[1].gameObject);
+		}
 
 	}
 
 	void Receive () {
+
+		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
 
 	}
 

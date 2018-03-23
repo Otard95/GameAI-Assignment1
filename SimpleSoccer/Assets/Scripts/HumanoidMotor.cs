@@ -6,9 +6,9 @@ using UnityEngine;
 public class HumanoidMotor : MonoBehaviour {
 
 	[SerializeField] float moveForce = 60;
-	[SerializeField] float stoppingRadius = 1;	
+	[SerializeField] float stoppingRadius = 1;
 	[SerializeField] int pursuitSteps = 5;
- 
+
 	Vector3 _target_point;
 	List<Vector3> _movements;
 	Rigidbody _rb;
@@ -27,29 +27,35 @@ public class HumanoidMotor : MonoBehaviour {
 
 	}
 
-	public void Pursuit(GameObject Target)
-	{
+	public void Pursuit (GameObject Target) {
 		Rigidbody rb = Target.GetComponent<Rigidbody>();
 		Vector3 newTarget = Target.transform.position + rb.velocity * pursuitSteps;
 		Seek(newTarget);
 	}
 
-	public void Flee(Vector3 target, float speed)
-	{
+	public void Flee (Vector3 target, float speed) {
 		Vector3 desired_velocity = (transform.position - target).normalized * speed;
 
 		AddMovement(desired_velocity);
 	}
 
-	public void Seek(Vector3 point) {
+	public void Seek (Vector3 point) {
 		_target_point = point;
 	}
 
-	public void AddMovement(Vector3 movement) {
+	public void Interpose (GameObject targetA, GameObject targetB)
+	{
+
+		Vector3 desired_pos = targetA.transform.position + (targetB.transform.position - targetA.transform.position) * .5f;
+		Seek(desired_pos);
+
+	}
+
+	public void AddMovement (Vector3 movement) {
 		_movements.Add(movement);
 	}
 
-	private void Movement() {
+	private void Movement () {
 
 		Vector3 move = Vector3.zero;
 
@@ -64,7 +70,7 @@ public class HumanoidMotor : MonoBehaviour {
 		_rb.AddForce(move * moveForce * Time.deltaTime, ForceMode.Force);
 
 		_movements.Clear();
-		
+
 	}
 
 	private void Rotate () {
