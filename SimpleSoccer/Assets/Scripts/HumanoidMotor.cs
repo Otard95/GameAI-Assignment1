@@ -6,8 +6,9 @@ using UnityEngine;
 public class HumanoidMotor : MonoBehaviour {
 
 	[SerializeField] float moveForce = 60;
-	[SerializeField] float stoppingRadius = 1;
-
+	[SerializeField] float stoppingRadius = 1;	
+	[SerializeField] int pursuitSteps = 5;
+ 
 	Vector3 _target_point;
 	List<Vector3> _movements;
 	Rigidbody _rb;
@@ -26,7 +27,14 @@ public class HumanoidMotor : MonoBehaviour {
 
 	}
 
-	public void MoveToPoint(Vector3 point) {
+	public void Pursuit(GameObject Target)
+	{
+		Rigidbody rb = Target.GetComponent<Rigidbody>();
+		Vector3 newTarget = Target.transform.position + rb.velocity * pursuitSteps;
+		Seek(newTarget);
+	}
+
+	public void Seek(Vector3 point) {
 		_target_point = point;
 	}
 
@@ -43,6 +51,7 @@ public class HumanoidMotor : MonoBehaviour {
 		}
 
 		Vector3 dir_to_point = _target_point - transform.position;
+		move += dir_to_point;
 		move = move.magnitude < stoppingRadius ? Vector3.zero : move.normalized; 
 
 		_rb.AddForce(move * moveForce * Time.deltaTime, ForceMode.Force);
