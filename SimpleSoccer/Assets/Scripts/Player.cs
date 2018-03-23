@@ -92,7 +92,7 @@ public class Player : MonoBehaviour {
 	protected void KickBall (Vector3 dir) {
 		Rigidbody ball_rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
 		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass
-		ball_rb.AddForce(dir * ballPassSpeed, ForceMode.Impulse);
+		ball_rb.AddForce(dir, ForceMode.Impulse);
 	}
 
 	public virtual void EventHandlerCanRecieve (GameObject player, bool b) {
