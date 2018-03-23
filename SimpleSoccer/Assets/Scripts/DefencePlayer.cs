@@ -231,6 +231,7 @@ public class DefencePlayer : Player {
 
 	void Receive () {
 
+		// Pursuit the ball
 		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
 
 	}
