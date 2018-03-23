@@ -203,11 +203,11 @@ public class DefencePlayer : Player {
 
 		// For any player that is hindering a safe pass use a inverse hide behavior to get to a good position.
 		foreach (Collider opponent in opponentsColliders) {
-			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.Ball.transform.position;
+			Vector3 ball_to_opponent = opponent.transform.position - _game_manager.SoccerBall.transform.position;
 
 			ball_to_opponent *= ball_to_self.magnitude / ball_to_opponent.magnitude;
 
-			Vector3 steering = transform.position - (_game_manager.Ball.transform.position + ball_to_opponent);
+			Vector3 steering = transform.position - (_game_manager.SoccerBall.transform.position + ball_to_opponent);
 
 			steering *= (1 / steering.magnitude) * sphereCastRadius * 2 * 3;
 
