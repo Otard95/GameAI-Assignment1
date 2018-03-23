@@ -21,7 +21,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] protected float fleeRadius = 3;
 	[SerializeField] protected float fleeSpeed = 2;
 	[SerializeField] protected float ballPassSpeed = 8;
-	[SerializeField] protected int ballPassSteps = 5; 
+	[SerializeField] protected int ballPassSteps = 5;
 
 	/**
 	 * ## Class Propories
@@ -87,6 +87,12 @@ public class Player : MonoBehaviour {
 	protected void SeekDefaultPosition () {
 		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		_motor.Seek(defaultPos);
+	}
+
+	protected void KickBall (Vector3 dir) {
+		Rigidbody ball_rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
+		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass
+		ball_rb.AddForce(dir * ballPassSpeed, ForceMode.Impulse);
 	}
 
 	public virtual void EventHandlerCanRecieve (GameObject player, bool b) {
