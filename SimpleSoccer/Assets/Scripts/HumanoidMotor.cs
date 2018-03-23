@@ -7,7 +7,7 @@ public class HumanoidMotor : MonoBehaviour {
 
 	[SerializeField] float moveForce = 60;
 	[SerializeField] float stoppingRadius = 1;
-	[SerializeField] int pursuitSteps = 5;
+	[SerializeField] int pursuitSpeed = 5;
 
 	Vector3 _target_point;
 	List<Vector3> _movements;
@@ -29,7 +29,8 @@ public class HumanoidMotor : MonoBehaviour {
 
 	public void Pursuit (GameObject Target) {
 		Rigidbody rb = Target.GetComponent<Rigidbody>();
-		Vector3 newTarget = Target.transform.position + rb.velocity * pursuitSteps;
+		float T = Vector3.Distance(transform.position, Target.transform.position) / pursuitSpeed;
+		Vector3 newTarget = Target.transform.position + rb.velocity * T;
 		Seek(newTarget);
 	}
 
