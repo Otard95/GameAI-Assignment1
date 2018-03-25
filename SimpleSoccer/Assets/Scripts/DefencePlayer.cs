@@ -17,7 +17,6 @@ public class DefencePlayer : Player {
 	 * ## Unity Proporties
 	*/
 
-	[SerializeField] LayerMask opponetLayerMask;
 	[SerializeField] float sphereCastRadius = 1.5f;
 
 	/**
@@ -131,7 +130,7 @@ public class DefencePlayer : Player {
 		_motor.AddMovement(_team.OtherTeam.transform.position - transform.position);
 
 		// Avoid opponets
-		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, opponetLayerMask);
+		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, _team.OpponetLayerMask);
 
 		foreach (var opponent in opponents) {
 			_motor.Flee(opponent.transform.position, fleeSpeed);
@@ -155,7 +154,7 @@ public class DefencePlayer : Player {
 		List<Collider> opponentsColliders = new List<Collider>();
 
 		// if a player is between the player and the ball
-		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
+		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
 
 			// add to list of opponents
 			opponentsColliders.Add(hit.collider);
@@ -175,7 +174,7 @@ public class DefencePlayer : Player {
 			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
 			ray.direction += ball_to_self_normal * sphereCastRadius;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 
@@ -184,7 +183,7 @@ public class DefencePlayer : Player {
 
 			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, opponetLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 

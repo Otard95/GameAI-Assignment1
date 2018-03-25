@@ -8,13 +8,17 @@ public class Team : MonoBehaviour {
 	[SerializeField] Player[] players;
 	[SerializeField] float playersSortInterval = .5f;
 	[SerializeField] GameObject goal;
+	[SerializeField] LayerMask opponetLayerMask;
+
+	public GameObject Goal { get { return goal; } }
+	public LayerMask OpponetLayerMask { get { return opponetLayerMask; } }
 
 	int _goals;
 	public int Goals { private set { _goals = value; } get { return _goals; } }
 	public Team OtherTeam { get; set; }
 
 	private bool _has_ball;
-	public bool HasBall { private set { _has_ball = value; } get { return _has_ball; } }
+	public bool HasBall { set { _has_ball = value; } get { return _has_ball; } }
 
 	float _last_sort = 0;
 

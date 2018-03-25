@@ -168,12 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _players:
-  - {fileID: 348118747}
-  - {fileID: 1020287198}
-  - {fileID: 397001029}
-  - {fileID: 2089713328}
-  - {fileID: 411445309}
+  players: []
+  playersSortInterval: 0.5
+  goal: {fileID: 1899502810}
+  opponetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &132299799 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -1091,10 +1091,7 @@ MonoBehaviour:
   teams:
   - {fileID: 1394306630}
   - {fileID: 63648291}
-  goals:
-  - {fileID: 979608282}
-  - {fileID: 1899502810}
-  ball: {fileID: 1035522261}
+  ball: {fileID: 1035522267}
 --- !u!1 &779740880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,6 +1578,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1975457108487340, guid: ec3e8f3ed27e2244caaedaf589590a03,
     type: 2}
   m_PrefabInternal: {fileID: 1456494828}
+--- !u!114 &1035522267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035522261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13745f83e9e19e4458be8e4bef2060fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Owner: {fileID: 0}
 --- !u!1 &1099426639 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -2121,12 +2130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _players:
-  - {fileID: 1566752334}
-  - {fileID: 1009685434}
-  - {fileID: 1099595480}
-  - {fileID: 1099426640}
-  - {fileID: 388873138}
+  players: []
+  playersSortInterval: 0.5
+  goal: {fileID: 979608282}
+  opponetLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1001 &1416396658
 Prefab:
   m_ObjectHideFlags: 0
@@ -3021,11 +3030,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea,
     type: 2}
   m_PrefabInternal: {fileID: 2040241654}
---- !u!1 &2065426644 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1394689635649448, guid: 7075c362e58c61748b1e59de3755c2f1,
-    type: 2}
-  m_PrefabInternal: {fileID: 322391595}
 --- !u!1001 &2085105700
 Prefab:
   m_ObjectHideFlags: 0

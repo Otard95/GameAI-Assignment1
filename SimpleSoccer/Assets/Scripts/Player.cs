@@ -11,6 +11,18 @@ public class PlayerEvent : UnityEvent<GameObject, bool> {
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
+	protected enum States
+    {
+        Idle,           //Default state. Goes back to start position and wait for kickoff.
+        Chase,          //Chase after the ball and try to take it.
+        Dribble,         //Move with the ball.
+        Recieve,        //Standing by to recieve the ball.
+        Support,        //Move to a good position for recieving the ball.
+        Kick,           //Shoot at goal.
+        Pass            //Pass the ball.
+    };
+
+
 	/**
 	 * ## Unity Proporties
 	*/
@@ -26,6 +38,9 @@ public class Player : MonoBehaviour {
 	*/
 	protected bool _has_ball;
 	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
+	protected bool Stunned;
+	protected float stunLimit = 1f;
+	protected float stunDuration = 0;
 
 	/**
 	 * ## Events
@@ -50,6 +65,7 @@ public class Player : MonoBehaviour {
 	protected HumanoidMotor _motor;
 	protected float offenciveScalar;
 	protected float rightScalar;
+	protected States _state;
 
 	/**
 	 * ## Components
@@ -71,6 +87,7 @@ public class Player : MonoBehaviour {
 
 		offenciveScalar = defaultOffenciveScalar;
 		rightScalar = defaultRightScalar;
+		_state = States.Idle;
 
 		_rb = GetComponent<Rigidbody>();
 	}
@@ -97,4 +114,23 @@ public class Player : MonoBehaviour {
 
 	}
 
+	void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == _game_manager.SoccerBall.gameObject)
+        {
+            Ball ball = _game_manager.SoccerBall;
+            Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
+            ballRigidbody.velocity = Vector3.zero;
+            _rb.velocity = Vector3.zero;
+            
+			if(ball.Owner != null && ball.Owner != this)
+			{
+				ball.Owner.HasBall = false;
+				ball.Owner._team.HasBall = false;
+				ball.Owner.Stunned = true;
+			}
+            HasBall = true;
+            ball.Owner = this;
+        }
+    }
 }
