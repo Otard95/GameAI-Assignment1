@@ -225,9 +225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4167f60ba15ca54abee3046f3463b6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 5000
+  moveForce: 60
   stoppingRadius: 1
-  pursuitSteps: 5
+  pursuitSpeed: 5
 --- !u!135 &135940305788005438
 SphereCollider:
   m_ObjectHideFlags: 1

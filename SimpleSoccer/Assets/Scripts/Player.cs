@@ -22,15 +22,14 @@ public abstract class Player : MonoBehaviour {
 	[SerializeField] protected float fleeSpeed = 2;
 	[SerializeField] protected float ballPassSpeed = 8;
 	[SerializeField] protected int ballPassSteps = 5;
+	[SerializeField] protected float minOpponentDistForPass = 2;
 
 	/**
 	 * ## Class Propories
 	*/
 	protected bool _has_ball;
 	public bool HasBall { protected set { _has_ball = value; } get { return _has_ball; } }
-	protected bool Stunned;
-	protected float stunLimit = 1f;
-	protected float stunDuration = 0;
+	public bool IsBeingPassedBall { get; set; }
 
 	/**
 	 * ## Events
@@ -49,12 +48,14 @@ public abstract class Player : MonoBehaviour {
 	protected GameManager _game_manager;
 	protected List<GameObject> _can_pass_to;
 	// TODO: Replace with event
-	protected bool _is_being_passed_ball;
 	protected Transform _team_base_transform;
 	protected Team _team;
 	protected HumanoidMotor _motor;
 	protected float offenciveScalar;
 	protected float rightScalar;
+	protected bool Stunned;
+	protected float stunLimit = 1f;
+	protected float stunDuration = 0;
 
 	/**
 	 * ## Components

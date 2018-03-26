@@ -84,6 +84,9 @@ public class DefencePlayer : Player {
 	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
+		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0) {
+			_current_state = States.Pass;
+		}
 	}
 
 	void SupportTransitions () {
@@ -94,12 +97,12 @@ public class DefencePlayer : Player {
 		if (_has_ball) _current_state = States.Dribble;
 
 		// if player is being passed the ball go to Recieve state
-		if (_is_being_passed_ball) _current_state = States.Receive;
+		if (IsBeingPassedBall) _current_state = States.Receive;
 	}
 
 	void BlockTransitions () {
 		// if player is being passed the ball go to Recieve state
-		if (_is_being_passed_ball) _current_state = States.Receive;
+		if (IsBeingPassedBall) _current_state = States.Receive;
 
 		// if players team gets the ball support them
 		if (_team.HasBall) _current_state = States.Support;
@@ -236,7 +239,19 @@ public class DefencePlayer : Player {
 
 	void Pass () {
 
-		Rigidbody rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
+		Rigidbody rb = null;
+
+		foreach (var p in _team.GetPlayersByAggretion()) {
+			if (p.gameObject == gameObject) continue;
+			if (_can_pass_to.Contains(p.gameObject)) {
+				p.IsBeingPassedBall = true;
+				rb = p.GetComponent<Rigidbody>();
+				break;
+			}
+		}
+
+		if (rb == null) return;
+
 		float T = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position) / ballPassSpeed;
 		Vector3 newTarget = _game_manager.SoccerBall.transform.position + rb.velocity * T;
 
@@ -246,6 +261,8 @@ public class DefencePlayer : Player {
 		}
 
 		Vector3 passDirection = newTarget - transform.position;
+
+
 
 		KickBall(passDirection);
 

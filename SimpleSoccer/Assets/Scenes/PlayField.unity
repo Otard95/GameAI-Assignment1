@@ -247,7 +247,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -511,7 +511,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
@@ -670,7 +670,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -773,6 +773,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!1 &388873135 stripped
 GameObject:
@@ -797,6 +798,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &389523462 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -825,6 +827,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &411445306 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -848,6 +851,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &496966790 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -916,7 +920,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
@@ -1561,6 +1565,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!1 &1020287195 stripped
 GameObject:
@@ -1585,6 +1590,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!4 &1031128576 stripped
 Transform:
@@ -1631,6 +1637,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &1099595479 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1654,6 +1661,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &1132805600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,7 +1865,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -2361,7 +2369,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -2604,7 +2612,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -2642,6 +2650,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!4 &1593113837 stripped
 Transform:
@@ -2711,7 +2720,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -3050,7 +3059,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -3123,7 +3132,7 @@ Prefab:
     - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
         type: 2}
       propertyPath: moveForce
-      value: 3000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -3156,6 +3165,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &2092426229 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
