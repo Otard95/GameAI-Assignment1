@@ -77,6 +77,8 @@ public class DefencePlayer : Player {
 	 * ## Transitions
 	*/
 
+	#region Transitions
+		
 	void IdleTransitions () {
 		if (!_game_manager.IsKickoff) _current_state = States.Support;
 	}
@@ -84,6 +86,7 @@ public class DefencePlayer : Player {
 	void DribbleTransitions () {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
+		// If an opponent gets to close try doing a pass
 		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0) {
 			_current_state = States.Pass;
 		}
@@ -101,11 +104,11 @@ public class DefencePlayer : Player {
 	}
 
 	void BlockTransitions () {
-		// if player is being passed the ball go to Recieve state
-		if (IsBeingPassedBall) _current_state = States.Receive;
-
 		// if players team gets the ball support them
 		if (_team.HasBall) _current_state = States.Support;
+
+		// if player is being passed the ball go to Recieve state
+		if (IsBeingPassedBall) _current_state = States.Receive;
 
 		// if player got the ball go to Dirbble state
 		if (_has_ball) _current_state = States.Dribble;
@@ -114,12 +117,16 @@ public class DefencePlayer : Player {
 	void ReceiveTransitions () {
 		// if opposing team got the ball during the pass go to Block state
 		if (!_team.HasBall) _current_state = States.Block;
+		// if the player catches the ball go to Dribble
+		if (_has_ball) _current_state = States.Dribble;
 	}
 
 	void PassTransitions () {
 		// player goes to Support state when ball is passed
 		if (!_has_ball) _current_state = States.Support;
 	}
+
+	#endregion
 
 	/**
 	 * ## State Behaviors
