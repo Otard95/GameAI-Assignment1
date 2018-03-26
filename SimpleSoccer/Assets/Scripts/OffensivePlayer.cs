@@ -6,21 +6,29 @@ using UnityEngine.Events;
 
 public class OffensivePlayer : Player
 {
-    Rigidbody _rigidBody;
+    enum States {
+		Idle,       // The player is idle and has no goal
+        Chase,      // The team does not have the ball, go get it.
+		Dribble,    // Player had the ball and is trying to get to an advantages position for a pass.
+		Support,    // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
+		Receive,    // The player is being passed the ball, and activly tries to catch it.
+		Pass,       // The player has the ball and is trying to pass it to another player(offensive)
+        Kick        // The player is in a position to score a goal.
+	}
+
+    /**
+	 * ## Private Fields
+	*/
     float _speed;
     float _kickForce;
-
-    //TEMP
-    bool _inPosition;
-    //ENDTEMP
+    States _state;
 
     new void Start()
     {
         base.Start();
-        _rigidBody = GetComponent<Rigidbody>();
         _speed = 10;
         _kickForce = 100;
-        //_state = States.Dribble;
+        _state = States.Idle;
     }
 
     // Update is called once per frame
@@ -112,7 +120,7 @@ public class OffensivePlayer : Player
                     }
                     break;
                 }
-            case States.Recieve:
+            case States.Receive:
                 {
                     if (HasBall)
                     {
@@ -163,7 +171,7 @@ public class OffensivePlayer : Player
                     KickBall(GetBestShot());
                     break;
                 }
-            case States.Recieve:
+            case States.Receive:
                 {
                     RecieveBall();
                     break;
@@ -287,4 +295,9 @@ public class OffensivePlayer : Player
         Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
         _motor.Seek(defaultPos);
     }
+
+    public override void  KickOff()
+	{
+		_state = States.Idle;
+	}
 }

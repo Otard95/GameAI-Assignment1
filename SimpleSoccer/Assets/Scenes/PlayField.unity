@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   playersSortInterval: 0.5
-  goal: {fileID: 1899502810}
+  goal: {fileID: 522637305}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -761,9 +761,8 @@ MonoBehaviour:
   defaultRightScalar: 10
   fleeRadius: 5
   fleeSpeed: 7
-  opponetLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
+  ballPassSpeed: 8
+  ballPassSteps: 5
   sphereCastRadius: 1.5
 --- !u!1 &388873135 stripped
 GameObject:
@@ -786,6 +785,8 @@ MonoBehaviour:
   defaultRightScalar: 0
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!4 &389523462 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -812,6 +813,8 @@ MonoBehaviour:
   defaultRightScalar: 10
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!1 &411445306 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -833,6 +836,8 @@ MonoBehaviour:
   defaultRightScalar: 0
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!4 &496966790 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -911,6 +916,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea,
     type: 2}
   m_PrefabInternal: {fileID: 512577564}
+--- !u!1 &522637305 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1394689635649448, guid: 7075c362e58c61748b1e59de3755c2f1,
+    type: 2}
+  m_PrefabInternal: {fileID: 150390780}
 --- !u!1001 &604992816
 Prefab:
   m_ObjectHideFlags: 0
@@ -1429,11 +1439,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
     type: 2}
   m_PrefabInternal: {fileID: 1357942720}
---- !u!1 &979608282 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1394689635649448, guid: 7075c362e58c61748b1e59de3755c2f1,
-    type: 2}
-  m_PrefabInternal: {fileID: 150390780}
 --- !u!1 &983347455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,9 +1544,8 @@ MonoBehaviour:
   defaultRightScalar: -10
   fleeRadius: 5
   fleeSpeed: 7
-  opponetLayerMask:
-    serializedVersion: 2
-    m_Bits: 512
+  ballPassSpeed: 8
+  ballPassSteps: 5
   sphereCastRadius: 1.5
 --- !u!1 &1020287195 stripped
 GameObject:
@@ -1564,9 +1568,8 @@ MonoBehaviour:
   defaultRightScalar: -10
   fleeRadius: 5
   fleeSpeed: 7
-  opponetLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
+  ballPassSpeed: 8
+  ballPassSteps: 5
   sphereCastRadius: 1.5
 --- !u!4 &1031128576 stripped
 Transform:
@@ -1611,6 +1614,8 @@ MonoBehaviour:
   defaultRightScalar: -10
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!1 &1099595479 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1632,6 +1637,8 @@ MonoBehaviour:
   defaultRightScalar: 10
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!1 &1132805600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,6 +1949,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5aebd7906755c694d8f58f36eef0685c, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1259440692 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1394689635649448, guid: 7075c362e58c61748b1e59de3755c2f1,
+    type: 2}
+  m_PrefabInternal: {fileID: 322391595}
 --- !u!1001 &1268344699
 Prefab:
   m_ObjectHideFlags: 0
@@ -2132,7 +2144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   playersSortInterval: 0.5
-  goal: {fileID: 979608282}
+  goal: {fileID: 1259440692}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -2424,6 +2436,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1975457108487340, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 2}
+      propertyPath: m_TagString
+      value: Ball
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 2}
   m_IsPrefabParent: 0
@@ -2604,9 +2620,8 @@ MonoBehaviour:
   defaultRightScalar: 10
   fleeRadius: 5
   fleeSpeed: 7
-  opponetLayerMask:
-    serializedVersion: 2
-    m_Bits: 512
+  ballPassSpeed: 8
+  ballPassSteps: 5
   sphereCastRadius: 1.5
 --- !u!4 &1593113837 stripped
 Transform:
@@ -2906,11 +2921,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
     type: 2}
   m_PrefabInternal: {fileID: 2126698825}
---- !u!1 &1899502810 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1394689635649448, guid: 7075c362e58c61748b1e59de3755c2f1,
-    type: 2}
-  m_PrefabInternal: {fileID: 322391595}
 --- !u!1 &1989245898
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,6 +3134,8 @@ MonoBehaviour:
   defaultRightScalar: -10
   fleeRadius: 3
   fleeSpeed: 2
+  ballPassSpeed: 8
+  ballPassSteps: 5
 --- !u!4 &2092426229 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,

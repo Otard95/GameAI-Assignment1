@@ -79,7 +79,6 @@ public class DefencePlayer : Player {
 
 	void IdleTransitions () {
 		if (!_game_manager.IsKickoff) _current_state = States.Support;
-		DefaultSeek();
 	}
 
 	void DribbleTransitions () {
@@ -220,8 +219,8 @@ public class DefencePlayer : Player {
 		// Use interpose to predict there to stand to block a pass
 
 		Player[] opponetPlayers = _team.OtherTeam.GetPlayersByAggretion();
-	
-		if (_game_manager.SoccerBall.Owner != null) { 
+
+		if (_game_manager.SoccerBall.Owner != null) {
 			_motor.Interpose(_game_manager.SoccerBall.Owner.gameObject,
 											 (opponetPlayers[0].gameObject != _game_manager.SoccerBall.Owner.gameObject) ? opponetPlayers[0].gameObject : opponetPlayers[1].gameObject);
 		}
@@ -230,11 +229,30 @@ public class DefencePlayer : Player {
 
 	void Receive () {
 
+		// Pursuit the ball
 		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
 
 	}
 
 	void Pass () {
+
+		Rigidbody rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
+		float T = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position) / ballPassSpeed;
+		Vector3 newTarget = _game_manager.SoccerBall.transform.position + rb.velocity * T;
+
+		for (int i = 0; i < ballPassSteps; i++) {
+			T = Vector3.Distance(transform.position, newTarget) / ballPassSpeed;
+			newTarget = _game_manager.SoccerBall.transform.position + rb.velocity * T;
+		}
+
+		Vector3 passDirection = newTarget - transform.position;
+
+		KickBall(passDirection);
+
+	}
+
+	public override void  KickOff()
+	{
 
 	}
 

@@ -15,4 +15,9 @@ public class KeeperPlayer : Player {
 		_motor.Seek(defaultPos);
 
 	}
+
+	public override void  KickOff()
+	{
+		
+	}
 }

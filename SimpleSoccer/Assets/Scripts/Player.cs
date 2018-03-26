@@ -9,19 +9,7 @@ public class PlayerEvent : UnityEvent<GameObject, bool> {
 }
 
 [RequireComponent(typeof(HumanoidMotor))]
-public class Player : MonoBehaviour {
-
-	protected enum States
-    {
-        Idle,           //Default state. Goes back to start position and wait for kickoff.
-        Chase,          //Chase after the ball and try to take it.
-        Dribble,         //Move with the ball.
-        Recieve,        //Standing by to recieve the ball.
-        Support,        //Move to a good position for recieving the ball.
-        Kick,           //Shoot at goal.
-        Pass            //Pass the ball.
-    };
-
+public abstract class Player : MonoBehaviour {
 
 	/**
 	 * ## Unity Proporties
@@ -32,6 +20,8 @@ public class Player : MonoBehaviour {
 	[SerializeField] protected float defaultRightScalar = -10;
 	[SerializeField] protected float fleeRadius = 3;
 	[SerializeField] protected float fleeSpeed = 2;
+	[SerializeField] protected float ballPassSpeed = 8;
+	[SerializeField] protected int ballPassSteps = 5;
 
 	/**
 	 * ## Class Propories
@@ -65,7 +55,6 @@ public class Player : MonoBehaviour {
 	protected HumanoidMotor _motor;
 	protected float offenciveScalar;
 	protected float rightScalar;
-	protected States _state;
 
 	/**
 	 * ## Components
@@ -87,7 +76,6 @@ public class Player : MonoBehaviour {
 
 		offenciveScalar = defaultOffenciveScalar;
 		rightScalar = defaultRightScalar;
-		_state = States.Idle;
 
 		_rb = GetComponent<Rigidbody>();
 	}
@@ -104,6 +92,12 @@ public class Player : MonoBehaviour {
 		_motor.Seek(defaultPos);
 	}
 
+	protected void KickBall (Vector3 dir) {
+		Rigidbody ball_rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
+		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass
+		ball_rb.AddForce(dir, ForceMode.Impulse);
+	}
+
 	public virtual void EventHandlerCanRecieve (GameObject player, bool b) {
 
 		if (b && !_can_pass_to.Contains(player)) {
@@ -114,17 +108,16 @@ public class Player : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == _game_manager.SoccerBall.gameObject)
-        {
-            Ball ball = _game_manager.SoccerBall;
-            Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
-            ballRigidbody.velocity = Vector3.zero;
-            _rb.velocity = Vector3.zero;
-            
-			if(ball.Owner != null && ball.Owner != this)
-			{
+	public abstract void KickOff();
+
+	void OnCollisionEnter (Collision collision) {
+
+		if (collision.collider.CompareTag("Ball")) {
+			Ball ball = _game_manager.SoccerBall;
+			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
+			ballRigidbody.velocity = _rb.velocity;
+
+			if (ball.Owner != null && ball.Owner != this) {
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;
 				ball.Owner.Stunned = true;
@@ -133,10 +126,4 @@ public class Player : MonoBehaviour {
             ball.Owner = this;
         }
     }
-
-	public void KickOff()
-	{
-		HasBall = false;
-		_state = States.Idle;
-	}
 }

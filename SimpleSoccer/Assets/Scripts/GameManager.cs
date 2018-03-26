@@ -20,13 +20,13 @@ public class GameManager : MonoBehaviour {
 
 	#region Singelton
 
-	public static GameManager Instance { get; set; }
+	public static GameManager Instance { get; private set; }
 
 	void Awake () {
 		Instance = this;
 	}
 
-#endregion
+	#endregion
 
 	// Use this for initialization
 	[UsedImplicitly]
@@ -41,16 +41,8 @@ public class GameManager : MonoBehaviour {
 
 	public void Goal (GameObject goal) 
 	{
-		/* Possible implementation
-		_isKickOff = true;
-		teams[teamID].Score++;
-
-		for (int i = 0; i < teams.Length; i++)
-		{
-			teams[i].KickOff();
-		}
-		*/
-
+		IsKickoff = true;
+		
 		for (int i = 0; i < teams.Length; i++)
 		{
 			if(teams[i].Goal == goal)
