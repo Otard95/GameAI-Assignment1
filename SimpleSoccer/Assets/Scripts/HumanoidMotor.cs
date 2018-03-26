@@ -76,7 +76,7 @@ public class HumanoidMotor : MonoBehaviour {
 		move += dir_to_point;
 		move = move.magnitude < stoppingRadius ? Vector3.zero : move.normalized;
 
-		_rb.AddForce(move * moveForce * Time.deltaTime, ForceMode.Force);
+		_rb.AddForce(move * moveForce, ForceMode.Force);
 
 		_movements.Clear();
 
