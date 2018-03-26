@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour {
 	public Ball SoccerBall { get { return ball; } }
 	private Vector3 center;
 
+	//TEMP
+	float kickOffTime = 5;
+	float kickOffTick = 0;
+
+	//ENDTEMP
+
 	/**
 	 * ## Class proporties
 	*/
@@ -37,6 +43,19 @@ public class GameManager : MonoBehaviour {
 			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
 		}
 		center = ball.transform.position;
+	}
+
+	void Update()
+	{
+		if(IsKickoff)
+		{
+			if(kickOffTick >= kickOffTime)
+			{
+				IsKickoff = false;
+				kickOffTick = 0;
+			}
+			kickOffTick += Time.deltaTime;
+		}
 	}
 
 	public void Goal (GameObject goal) 

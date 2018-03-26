@@ -172,7 +172,6 @@ public class OffensivePlayer : Player
                 }
             case States.Receive:
                 {
-                    RecieveBall();
                     break;
                 }
             case States.Support:
@@ -182,21 +181,7 @@ public class OffensivePlayer : Player
                 }
         }
     }
-    #endregion
-
-    private void RecieveBall()
-    {
-        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.SoccerBall.transform.position, 0, 0.0f);
-
-        if (Vector3.Angle(transform.forward, _game_manager.SoccerBall.transform.position - transform.position) == 0)
-        {
-            _state = States.Dribble;
-        }
-        else
-        {
-            transform.rotation = Quaternion.LookRotation(newDirection);
-        }
-    }
+    #endregion    
 
     private void ChaseBall()
     {
