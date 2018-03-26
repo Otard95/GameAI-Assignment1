@@ -55,7 +55,6 @@ public class Player : MonoBehaviour {
 	protected HumanoidMotor _motor;
 	protected float offenciveScalar;
 	protected float rightScalar;
-	protected States _state;
 
 	/**
 	 * ## Components
@@ -77,7 +76,6 @@ public class Player : MonoBehaviour {
 
 		offenciveScalar = defaultOffenciveScalar;
 		rightScalar = defaultRightScalar;
-		_state = States.Idle;
 
 		_rb = GetComponent<Rigidbody>();
 	}
