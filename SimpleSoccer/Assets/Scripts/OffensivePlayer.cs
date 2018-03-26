@@ -27,8 +27,7 @@ public class OffensivePlayer : Player
     public void Update()
     {
 
-       // Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
-        //_motor.Seek(defaultPos);
+    
 
         if (_has_ball)
         {
@@ -61,13 +60,16 @@ public class OffensivePlayer : Player
         {
             case States.Idle:
                 {
-                    if (_team.HasBall)
+                    if(!_game_manager.IsKickoff)
                     {
-                        _state = States.Support;
-                    }
-                    else
-                    {
-                        _state = States.Chase;
+                        if (_team.HasBall)
+                        {
+                            _state = States.Support;
+                        }
+                        else
+                        {
+                            _state = States.Chase;
+                        }
                     }
                     break;
                 }
@@ -143,7 +145,7 @@ public class OffensivePlayer : Player
         {
             case States.Idle:
                 {
-
+                    Idle();
                     break;
                 }
             case States.Chase:
@@ -278,5 +280,11 @@ public class OffensivePlayer : Player
         rb.AddForce(direction * _kickForce, ForceMode.Force);
         _team.HasBall = false;
         HasBall = false;
+    }
+
+    void Idle()
+    {
+        Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
+        _motor.Seek(defaultPos);
     }
 }

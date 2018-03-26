@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] Team [] teams;
 	[SerializeField] Ball ball;
 	public Ball SoccerBall { get { return ball; } }
+	private Vector3 center;
 
 	/**
 	 * ## Class proporties
@@ -30,14 +31,16 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	[UsedImplicitly]
 	void Start () {
-		IsKickoff = true;
+		IsKickoff = false;
 		for (int i = 0; i < teams.Length; i++)
 		{
 			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
 		}
+		center = ball.transform.position;
 	}
 
-	void Goal (int teamID) {
+	public void Goal (GameObject goal) 
+	{
 		/* Possible implementation
 		_isKickOff = true;
 		teams[teamID].Score++;
@@ -47,6 +50,15 @@ public class GameManager : MonoBehaviour {
 			teams[i].KickOff();
 		}
 		*/
-	}
-	
+
+		for (int i = 0; i < teams.Length; i++)
+		{
+			if(teams[i].Goal == goal)
+			{
+				teams[i].Goals++;
+			}
+			teams[i].KickOff();
+		}
+		ball.transform.position = center;
+	}	
 }

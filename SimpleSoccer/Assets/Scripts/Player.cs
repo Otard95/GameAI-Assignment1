@@ -133,4 +133,10 @@ public class Player : MonoBehaviour {
             ball.Owner = this;
         }
     }
+
+	public void KickOff()
+	{
+		HasBall = false;
+		_state = States.Idle;
+	}
 }

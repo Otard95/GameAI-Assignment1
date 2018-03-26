@@ -15,4 +15,12 @@ public class Ball : MonoBehaviour {
 	void Update () {
 
 	}
+
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.gameObject.name == "Blue Goal" || other.gameObject.name == "Red Goal")
+		{
+			GameManager.Instance.Goal(other.gameObject);
+		}
+	}
 }
