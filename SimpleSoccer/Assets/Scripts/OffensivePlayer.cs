@@ -71,7 +71,7 @@ public class OffensivePlayer : Player
             {
                 if(!Stunned)
                 {
-                    _state = States.Idle;
+                    _state = States.Chase;
                 }
                 break;
             }
@@ -293,8 +293,8 @@ public class OffensivePlayer : Player
 
     public override void  KickOff()
 	{
-		/* _state = States.Idle;
-        HasBall = false; */
+		_state = States.Idle;
+        HasBall = false;
 	}
 
     public override void ApplyStun()

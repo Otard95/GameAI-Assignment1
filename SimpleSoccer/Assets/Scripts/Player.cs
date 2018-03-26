@@ -111,20 +111,26 @@ public abstract class Player : MonoBehaviour {
 
 	
 
-	void OnCollisionEnter (Collision collision) {
-
+	void OnCollisionEnter (Collision collision) 
+	{
 		if (collision.collider.CompareTag("Ball")) {
 			Ball ball = _game_manager.SoccerBall;
 			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
 			ballRigidbody.velocity = _rb.velocity;
 
-			if (ball.Owner != null && _team.IsPlayerOnTeam(ball.Owner)) {
+			if (ball.Owner == null) {
+				
+				HasBall = true;
+            	ball.Owner = this;
+			}
+			else if (!_team.IsPlayerOnTeam(ball.Owner))
+			{
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;
 				ball.Owner.ApplyStun();
-			}
-            HasBall = true;
-            ball.Owner = this;
+				HasBall = true;
+            	ball.Owner = this;
+			}      
         }
     }
 
