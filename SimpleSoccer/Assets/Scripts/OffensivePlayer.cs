@@ -280,16 +280,6 @@ public class OffensivePlayer : Player
         return goal.transform.position - new Vector3(0, 0, initialOffset - interval * bestTarget);
     }
 
-    private void KickBall(Vector3 target)
-    {
-        Rigidbody rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
-        Vector3 direction = target - transform.position;
-
-        rb.AddForce(direction * _kickForce, ForceMode.Force);
-        _team.HasBall = false;
-        HasBall = false;
-    }
-
     void Idle()
     {
         Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
@@ -299,5 +289,6 @@ public class OffensivePlayer : Player
     public override void  KickOff()
 	{
 		_state = States.Idle;
+        HasBall = false;
 	}
 }
