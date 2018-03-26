@@ -28,10 +28,18 @@ public class HumanoidMotor : MonoBehaviour {
 	}
 
 	public void Pursuit (GameObject Target) {
+
 		Rigidbody rb = Target.GetComponent<Rigidbody>();
 		float T = Vector3.Distance(transform.position, Target.transform.position) / pursuitSpeed;
 		Vector3 newTarget = Target.transform.position + rb.velocity * T;
+
+		for (int i = 0; i < 5; i++) {
+			T = Vector3.Distance(transform.position, newTarget) / pursuitSpeed;
+			newTarget = Target.transform.position + rb.velocity * T;
+		}
+
 		Seek(newTarget);
+
 	}
 
 	public void Flee (Vector3 target, float speed) {

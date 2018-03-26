@@ -177,17 +177,8 @@ public class OffensivePlayer : Player
 
     private void RecieveBall()
     {
-        Vector3 newDirection = Vector3.RotateTowards(transform.position, _game_manager.SoccerBall.transform.position, 0, 0.0f);
-
-        if (Vector3.Angle(transform.forward, _game_manager.SoccerBall.transform.position - transform.position) == 0)
-        {
-            _state = States.Dribble;
-        }
-        else
-        {
-            transform.rotation = Quaternion.LookRotation(newDirection);
-        }
-    }
+			_motor.Pursuit(_game_manager.SoccerBall.gameObject);
+	}
 
     private void ChaseBall()
     {
