@@ -80,7 +80,6 @@ public class DefencePlayer : Player {
 
 	void IdleTransitions () {
 		if (!_game_manager.IsKickoff) _current_state = States.Support;
-		DefaultSeek();
 	}
 
 	void DribbleTransitions () {
