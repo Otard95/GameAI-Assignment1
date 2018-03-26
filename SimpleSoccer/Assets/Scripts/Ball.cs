@@ -20,6 +20,9 @@ public class Ball : MonoBehaviour {
 	{
 		if(other.gameObject.name == "Blue Goal" || other.gameObject.name == "Red Goal")
 		{
+			Rigidbody rb = GetComponent<Rigidbody>();
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
 			GameManager.Instance.Goal(other.gameObject);
 		}
 	}

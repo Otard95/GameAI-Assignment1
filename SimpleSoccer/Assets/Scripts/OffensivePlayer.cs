@@ -13,7 +13,7 @@ public class OffensivePlayer : Player
 		Support,    // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
 		Receive,    // The player is being passed the ball, and activly tries to catch it.
 		Pass,       // The player has the ball and is trying to pass it to another player(offensive)
-        Kick        // The player is in a position to score a goal.
+        Kick        // The player is in a position to score a goal, so he goes for it.
 	}
 
     /**
@@ -27,7 +27,7 @@ public class OffensivePlayer : Player
     {
         base.Start();
         _speed = 10;
-        _kickForce = 100;
+        _kickForce = 15;
         _state = States.Idle;
     }
 
@@ -168,7 +168,7 @@ public class OffensivePlayer : Player
                 }
             case States.Kick:
                 {
-                    KickBall(GetBestShot());
+                    KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
                     break;
                 }
             case States.Receive:
@@ -216,7 +216,7 @@ public class OffensivePlayer : Player
         GameObject ball = _game_manager.SoccerBall.gameObject;
         Collider collider = goal.GetComponent<Collider>();
 
-        float goalWidth = collider.bounds.size.z - collider.bounds.size.z / 20; //Goal width with a small offset so the AI does not hit the edges of the goal.
+        float goalWidth = collider.bounds.size.z - collider.bounds.size.z / 10; //Goal width with a small offset so the AI does not hit the edges of the goal.
         float initialOffset = goalWidth/2;
 
         Vector3 ballOffset = new Vector3(0, 0, ball.GetComponent<Collider>().bounds.size.z / 2);
@@ -288,7 +288,7 @@ public class OffensivePlayer : Player
 
     public override void  KickOff()
 	{
-		_state = States.Idle;
-        HasBall = false;
+		/* _state = States.Idle;
+        HasBall = false; */
 	}
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -168,9 +168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  players:
+  - {fileID: 411445309}
+  - {fileID: 348118747}
+  - {fileID: 1020287198}
+  - {fileID: 397001029}
+  - {fileID: 2089713328}
   playersSortInterval: 0.5
-  goal: {fileID: 522637305}
+  goal: {fileID: 1259440692}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -507,6 +512,11 @@ Prefab:
         type: 2}
       propertyPath: moveForce
       value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -907,6 +917,11 @@ Prefab:
         type: 2}
       propertyPath: moveForce
       value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -1816,7 +1831,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name
@@ -2126,8 +2141,8 @@ Transform:
   - {fileID: 1153783254}
   - {fileID: 2085105701}
   - {fileID: 137464975}
-  - {fileID: 1672714750}
   - {fileID: 1180879953}
+  - {fileID: 1672714750}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -2142,9 +2157,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  players:
+  - {fileID: 388873138}
+  - {fileID: 1566752334}
+  - {fileID: 1009685434}
+  - {fileID: 1099595480}
+  - {fileID: 1099426640}
   playersSortInterval: 0.5
-  goal: {fileID: 1259440692}
+  goal: {fileID: 522637305}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -2665,7 +2685,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name

@@ -68,7 +68,7 @@ public class Team : MonoBehaviour {
 		int j = high;
 
 		Player pivot = arr[low + (high - low) / 2];
-		float pivotDot = Vector3.Dot(transform.forward, pivot.transform.position - transform.position);
+		float pivotDot = Vector3.Dot(transform.forward, (pivot.transform.position - transform.position).normalized);
 
 		while (i <= j) {
 

@@ -253,7 +253,7 @@ public class DefencePlayer : Player {
 
 	public override void  KickOff()
 	{
-
+		
 	}
 
 }
