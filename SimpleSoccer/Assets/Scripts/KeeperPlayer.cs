@@ -20,4 +20,9 @@ public class KeeperPlayer : Player {
 	{
 		
 	}
+
+	public override void ApplyStun()
+	{
+		
+	}
 }

@@ -109,7 +109,7 @@ public abstract class Player : MonoBehaviour {
 
 	}
 
-	public abstract void KickOff();
+	
 
 	void OnCollisionEnter (Collision collision) {
 
@@ -118,13 +118,20 @@ public abstract class Player : MonoBehaviour {
 			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
 			ballRigidbody.velocity = _rb.velocity;
 
-			if (ball.Owner != null && ball.Owner != this) {
+			if (ball.Owner != null && _team.IsPlayerOnTeam(ball.Owner)) {
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;
-				ball.Owner.Stunned = true;
+				ball.Owner.ApplyStun();
 			}
             HasBall = true;
             ball.Owner = this;
         }
     }
+
+	/**
+	 * ## Abstract functions
+	*/
+
+	public abstract void KickOff();
+	public abstract void ApplyStun();
 }

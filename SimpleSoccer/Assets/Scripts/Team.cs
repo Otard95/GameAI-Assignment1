@@ -100,6 +100,22 @@ public class Team : MonoBehaviour {
 
 	}
 
+	public bool IsPlayerOnTeam(Player player)
+	{
+		if (player != null)
+		{
+			foreach(Player p in players)
+			{
+				if(p == player)
+				{
+					return true;
+				}
+			}			
+			return false;
+		}
+		return false;
+	}
+
 	public void KickOff()
 	{
 		foreach(Player p in players)

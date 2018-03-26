@@ -273,5 +273,9 @@ public class DefencePlayer : Player {
 		
 	}
 
+	public override void ApplyStun()
+	{
+		
+	}
 }
 

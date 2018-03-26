@@ -13,7 +13,8 @@ public class OffensivePlayer : Player
 		Support,    // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
 		Receive,    // The player is being passed the ball, and activly tries to catch it.
 		Pass,       // The player has the ball and is trying to pass it to another player(offensive)
-        Kick        // The player is in a position to score a goal, so he goes for it.
+        Kick,       // The player is in a position to score a goal, so he goes for it.
+        Stunned     // Just lost the ball. Need some time to figure things out.
 	}
 
     /**
@@ -34,9 +35,6 @@ public class OffensivePlayer : Player
     // Update is called once per frame
     public void Update()
     {
-
-    
-
         if (_has_ball)
         {
             if (_game_manager.SoccerBall != null)
@@ -48,18 +46,6 @@ public class OffensivePlayer : Player
                     _has_ball = false;
                 }
             }
-        }
-
-        if(Stunned)
-        {
-            if(stunDuration >= stunLimit)
-            {
-                Stunned = false;
-                stunDuration = 0;
-                return;
-            }
-            stunDuration += Time.deltaTime;
-            return;
         }
   
         #region State Transitions
@@ -81,6 +67,14 @@ public class OffensivePlayer : Player
                     }
                     break;
                 }
+            case States.Stunned:
+            {
+                if(!Stunned)
+                {
+                    _state = States.Idle;
+                }
+                break;
+            }
             case States.Chase:
                 {
                     if(HasBall)
@@ -154,6 +148,11 @@ public class OffensivePlayer : Player
             case States.Idle:
                 {
                     Idle();
+                    break;
+                }
+            case States.Stunned:
+                {
+                    StunTick();
                     break;
                 }
             case States.Chase:
@@ -297,4 +296,22 @@ public class OffensivePlayer : Player
 		/* _state = States.Idle;
         HasBall = false; */
 	}
+
+    public override void ApplyStun()
+    {
+        _state = States.Stunned;
+        Stunned = true;
+    }
+
+    void StunTick()
+    {
+        if(stunDuration >= stunLimit)
+        {
+            Stunned = false;
+            stunDuration = 0;
+            return;
+        }
+        stunDuration += Time.deltaTime;
+        return;
+    }
 }
