@@ -168,7 +168,7 @@ public class OffensivePlayer : Player
                 }
             case States.Kick:
                 {
-                    KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
+                    KickAction();
                     break;
                 }
             case States.Receive:
@@ -230,8 +230,8 @@ public class OffensivePlayer : Player
         //This is all used for selecting the optimal target.
         int [,] targetInfo = new int [precision, 2];
 
-        int lastCollision = 0;
-        int bestTarget = 0;
+        int lastCollision = -1;
+        int bestTarget = (precision - 1) / 2;
 
         //Check for collision
         for (int i = 0; i < precision; i++)
@@ -244,7 +244,7 @@ public class OffensivePlayer : Player
             targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position + ballOffset, target, target.magnitude, _team.OpponetLayerMask));
 
             //Update index difference
-            if(targetInfo[i, 1] > 0)
+            if(targetInfo[i, 0] > 0)
             {                
                 for (int j = i - 1; j > lastCollision; j--)
                 {
@@ -256,7 +256,7 @@ public class OffensivePlayer : Player
                 targetInfo[i, 1] = 0;
                 lastCollision = i;                
             }
-            else
+            else if (lastCollision >= 0)
             {
                 targetInfo[i, 1] = i - lastCollision;
             }
@@ -266,7 +266,7 @@ public class OffensivePlayer : Player
             Debug.DrawRay(ball.transform.position + ballOffset, target, Color.red, 1, false);
         }
 
-        for (int i = 1; i < precision; i++)
+        for (int i = 0; i < precision; i++)
         {
             if(targetInfo[i, 0] < targetInfo[bestTarget, 0])
             {
@@ -278,6 +278,12 @@ public class OffensivePlayer : Player
             }
         }
         return goal.transform.position - new Vector3(0, 0, initialOffset - interval * bestTarget);
+    }
+
+    void KickAction()
+    {
+        KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
+        HasBall = false;
     }
 
     void Idle()
