@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	[UsedImplicitly]
 	void Start () {
-		IsKickoff = true;
+		IsKickoff = false;
 		for (int i = 0; i < teams.Length; i++)
 		{
 			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
