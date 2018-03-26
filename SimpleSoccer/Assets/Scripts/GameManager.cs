@@ -19,13 +19,13 @@ public class GameManager : MonoBehaviour {
 
 	#region Singelton
 
-	public static GameManager Instance { get; set; }
+	public static GameManager Instance { get; private set; }
 
 	void Awake () {
 		Instance = this;
 	}
 
-#endregion
+	#endregion
 
 	// Use this for initialization
 	[UsedImplicitly]
