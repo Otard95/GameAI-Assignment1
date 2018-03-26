@@ -11,17 +11,6 @@ public class PlayerEvent : UnityEvent<GameObject, bool> {
 [RequireComponent(typeof(HumanoidMotor))]
 public class Player : MonoBehaviour {
 
-	protected enum States {
-		Idle,           //Default state. Goes back to start position and wait for kickoff.
-		Chase,          //Chase after the ball and try to take it.
-		Dribble,         //Move with the ball.
-		Recieve,        //Standing by to recieve the ball.
-		Support,        //Move to a good position for recieving the ball.
-		Kick,           //Shoot at goal.
-		Pass            //Pass the ball.
-	};
-
-
 	/**
 	 * ## Unity Proporties
 	*/
