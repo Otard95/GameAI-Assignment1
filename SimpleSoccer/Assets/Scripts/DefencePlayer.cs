@@ -119,6 +119,8 @@ public class DefencePlayer : Player {
 		if (!_team.HasBall) _current_state = States.Block;
 		// if the player catches the ball go to Dribble
 		if (_has_ball) _current_state = States.Dribble;
+		// if player is no longer in Recieve state reset IsBeingPassedBall
+		if (_current_state != States.Receive) IsBeingPassedBall = false;
 	}
 
 	void PassTransitions () {
@@ -217,7 +219,7 @@ public class DefencePlayer : Player {
 
 			Vector3 steering = transform.position - (_game_manager.SoccerBall.transform.position + ball_to_opponent);
 
-			steering *= (1 / steering.magnitude) * sphereCastRadius * 2 * 3;
+			steering *= (1 / steering.magnitude) * sphereCastRadius * 3;
 
 			_motor.AddMovement(steering);
 
