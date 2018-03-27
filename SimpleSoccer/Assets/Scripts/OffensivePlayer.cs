@@ -136,10 +136,10 @@ public class OffensivePlayer : Player {
             _state = States.Chase;
         }
         // if opponent is too close try doing a pass
-        else if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
+        /* else if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
 		    _rb.velocity.magnitude < 1) {
 			_state = States.Pass;
-		}
+		} */
         // in a position to score, shoot.
         else if ((_team.OtherTeam.Goal.transform.position - transform.position).magnitude < 10)
         {
