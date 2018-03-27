@@ -109,7 +109,7 @@ public abstract class Player : MonoBehaviour {
 
 	}
 
-	public abstract void KickOff();
+	public abstract void KickOff ();
 
 	void OnCollisionEnter (Collision collision) {
 
@@ -123,8 +123,9 @@ public abstract class Player : MonoBehaviour {
 				ball.Owner._team.HasBall = false;
 				ball.Owner.Stunned = true;
 			}
-            HasBall = true;
-            ball.Owner = this;
-        }
-    }
+			HasBall = true;
+			ball.Owner = this;
+			_team.HasBall = true;
+		}
+	}
 }
