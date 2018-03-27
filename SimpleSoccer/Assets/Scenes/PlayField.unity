@@ -804,7 +804,7 @@ MonoBehaviour:
   ballPassSpeed: 8
   ballPassSteps: 5
   minOpponentDistForPass: 2
-  catchRange: 5.4
+  catchRange: 7
 --- !u!4 &389523462 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -858,7 +858,7 @@ MonoBehaviour:
   ballPassSpeed: 8
   ballPassSteps: 5
   minOpponentDistForPass: 2
-  catchRange: 3
+  catchRange: 7
 --- !u!4 &496966790 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
