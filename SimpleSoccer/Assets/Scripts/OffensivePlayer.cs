@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class OffensivePlayer : Player
-{
-    enum States {
+public class OffensivePlayer : Player {
+	enum States {
 		Idle,       // The player is idle and has no goal
-        Chase,      // The team does not have the ball, go get it.
+		Chase,      // The team does not have the ball, go get it.
 		Dribble,    // Player had the ball and is trying to get to an advantages position for a pass.
 		Support,    // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
 		Receive,    // The player is being passed the ball, and activly tries to catch it.
@@ -218,51 +214,49 @@ public class OffensivePlayer : Player
         int bestTarget = (precision - 1) / 2;
 
         //Check for collision
-        for (int i = 0; i < precision; i++)
+		for (int i = 0; i < precision; i++) 
         {
-            Vector3 target = goal.transform.position - new Vector3(0, 0, initialOffset - interval * i);
-            target = target - ball.transform.position;
+			Vector3 target = goal.transform.position - new Vector3(0, 0, initialOffset - interval * i);
+			target = target - ball.transform.position;
 
-            targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position, target, target.magnitude, _team.OpponetLayerMask));
-            targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position - ballOffset, target, target.magnitude, _team.OpponetLayerMask));
-            targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position + ballOffset, target, target.magnitude, _team.OpponetLayerMask));
+			targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position, target, target.magnitude, _team.OpponetLayerMask));
+			targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position - ballOffset, target, target.magnitude, _team.OpponetLayerMask));
+			targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position + ballOffset, target, target.magnitude, _team.OpponetLayerMask));
 
-            //Update index difference
-            if(targetInfo[i, 0] > 0)
-            {                
-                for (int j = i - 1; j > lastCollision; j--)
+			//Update index difference
+			if (targetInfo[i, 0] > 0) 
+            {
+				for (int j = i - 1; j > lastCollision; j--) 
                 {
-                    if(i - j < targetInfo[j, 1])
-                    {
-                        targetInfo[j, 1] = i - j;
-                    }
-                }
-                targetInfo[i, 1] = 0;
-                lastCollision = i;                
-            }
-            else if (lastCollision >= 0)
+					if (i - j < targetInfo[j, 1]) {
+						targetInfo[j, 1] = i - j;
+					}
+				}
+				targetInfo[i, 1] = 0;
+				lastCollision = i;
+			} else 
             {
-                targetInfo[i, 1] = i - lastCollision;
-            }
+				targetInfo[i, 1] = i - lastCollision;
+			}
 
-            Debug.DrawRay(ball.transform.position, target, Color.red, 1, false);
-            Debug.DrawRay(ball.transform.position - ballOffset, target, Color.red, 1, false);
-            Debug.DrawRay(ball.transform.position + ballOffset, target, Color.red, 1, false);
-        }
+			Debug.DrawRay(ball.transform.position, target, Color.red, 1, false);
+			Debug.DrawRay(ball.transform.position - ballOffset, target, Color.red, 1, false);
+			Debug.DrawRay(ball.transform.position + ballOffset, target, Color.red, 1, false);
+		}
 
-        for (int i = 0; i < precision; i++)
+		for (int i = 1; i < precision; i++) 
         {
-            if(targetInfo[i, 0] < targetInfo[bestTarget, 0])
+			if (targetInfo[i, 0] < targetInfo[bestTarget, 0])
             {
-                bestTarget = i;
-            }
-            else if(targetInfo[i, 0] == targetInfo[bestTarget, 0] && targetInfo[i, 1] > targetInfo[bestTarget, 1])
+				bestTarget = i;
+			} 
+            else if (targetInfo[i, 0] == targetInfo[bestTarget, 0] && targetInfo[i, 1] > targetInfo[bestTarget, 1]) 
             {
-                bestTarget = i;
-            }
-        }
-        return goal.transform.position - new Vector3(0, 0, initialOffset - interval * bestTarget);
-    }
+				bestTarget = i;
+			}
+		}
+		return goal.transform.position - new Vector3(0, 0, initialOffset - interval * bestTarget);
+	}
 
     void KickAction()
     {

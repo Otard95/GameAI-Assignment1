@@ -108,9 +108,7 @@ public abstract class Player : MonoBehaviour {
 		}
 
 	}
-
 	
-
 	void OnCollisionEnter (Collision collision) 
 	{
 		if (collision.collider.CompareTag("Ball")) {

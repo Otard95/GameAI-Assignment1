@@ -13,12 +13,6 @@ public class GameManager : MonoBehaviour {
 	public Ball SoccerBall { get { return ball; } }
 	private Vector3 center;
 
-	//TEMP
-	float kickOffTime = 5;
-	float kickOffTick = 0;
-
-	//ENDTEMP
-
 	/**
 	 * ## Class proporties
 	*/
@@ -38,38 +32,32 @@ public class GameManager : MonoBehaviour {
 	[UsedImplicitly]
 	void Start () {
 		IsKickoff = false;
-		for (int i = 0; i < teams.Length; i++)
-		{
+		for (int i = 0; i < teams.Length; i++) {
 			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
 		}
 		center = ball.transform.position;
 	}
 
-	void Update()
-	{
-		if(IsKickoff)
-		{
-			if(kickOffTick >= kickOffTime)
-			{
-				IsKickoff = false;
-				kickOffTick = 0;
-			}
-			kickOffTick += Time.deltaTime;
-		}
-	}
-
-	public void Goal (GameObject goal) 
-	{
+	public void Goal (GameObject goal) {
 		IsKickoff = true;
-		
-		for (int i = 0; i < teams.Length; i++)
-		{
-			if(teams[i].Goal == goal)
-			{
+
+		for (int i = 0; i < teams.Length; i++) {
+			if (teams[i].Goal == goal) {
 				teams[i].Goals++;
 			}
 			teams[i].KickOff();
 		}
 		ball.transform.position = center;
-	}	
+
+		StartCoroutine(StartMatch());
+
+	}
+
+	IEnumerator StartMatch () {
+		yield return new WaitForSeconds(6);
+		ball.transform.position = center;
+		ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+		IsKickoff = false;
+	}
+
 }
