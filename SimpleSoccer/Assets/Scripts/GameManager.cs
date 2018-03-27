@@ -32,25 +32,30 @@ public class GameManager : MonoBehaviour {
 	[UsedImplicitly]
 	void Start () {
 		IsKickoff = false;
-		for (int i = 0; i < teams.Length; i++)
-		{
+		for (int i = 0; i < teams.Length; i++) {
 			teams[i].OtherTeam = teams[(i + 1) % teams.Length];
 		}
 		center = ball.transform.position;
 	}
 
-	public void Goal (GameObject goal) 
-	{
+	public void Goal (GameObject goal) {
 		IsKickoff = true;
-		
-		for (int i = 0; i < teams.Length; i++)
-		{
-			if(teams[i].Goal == goal)
-			{
+
+		for (int i = 0; i < teams.Length; i++) {
+			if (teams[i].Goal == goal) {
 				teams[i].Goals++;
 			}
 			teams[i].KickOff();
 		}
 		ball.transform.position = center;
-	}	
+
+		StartCoroutine(StartMatch());
+
+	}
+
+	IEnumerator StartMatch () {
+		yield return new WaitForSeconds(6);
+		IsKickoff = false;
+	}
+
 }
