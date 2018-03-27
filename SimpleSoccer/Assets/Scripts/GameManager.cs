@@ -59,5 +59,4 @@ public class GameManager : MonoBehaviour {
 		ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		IsKickoff = false;
 	}
-
 }

@@ -94,9 +94,11 @@ public abstract class Player : MonoBehaviour {
 	}
 
 	protected void KickBall (Vector3 dir) {
-		Rigidbody ball_rb = _game_manager.SoccerBall.GetComponent<Rigidbody>();
+		Ball ball = _game_manager.SoccerBall;
+		Rigidbody ball_rb = ball.GetComponent<Rigidbody>();
 		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass
 		ball_rb.AddForce(dir, ForceMode.Impulse);
+		ball.Owner = null;
 	}
 
 	public virtual void EventHandlerCanRecieve (GameObject player, bool b) {
@@ -115,13 +117,14 @@ public abstract class Player : MonoBehaviour {
 			Ball ball = _game_manager.SoccerBall;
 			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
 			ballRigidbody.velocity = _rb.velocity;
+			ballRigidbody.angularVelocity = Vector3.zero;
 
 			if (ball.Owner == null) {
 				
 				HasBall = true;
             	ball.Owner = this;
 			}
-			else if (!_team.IsPlayerOnTeam(ball.Owner))
+			else if (!_team.IsPlayerOnTeam(ball.Owner) && !Stunned)
 			{
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;

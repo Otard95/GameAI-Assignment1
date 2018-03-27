@@ -97,7 +97,7 @@ public class DefencePlayer : Player {
 		// if team lost the ball go to Block state
 		if (!_team.HasBall) _current_state = States.Block;
 
-		// if player got the ball go to Dirbble state
+		// if player got the ball go to Dribble state
 		if (_has_ball) _current_state = States.Dribble;
 
 		// if player is being passed the ball go to Recieve state
