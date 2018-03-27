@@ -9,7 +9,7 @@ public class PlayerEvent : UnityEvent<GameObject, bool> {
 }
 
 [RequireComponent(typeof(HumanoidMotor))]
-public class Player : MonoBehaviour {
+public abstract class Player : MonoBehaviour {
 
 	/**
 	 * ## Unity Proporties
@@ -109,6 +109,8 @@ public class Player : MonoBehaviour {
 
 	}
 
+	public abstract void KickOff();
+
 	void OnCollisionEnter (Collision collision) {
 
 		if (collision.collider.CompareTag("Ball")) {
@@ -121,11 +123,8 @@ public class Player : MonoBehaviour {
 				ball.Owner._team.HasBall = false;
 				ball.Owner.Stunned = true;
 			}
-
-			HasBall = true;
-			ball.Owner = this;
-			_team.HasBall = true;
-		}
-
-	}
+            HasBall = true;
+            ball.Owner = this;
+        }
+    }
 }

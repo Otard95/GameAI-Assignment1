@@ -14,7 +14,7 @@ public class Team : MonoBehaviour {
 	public LayerMask OpponetLayerMask { get { return opponetLayerMask; } }
 
 	int _goals;
-	public int Goals { private set { _goals = value; } get { return _goals; } }
+	public int Goals { set { _goals = value; } get { return _goals; } }
 	public Team OtherTeam { get; set; }
 
 	private bool _has_ball;
@@ -68,7 +68,7 @@ public class Team : MonoBehaviour {
 		int j = high;
 
 		Player pivot = arr[low + (high - low) / 2];
-		float pivotDot = Vector3.Dot(transform.forward, pivot.transform.position - transform.position);
+		float pivotDot = Vector3.Dot(transform.forward, (pivot.transform.position - transform.position).normalized);
 
 		while (i <= j) {
 
@@ -98,6 +98,15 @@ public class Team : MonoBehaviour {
 			QuickSortPlayers(ref arr, i, high);
 		}
 
+	}
+
+	public void KickOff()
+	{
+		foreach(Player p in players)
+		{
+			p.KickOff();
+		}
+		HasBall = false;
 	}
 
 }

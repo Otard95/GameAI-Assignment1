@@ -275,5 +275,12 @@ public class DefencePlayer : Player {
 
 	}
 
+	public override void  KickOff()
+	{
+		SeekDefaultPosition();
+		_current_state = States.Idle;
+		_has_ball = false;
+	}
+
 }
 

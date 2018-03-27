@@ -168,9 +168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  players:
+  - {fileID: 411445309}
+  - {fileID: 348118747}
+  - {fileID: 1020287198}
+  - {fileID: 397001029}
+  - {fileID: 2089713328}
   playersSortInterval: 0.5
-  goal: {fileID: 522637305}
+  goal: {fileID: 1259440692}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -508,6 +513,11 @@ Prefab:
       propertyPath: moveForce
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
   m_IsPrefabParent: 0
@@ -763,6 +773,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!1 &388873135 stripped
 GameObject:
@@ -787,6 +798,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &389523462 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -815,6 +827,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &411445306 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -838,6 +851,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &496966790 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
@@ -907,6 +921,11 @@ Prefab:
         type: 2}
       propertyPath: moveForce
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114913337286767548, guid: 2e7d7045d2dbad14db482974951ea0ea,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
@@ -1546,6 +1565,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!1 &1020287195 stripped
 GameObject:
@@ -1570,29 +1590,19 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!4 &1031128576 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
     type: 2}
   m_PrefabInternal: {fileID: 1216157532}
---- !u!1 &1035522261 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1975457108487340, guid: ec3e8f3ed27e2244caaedaf589590a03,
+--- !u!114 &1035522267 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114979546433975576, guid: ec3e8f3ed27e2244caaedaf589590a03,
     type: 2}
   m_PrefabInternal: {fileID: 1456494828}
---- !u!114 &1035522267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035522261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13745f83e9e19e4458be8e4bef2060fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Owner: {fileID: 0}
 --- !u!1 &1099426639 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1616,6 +1626,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &1099595479 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -1639,6 +1650,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!1 &1132805600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,7 +1828,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name
@@ -2126,8 +2138,8 @@ Transform:
   - {fileID: 1153783254}
   - {fileID: 2085105701}
   - {fileID: 137464975}
-  - {fileID: 1672714750}
   - {fileID: 1180879953}
+  - {fileID: 1672714750}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -2142,9 +2154,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624bd62ee5c58f04b974c91c8ad94a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  players:
+  - {fileID: 388873138}
+  - {fileID: 1566752334}
+  - {fileID: 1009685434}
+  - {fileID: 1099595480}
+  - {fileID: 1099426640}
   playersSortInterval: 0.5
-  goal: {fileID: 1259440692}
+  goal: {fileID: 522637305}
   opponetLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -2436,10 +2453,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 1975457108487340, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 2}
-      propertyPath: m_TagString
-      value: Ball
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 2}
   m_IsPrefabParent: 0
@@ -2622,6 +2635,7 @@ MonoBehaviour:
   fleeSpeed: 7
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
   sphereCastRadius: 1.5
 --- !u!4 &1593113837 stripped
 Transform:
@@ -2665,7 +2679,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4588448108639862, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea, type: 2}
       propertyPath: m_Name
@@ -3136,6 +3150,7 @@ MonoBehaviour:
   fleeSpeed: 2
   ballPassSpeed: 8
   ballPassSteps: 5
+  minOpponentDistForPass: 2
 --- !u!4 &2092426229 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
