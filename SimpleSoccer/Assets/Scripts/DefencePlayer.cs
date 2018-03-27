@@ -87,7 +87,8 @@ public class DefencePlayer : Player {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
 		// If an opponent gets to close try doing a pass
-		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0) {
+		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
+		    _rb.velocity.magnitude < 1) {
 			_current_state = States.Pass;
 		}
 	}
@@ -219,7 +220,7 @@ public class DefencePlayer : Player {
 
 			Vector3 steering = transform.position - (_game_manager.SoccerBall.transform.position + ball_to_opponent);
 
-			steering *= (1 / steering.magnitude) * sphereCastRadius * 3;
+			steering *= (1 / steering.magnitude) * sphereCastRadius * 2;
 
 			_motor.AddMovement(steering);
 
