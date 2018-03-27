@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator StartMatch () {
 		yield return new WaitForSeconds(6);
+		ball.transform.position = center;
+		ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		IsKickoff = false;
 	}
 
