@@ -228,11 +228,30 @@ public class DefencePlayer : Player {
 	void Block () {
 		// Use interpose to predict there to stand to block a pass
 
-		Player[] opponetPlayers = _team.OtherTeam.GetPlayersByAggretion();
+		GameObject targetB;
+
+		if (defaultRightScalar < 0) {
+
+			Player[] opponetPlayers = _team.OtherTeam.GetPlayersByAggretion();
+			if (opponetPlayers == null) {
+
+				targetB = _team.Goal;
+
+			} else {
+
+				if (_game_manager.SoccerBall.Owner == null)
+					targetB = opponetPlayers[0].gameObject;
+				else
+					targetB = opponetPlayers[0].gameObject != _game_manager.SoccerBall.Owner.gameObject ? opponetPlayers[0].gameObject : opponetPlayers[1].gameObject;
+
+			}
+
+		} else {
+			targetB = _team.Goal;
+		}
 
 		if (_game_manager.SoccerBall.Owner != null) {
-			_motor.Interpose(_game_manager.SoccerBall.Owner.gameObject,
-											 (opponetPlayers[0].gameObject != _game_manager.SoccerBall.Owner.gameObject) ? opponetPlayers[0].gameObject : opponetPlayers[1].gameObject);
+			_motor.Interpose(_game_manager.SoccerBall.Owner.gameObject, targetB);
 		}
 
 	}
