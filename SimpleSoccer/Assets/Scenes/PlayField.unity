@@ -1566,7 +1566,7 @@ MonoBehaviour:
   ballPassSpeed: 8
   ballPassSteps: 5
   minOpponentDistForPass: 2
-  sphereCastRadius: 1.5
+  sphereCastRadius: 1.3
 --- !u!1 &1020287195 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1105011844458156, guid: 2e7d7045d2dbad14db482974951ea0ea,
@@ -2636,7 +2636,7 @@ MonoBehaviour:
   ballPassSpeed: 8
   ballPassSteps: 5
   minOpponentDistForPass: 2
-  sphereCastRadius: 1.5
+  sphereCastRadius: 1.3
 --- !u!4 &1593113837 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4409645917295428, guid: 5aebd7906755c694d8f58f36eef0685c,
