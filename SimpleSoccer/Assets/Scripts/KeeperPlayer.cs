@@ -23,6 +23,15 @@ public class KeeperPlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
+		// Special case where if keeper has the ball
+		// The game goes to a kickoff state and players return to theis positions but the keeper still holds the ball
+		// THen he is ready he will pass the ball to a team player.
+
+		if (_has_ball) {
+			_team.KickOff();
+			_team.OtherTeam.KickOff();
+		}
+
 		switch (_current_state) {
 			case State.Idle:
 				// Player does nothing
@@ -57,11 +66,12 @@ public class KeeperPlayer : Player {
 
 	void CatchTransitions () {
 		if (!_team.HasBall) _current_state = State.Block;
+		if ((_game_manager.SoccerBall.transform.position - _team.Goal.transform.position).magnitude > catchRange * 1.5)
+			_current_state = State.Block;
 		if (_has_ball) _current_state = State.Pass;
 	}
 
-	void PassTransitions ()
-	{
+	void PassTransitions () {
 		if (!_has_ball) _current_state = State.Block;
 	}
 
@@ -87,6 +97,8 @@ public class KeeperPlayer : Player {
 
 	void Pass () {
 
+
+
 	}
 
 	#endregion
@@ -95,7 +107,7 @@ public class KeeperPlayer : Player {
 
 		SeekDefaultPosition();
 		_current_state = State.Idle;
-		_has_ball = false;
+		if (_has_ball) _current_state = State.Pass;
 
 	}
 }
