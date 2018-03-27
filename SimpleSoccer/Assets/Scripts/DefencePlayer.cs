@@ -114,6 +114,8 @@ public class DefencePlayer : Player {
 	void ReceiveTransitions () {
 		// if opposing team got the ball during the pass go to Block state
 		if (!_team.HasBall) _current_state = States.Block;
+		// if player got the ball go to Dribble
+		if (_has_ball) _current_state = States.Dribble;
 	}
 
 	void PassTransitions () {
@@ -270,7 +272,9 @@ public class DefencePlayer : Player {
 
 	public override void  KickOff()
 	{
-		
+		SeekDefaultPosition();
+		_current_state = States.Idle;
+		_has_ball = false;
 	}
 
 }
