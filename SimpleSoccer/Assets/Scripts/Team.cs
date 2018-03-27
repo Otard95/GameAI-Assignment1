@@ -52,6 +52,12 @@ public class Team : MonoBehaviour {
 	public Player[] GetPlayersByAggretion ()
 	{
 
+		if (players.Length == 0)
+		{
+			Debug.LogError("Team -> Players array is empty");
+			return null;
+		}
+
 		if (_last_sort <= 0) { // No point in sorting the list every frame.
 			QuickSortPlayers(ref players, 0, players.Length - 1);
 			_last_sort = playersSortInterval;
