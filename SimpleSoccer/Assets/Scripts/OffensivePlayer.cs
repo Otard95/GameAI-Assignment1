@@ -10,232 +10,193 @@ public class OffensivePlayer : Player {
 		Support,    // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
 		Receive,    // The player is being passed the ball, and activly tries to catch it.
 		Pass,       // The player has the ball and is trying to pass it to another player(offensive)
-        Kick,       // The player is in a position to score a goal, so he goes for it.
-        Stunned     // Just lost the ball. Need some time to figure things out.
+		Kick,       // The player is in a position to score a goal, so he goes for it.
+		Stunned     // Just lost the ball. Need some time to figure things out.
 	}
 
-    /**
-	 * ## Unity Proporties
-	*/
+	/**
+ * ## Unity Proporties
+*/
 
-    [SerializeField] float sphereCastRadius = 1.5f;
+	[SerializeField] float sphereCastRadius = 1.5f;
 
-    /**
-	 * ## Private Fields
-	*/
-    float _speed;
-    float _kickForce;
-    States _state;
+	/**
+ * ## Private Fields
+*/
+	float _speed;
+	float _kickForce;
+	States _state;
 
-    new void Start()
-    {
-        base.Start();
-        _speed = 10;
-        _kickForce = 15;
-        _state = States.Idle;
-    }
+	new void Start () {
+		base.Start();
+		_speed = 10;
+		_kickForce = 15;
+		_state = States.Idle;
+	}
 
-    void ReceiveTransitions()
-    {
-        if (HasBall)
-        {
-            _state = States.Dribble;
-        }
-        else
-        {
-            _state = States.Chase;
-        }
-    }
+	void ReceiveTransitions () {
+		if (HasBall) {
+			_state = States.Dribble;
+		} else {
+			_state = States.Chase;
+		}
+	}
 
-    // Update is called once per frame
-    public void Update()
-    {
-        if (_has_ball)
-        {
-            if (_game_manager.SoccerBall != null)
-            {
-                float distanceToBall = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position);
+	// Update is called once per frame
+	public void Update () {
+		if (_has_ball) {
+			if (_game_manager.SoccerBall != null) {
+				float distanceToBall = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position);
 
-                if (distanceToBall > 10)
-                {
-                    _has_ball = false;
-                }
-            }
-        }        
-  
-        #region State Transitions Switch
+				if (distanceToBall > 10) {
+					_has_ball = false;
+				}
+			}
+		}
 
-        switch (_state)
-        {
-            case States.Idle:
-                {
-                    Idle();
-                    IdleTransitions();
-                    break;
-                }
-            case States.Stunned:
-                {
-                    StunTick();
-                    StunnedTransitions();
-                    break;
-                }
-            case States.Chase:
-                {
-                    Chase();
-                    ChaseTransitions();
-                    break;
-                }
-            case States.Dribble:
-                {
-                    Dribble();
-                    DribbleTransitions();
-                    break;
-                }
-            case States.Kick:
-                {
-                    KickAction();
-                    KickTransitions();
-                    break;
-                }
-            case States.Receive:
-                {
-                    Receive();
-                    ReceiveTransitions();
-                    break;
-                }
-            case States.Support:
-                {
-                    Support();
-                    SupportTransition();
-                    break;
-                }
-            case States.Pass:
-                {
-                    Pass();
-                    PassTransition();
-                    break;
-                }
-        }
-        #endregion
-    }  
+		#region State Transitions Switch
 
-    #region State Transitions
-    void IdleTransitions()
-    {
-        if(!_game_manager.IsKickoff)
-        {
-            _state = States.Chase;
-        }                    
-    }
+		switch (_state) {
+			case States.Idle: {
+					Idle();
+					IdleTransitions();
+					break;
+				}
+			case States.Stunned: {
+					StunTick();
+					StunnedTransitions();
+					break;
+				}
+			case States.Chase: {
+					Chase();
+					ChaseTransitions();
+					break;
+				}
+			case States.Dribble: {
+					Dribble();
+					DribbleTransitions();
+					break;
+				}
+			case States.Kick: {
+					KickAction();
+					KickTransitions();
+					break;
+				}
+			case States.Receive: {
+					Receive();
+					ReceiveTransitions();
+					break;
+				}
+			case States.Support: {
+					Support();
+					SupportTransition();
+					break;
+				}
+			case States.Pass: {
+					Pass();
+					PassTransition();
+					break;
+				}
+		}
+		#endregion
+	}
 
-    void DribbleTransitions()
-    {
-        // if player lost the ball, go chase
-        if (!HasBall)
-        {
-            _state = States.Chase;
-        }
-        // if opponent is too close try doing a pass
-        /* else if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
-		    _rb.velocity.magnitude < 1) {
-			_state = States.Pass;
-		} */
-        // in a position to score, shoot.
-        else if ((_team.OtherTeam.Goal.transform.position - transform.position).magnitude < 10)
-        {
-            _state = States.Kick;
-        }
-    }
+	#region State Transitions
+	void IdleTransitions () {
+		if (!_game_manager.IsKickoff) {
+			_state = States.Chase;
+		}
+	}
 
-    void ChaseTransitions()
-    {
-        // if player got the ball go dribble
-        if(HasBall)
-        {
-            _state = States.Dribble;
-        }
-        // if team got the ball go support
-        else if (_team.HasBall)
-        {
-            _state = States.Support;
-        }
-    }
+	void DribbleTransitions () {
+		// if player lost the ball, go chase
+		if (!HasBall) {
+			_state = States.Chase;
+		}
+		// if opponent is too close try doing a pass
+		/* else if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
+		_rb.velocity.magnitude < 1) {
+	_state = States.Pass;
+} */
+		// in a position to score, shoot.
+		else if ((_team.OtherTeam.Goal.transform.position - transform.position).magnitude < 10) {
+			_state = States.Kick;
+		}
+	}
 
-    void SupportTransition()
-    {
-        // if team lost the ball go chase
-        if (!_team.HasBall)
-        {
-            _state = States.Chase;
-        }
-        // if player got the ball go dribble
-        else if (HasBall)
-        {
-            _state = States.Dribble;
-        }
-        // if player is being passed the ball go receive
-        else if (IsBeingPassedBall)
-        {
-            _state = States.Receive;
-        }
-    }
+	void ChaseTransitions () {
+		// if player got the ball go dribble
+		if (HasBall) {
+			_state = States.Dribble;
+		}
+		// if team got the ball go support
+		else if (_team.HasBall) {
+			_state = States.Support;
+		}
+	}
 
-    void StunnedTransitions()
-    {
-        //if no longer disoriented go chase again
-        if(!Stunned)
-        {
-            _state = States.Chase;
-        }
-    }
+	void SupportTransition () {
+		// if team lost the ball go chase
+		if (!_team.HasBall) {
+			_state = States.Chase;
+		}
+		// if player got the ball go dribble
+		else if (HasBall) {
+			_state = States.Dribble;
+		}
+		// if player is being passed the ball go receive
+		else if (IsBeingPassedBall) {
+			_state = States.Receive;
+		}
+	}
 
-    void KickTransitions()
-    {
-        // no longer in possession of ball
-        if (!HasBall)
-        {
-            // if the team still have it go support
-            if (_team.HasBall)
-            {
-                _state = States.Support;
-            }
-            // if the team no longer has it go chase
-            else
-            {
-                _state = States.Chase;
-            }
-        }
-    }
+	void StunnedTransitions () {
+		//if no longer disoriented go chase again
+		if (!Stunned) {
+			_state = States.Chase;
+		}
+	}
 
-    void PassTransition()
-    {
-        // player goes to Support state when ball is passed
+	void KickTransitions () {
+		// no longer in possession of ball
+		if (!HasBall) {
+			// if the team still have it go support
+			if (_team.HasBall) {
+				_state = States.Support;
+			}
+			// if the team no longer has it go chase
+			else {
+				_state = States.Chase;
+			}
+		}
+	}
+
+	void PassTransition () {
+		// player goes to Support state when ball is passed
 		if (!HasBall) _state = States.Support;
-    }
+	}
 
-    #endregion
+	#endregion
 
-    #region State Behaviours
+	#region State Behaviours
 
-    private void Chase()
-    {
-        _motor.Pursuit(_game_manager.SoccerBall.gameObject);
-    }
+	private void Chase () {
+		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
+	}
 
-    private void Dribble()
-    {
-        _game_manager.SoccerBall.transform.position = transform.position + transform.forward;
-        _motor.Seek(_team.OtherTeam.Goal.transform.position); //seek opposing teams goal
+	private void Dribble () {
+		_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
+		_motor.Seek(_team.OtherTeam.Goal.transform.position); //seek opposing teams goal
 
-        // Avoid opponets
+		// Avoid opponets
 		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, _team.OpponetLayerMask);
 
 		foreach (var opponent in opponents) {
 			_motor.Flee(opponent.transform.position, fleeSpeed);
 		}
-    }
+	}
 
-    void Support () {
+	void Support () {
 
 		DefaultSeek();
 
@@ -313,7 +274,7 @@ public class OffensivePlayer : Player {
 
 	}
 
-    void Pass () {
+	void Pass () {
 
 		Rigidbody rb = null;
 
@@ -344,64 +305,57 @@ public class OffensivePlayer : Player {
 
 	}
 
-    void KickAction()
-    {
-        KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
-        HasBall = false;
-    }
+	void KickAction () {
+		KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
+		HasBall = false;
+	}
 
-    void Idle()
-    {
-        Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
-        _motor.Seek(defaultPos);
-    }
+	void Idle () {
+		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
+		_motor.Seek(defaultPos);
+	}
 
-    void StunTick()
-    {
-        if(stunDuration >= stunLimit)
-        {
-            Stunned = false;
-            stunDuration = 0;
-            return;
-        }
-        stunDuration += Time.deltaTime;
-        return;
-    }
+	void StunTick () {
+		if (stunDuration >= stunLimit) {
+			Stunned = false;
+			stunDuration = 0;
+			return;
+		}
+		stunDuration += Time.deltaTime;
+		return;
+	}
 
-    void Receive()
-    {
-        // Pursuit the ball
+	void Receive () {
+		// Pursuit the ball
 		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
-    }
-    
-    #endregion
-    
-    private Vector3 GetBestShot()
-    {
-        GameObject goal = _team.OtherTeam.Goal;
-        GameObject ball = _game_manager.SoccerBall.gameObject;
-        Collider collider = goal.GetComponent<Collider>();
+	}
 
-        float goalWidth = collider.bounds.size.z - collider.bounds.size.z / 10; //Goal width with a small offset so the AI does not hit the edges of the goal.
-        float initialOffset = goalWidth/2;
+	#endregion
 
-        Vector3 ballOffset = new Vector3(0, 0, ball.GetComponent<Collider>().bounds.size.z / 2);
+	private Vector3 GetBestShot () {
+		GameObject goal = _team.OtherTeam.Goal;
+		GameObject ball = _game_manager.SoccerBall.gameObject;
+		Collider collider = goal.GetComponent<Collider>();
 
-        int precision = 10;
-        float interval = goalWidth/(precision - 1);
+		float goalWidth = collider.bounds.size.z - collider.bounds.size.z / 10; //Goal width with a small offset so the AI does not hit the edges of the goal.
+		float initialOffset = goalWidth/2;
 
-        //First index is the target index. Amount of targets is defined by the precision.
-        //Second index has two values. The first value represents how many of the three rayscasts on that target that actually hit something.
-        //The second value represents how far away (index difference) this target is from a target that actually hit something with it's raycast.
-        //This is all used for selecting the optimal target.
-        int [,] targetInfo = new int [precision, 2];
+		Vector3 ballOffset = new Vector3(0, 0, ball.GetComponent<Collider>().bounds.size.z / 2);
 
-        int lastCollision = -1;
-        int bestTarget = (precision - 1) / 2;
+		int precision = 10;
+		float interval = goalWidth/(precision - 1);
 
-        //Check for collision
-		for (int i = 0; i < precision; i++) 
-        {
+		//First index is the target index. Amount of targets is defined by the precision.
+		//Second index has two values. The first value represents how many of the three rayscasts on that target that actually hit something.
+		//The second value represents how far away (index difference) this target is from a target that actually hit something with it's raycast.
+		//This is all used for selecting the optimal target.
+		int [,] targetInfo = new int [precision, 2];
+
+		int lastCollision = -1;
+		int bestTarget = (precision - 1) / 2;
+
+		//Check for collision
+		for (int i = 0; i < precision; i++) {
 			Vector3 target = goal.transform.position - new Vector3(0, 0, initialOffset - interval * i);
 			target = target - ball.transform.position;
 
@@ -410,18 +364,15 @@ public class OffensivePlayer : Player {
 			targetInfo[i, 0] += Convert.ToInt32(Physics.Raycast(ball.transform.position + ballOffset, target, target.magnitude, _team.OpponetLayerMask));
 
 			//Update index difference
-			if (targetInfo[i, 0] > 0) 
-            {
-				for (int j = i - 1; j > lastCollision; j--) 
-                {
+			if (targetInfo[i, 0] > 0) {
+				for (int j = i - 1; j > lastCollision; j--) {
 					if (i - j < targetInfo[j, 1]) {
 						targetInfo[j, 1] = i - j;
 					}
 				}
 				targetInfo[i, 1] = 0;
 				lastCollision = i;
-			} else 
-            {
+			} else {
 				targetInfo[i, 1] = i - lastCollision;
 			}
 
@@ -430,29 +381,23 @@ public class OffensivePlayer : Player {
 			Debug.DrawRay(ball.transform.position + ballOffset, target, Color.red, 1, false);
 		}
 
-		for (int i = 1; i < precision; i++) 
-        {
-			if (targetInfo[i, 0] < targetInfo[bestTarget, 0])
-            {
+		for (int i = 1; i < precision; i++) {
+			if (targetInfo[i, 0] < targetInfo[bestTarget, 0]) {
 				bestTarget = i;
-			} 
-            else if (targetInfo[i, 0] == targetInfo[bestTarget, 0] && targetInfo[i, 1] > targetInfo[bestTarget, 1]) 
-            {
+			} else if (targetInfo[i, 0] == targetInfo[bestTarget, 0] && targetInfo[i, 1] > targetInfo[bestTarget, 1]) {
 				bestTarget = i;
 			}
 		}
 		return goal.transform.position - new Vector3(0, 0, initialOffset - interval * bestTarget);
 	}
 
-    public override void  KickOff()
-	{
+	public override void KickOff () {
 		_state = States.Idle;
-        HasBall = false;
+		HasBall = false;
 	}
 
-    public override void ApplyStun()
-    {
-        _state = States.Stunned;
-        Stunned = true;
-    }
+	public override void ApplyStun () {
+		_state = States.Stunned;
+		Stunned = true;
+	}
 }
