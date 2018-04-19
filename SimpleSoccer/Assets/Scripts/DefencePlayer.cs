@@ -87,8 +87,8 @@ public class DefencePlayer : Player {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
 		// If an opponent gets to close try doing a pass
-		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 || 
-		    _rb.velocity.magnitude < 1) {
+		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 ||
+				_rb.velocity.magnitude < 1) {
 			_current_state = States.Pass;
 		}
 	}
@@ -117,7 +117,7 @@ public class DefencePlayer : Player {
 
 	void ReceiveTransitions () {
 		// if opposing team got the ball during the pass go to Block state
-		if (!_team.HasBall) _current_state = States.Block;
+		if (_team.OtherTeam.HasBall) _current_state = States.Block;
 		// if the player catches the ball go to Dribble
 		if (_has_ball) _current_state = States.Dribble;
 		// if player is no longer in Recieve state reset IsBeingPassedBall
@@ -136,6 +136,8 @@ public class DefencePlayer : Player {
 	*/
 
 	void Dribble () {
+
+		_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
 
 		SeekDefaultPosition();
 
@@ -303,9 +305,8 @@ public class DefencePlayer : Player {
 		_has_ball = false;
 	}
 
-	public override void ApplyStun()
-	{
-		
+	public override void ApplyStun () {
+
 	}
 }
 

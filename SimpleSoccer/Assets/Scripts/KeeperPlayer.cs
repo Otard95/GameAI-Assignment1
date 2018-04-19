@@ -23,11 +23,21 @@ public class KeeperPlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
+		if (Stunned) {
+			if (stunDuration >= stunLimit) {
+				stunDuration = 0;
+				Stunned = false;
+			}
+
+			stunDuration += Time.deltaTime;
+			return;
+		}
+
 		// Special case where if keeper has the ball
 		// The game goes to a kickoff state and players return to theis positions but the keeper still holds the ball
 		// THen he is ready he will pass the ball to a team player.
 
-		if (_has_ball) {
+		if (_has_ball && !_game_manager.IsKickoff) {
 			_team.KickOff();
 			_team.OtherTeam.KickOff();
 		}
@@ -92,12 +102,34 @@ public class KeeperPlayer : Player {
 	}
 
 	void Catch () {
-		_motor.Pursuit(_game_manager.SoccerBall.gameObject);
+		_motor.Seek(_game_manager.SoccerBall.transform.position);
 	}
 
 	void Pass () {
 
+		_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
 
+		if (Physics.OverlapSphere(transform.position, 20, _team.OpponetLayerMask).Length == 0) {
+			// Find Best player to pass to.
+			var players = _team.GetPlayersByAggretion();
+			Player pass_to = players[players.Length - 1];
+			if (pass_to == this) pass_to = players[players.Length - 2];
+
+			// Look at that player and kick the ball
+			transform.LookAt(pass_to.transform);
+			_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
+			KickBall(pass_to.transform.position - transform.position);
+			
+			// Disable kickoff state
+			_game_manager.IsKickoff = false;
+
+			// Notify teammate that its being passed the ball
+			pass_to.IsBeingPassedBall = true;
+			
+			_has_ball = false;
+			Stunned = true;
+
+		}
 
 	}
 
@@ -111,8 +143,7 @@ public class KeeperPlayer : Player {
 
 	}
 
-	public override void ApplyStun()
-	{
-		
+	public override void ApplyStun () {
+
 	}
 }

@@ -41,7 +41,7 @@ public class Team : MonoBehaviour {
 		_has_ball = false;
 		foreach (Player p in players) {
 			if (p.HasBall) {
-				HasBall = true;
+				_has_ball = true;
 			}
 		}
 

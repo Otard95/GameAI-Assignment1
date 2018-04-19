@@ -96,8 +96,8 @@ public abstract class Player : MonoBehaviour {
 	protected void KickBall (Vector3 dir) {
 		Ball ball = _game_manager.SoccerBall;
 		Rigidbody ball_rb = ball.GetComponent<Rigidbody>();
-		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass
-		ball_rb.AddForce(dir, ForceMode.Impulse);
+		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass	
+		ball_rb.AddForce(dir.normalized * ballPassSpeed, ForceMode.Impulse);
 		ball.Owner = null;
 	}
 

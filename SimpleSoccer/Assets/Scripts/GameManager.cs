@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 	/**
 	 * ## Class proporties
 	*/
-	public bool IsKickoff { get; private set; }
+	public bool IsKickoff { get; set; }
 
 	#region Singelton
 
