@@ -23,7 +23,7 @@ public class Team : MonoBehaviour {
 	float _last_sort = 0;
 
 	void Start () {
-		
+
 		foreach (Player p in players) {
 			// Add events
 			foreach (Player otherPlayer in players) {
@@ -49,11 +49,9 @@ public class Team : MonoBehaviour {
 
 	}
 
-	public Player[] GetPlayersByAggretion ()
-	{
+	public Player[] GetPlayersByAggretion () {
 
-		if (players.Length == 0)
-		{
+		if (players.Length == 0) {
 			Debug.LogError("Team -> Players array is empty");
 			return null;
 		}
@@ -106,26 +104,20 @@ public class Team : MonoBehaviour {
 
 	}
 
-	public bool IsPlayerOnTeam(Player player)
-	{
-		if (player != null)
-		{
-			foreach(Player p in players)
-			{
-				if(p == player)
-				{
+	public bool IsPlayerOnTeam (Player player) {
+		if (player != null) {
+			foreach (Player p in players) {
+				if (p == player) {
 					return true;
 				}
-			}			
+			}
 			return false;
 		}
 		return false;
 	}
 
-	public void KickOff()
-	{
-		foreach(Player p in players)
-		{
+	public void KickOff () {
+		foreach (Player p in players) {
 			p.KickOff();
 		}
 		HasBall = false;
