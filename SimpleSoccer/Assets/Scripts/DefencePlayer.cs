@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using TreeEditor;
 using UnityEngine;
 
 public class DefencePlayer : Player {
@@ -293,9 +294,9 @@ public class DefencePlayer : Player {
 
 		Vector3 passDirection = newTarget - transform.position;
 
-
-
 		KickBall(passDirection);
+
+		_has_ball = false;
 
 	}
 
