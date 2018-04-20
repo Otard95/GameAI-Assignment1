@@ -278,7 +278,7 @@ public class OffensivePlayer : Player {
 
 		Rigidbody rb = null;
 
-		foreach (var p in _team.GetPlayersByAggretion()) {
+		foreach (var p in _team.GetPlayersByAggression()) {
 			if (p.gameObject == gameObject) continue;
 			if (_can_pass_to.Contains(p.gameObject)) {
 				p.IsBeingPassedBall = true;

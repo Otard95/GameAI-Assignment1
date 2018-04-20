@@ -20,7 +20,7 @@ public abstract class Player : MonoBehaviour {
 	[SerializeField] protected float defaultRightScalar = -10;
 	[SerializeField] protected float fleeRadius = 3;
 	[SerializeField] protected float fleeSpeed = 2;
-	[SerializeField] protected float ballPassSpeed = 8;
+	[SerializeField] protected float ballPassSpeed = 15;
 	[SerializeField] protected int ballPassSteps = 5;
 	[SerializeField] protected float minOpponentDistForPass = 2;
 
