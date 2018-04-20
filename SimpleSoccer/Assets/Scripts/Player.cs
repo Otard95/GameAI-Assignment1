@@ -93,11 +93,12 @@ public abstract class Player : MonoBehaviour {
 		_motor.Seek(defaultPos);
 	}
 
-	protected void KickBall (Vector3 dir) {
+	protected void KickBall (Vector3 dir, float force = -1) {
+		if (force == -1) force = ballPassSpeed;
 		Ball ball = _game_manager.SoccerBall;
 		Rigidbody ball_rb = ball.GetComponent<Rigidbody>();
 		ball_rb.velocity = Vector3.zero; // stop the balls velocity so it doesn't effect the pass	
-		ball_rb.AddForce(dir.normalized * ballPassSpeed, ForceMode.Impulse);
+		ball_rb.AddForce(dir.normalized * force, ForceMode.Impulse);
 		ball.Owner = null;
 	}
 
@@ -110,9 +111,8 @@ public abstract class Player : MonoBehaviour {
 		}
 
 	}
-	
-	void OnCollisionEnter (Collision collision) 
-	{
+
+	void OnCollisionEnter (Collision collision) {
 		if (collision.collider.CompareTag("Ball")) {
 			Ball ball = _game_manager.SoccerBall;
 			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
@@ -120,25 +120,23 @@ public abstract class Player : MonoBehaviour {
 			ballRigidbody.angularVelocity = Vector3.zero;
 
 			if (ball.Owner == null) {
-				
+
 				HasBall = true;
-            	ball.Owner = this;
-			}
-			else if (!_team.IsPlayerOnTeam(ball.Owner) && !Stunned)
-			{
+				ball.Owner = this;
+			} else if (!_team.IsPlayerOnTeam(ball.Owner) && !Stunned) {
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;
 				ball.Owner.ApplyStun();
 				HasBall = true;
-            	ball.Owner = this;
-			}      
-        }
-    }
+				ball.Owner = this;
+			}
+		}
+	}
 
 	/**
 	 * ## Abstract functions
 	*/
 
-	public abstract void KickOff();
-	public abstract void ApplyStun();
+	public abstract void KickOff ();
+	public abstract void ApplyStun ();
 }

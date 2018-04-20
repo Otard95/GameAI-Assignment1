@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Team : MonoBehaviour {
 
@@ -9,6 +10,9 @@ public class Team : MonoBehaviour {
 	[SerializeField] float playersSortInterval = .5f;
 	[SerializeField] GameObject goal;
 	[SerializeField] LayerMask opponetLayerMask;
+
+	[Header("UI")]
+	[SerializeField] Text scoreText;
 
 	public GameObject Goal { get { return goal; } }
 	public LayerMask OpponetLayerMask { get { return opponetLayerMask; } }
@@ -46,6 +50,8 @@ public class Team : MonoBehaviour {
 		}
 
 		_last_sort -= Time.deltaTime;
+
+		scoreText.text = Goals.ToString();
 
 	}
 

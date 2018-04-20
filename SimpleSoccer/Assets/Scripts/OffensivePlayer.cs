@@ -19,27 +19,18 @@ public class OffensivePlayer : Player {
 */
 
 	[SerializeField] float sphereCastRadius = 1.5f;
+	[SerializeField] float _kickForce = 15;
 
 	/**
  * ## Private Fields
 */
 	float _speed;
-	float _kickForce;
 	States _state;
 
 	new void Start () {
 		base.Start();
 		_speed = 10;
-		_kickForce = 15;
 		_state = States.Idle;
-	}
-
-	void ReceiveTransitions () {
-		if (HasBall) {
-			_state = States.Dribble;
-		} else {
-			_state = States.Chase;
-		}
 	}
 
 	// Update is called once per frame
@@ -132,6 +123,15 @@ public class OffensivePlayer : Player {
 		// if team got the ball go support
 		else if (_team.HasBall) {
 			_state = States.Support;
+		}
+	}
+
+	void ReceiveTransitions () {
+		if (HasBall) {
+			_state = States.Dribble;
+		} else {
+			_state = States.Chase;
+			_has_ball = false;
 		}
 	}
 
@@ -306,7 +306,7 @@ public class OffensivePlayer : Player {
 	}
 
 	void KickAction () {
-		KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position).normalized * _kickForce);
+		KickBall((GetBestShot() - _game_manager.SoccerBall.transform.position), _kickForce);
 		HasBall = false;
 	}
 

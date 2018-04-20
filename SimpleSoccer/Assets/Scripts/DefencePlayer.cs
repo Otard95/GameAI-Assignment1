@@ -37,6 +37,16 @@ public class DefencePlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
+		if (Stunned) {
+			if (stunDuration >= stunLimit) {
+				stunDuration = 0;
+				Stunned = false;
+			}
+
+			stunDuration += Time.deltaTime;
+			return;
+		}
+
 		//Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		//_motor.MoveToPoint(defaultPos);
 
@@ -294,9 +304,12 @@ public class DefencePlayer : Player {
 
 		Vector3 passDirection = newTarget - transform.position;
 
+		transform.LookAt(rb.transform);
+		_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
 		KickBall(passDirection);
 
 		_has_ball = false;
+		Stunned = true;
 
 	}
 

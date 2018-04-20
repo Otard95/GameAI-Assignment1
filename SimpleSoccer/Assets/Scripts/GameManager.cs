@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
 
 		for (int i = 0; i < teams.Length; i++) {
 			if (teams[i].Goal == goal) {
-				teams[i].Goals++;
+				teams[(i + 1) % teams.Length].Goals++;
 			}
 			teams[i].KickOff();
 		}
