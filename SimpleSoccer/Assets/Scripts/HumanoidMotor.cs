@@ -27,6 +27,11 @@ public class HumanoidMotor : MonoBehaviour {
 
 	}
 
+	public void Stop()
+	{
+		_rb.velocity = Vector3.zero;
+	}
+
 	public void Pursuit (GameObject Target) {
 
 		Rigidbody rb = Target.GetComponent<Rigidbody>();

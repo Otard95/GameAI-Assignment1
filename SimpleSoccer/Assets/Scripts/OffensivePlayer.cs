@@ -129,7 +129,8 @@ public class OffensivePlayer : Player {
 	void ReceiveTransitions () {
 		if (HasBall) {
 			_state = States.Dribble;
-		} else {
+		} 
+		else if (!_team.HasBall){
 			_state = States.Chase;
 			_has_ball = false;
 		}
@@ -399,5 +400,6 @@ public class OffensivePlayer : Player {
 	public override void ApplyStun () {
 		_state = States.Stunned;
 		Stunned = true;
+		_motor.Stop();
 	}
 }
