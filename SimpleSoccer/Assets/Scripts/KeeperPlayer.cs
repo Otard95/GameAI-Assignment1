@@ -111,7 +111,7 @@ public class KeeperPlayer : Player {
 
 		if (Physics.OverlapSphere(transform.position, 20, _team.OpponetLayerMask).Length == 0) {
 			// Find Best player to pass to.
-			var players = _team.GetPlayersByAggretion();
+			var players = _team.GetPlayersByAggression();
 			Player pass_to = players[players.Length - 1];
 			if (pass_to == this) pass_to = players[players.Length - 2];
 

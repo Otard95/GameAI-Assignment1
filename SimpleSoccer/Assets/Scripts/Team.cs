@@ -54,7 +54,7 @@ public class Team : MonoBehaviour {
 
 	}
 
-	public Player[] GetPlayersByAggretion () {
+	public Player[] GetPlayersByAggression () {
 
 		if (players.Length == 0) {
 			Debug.LogError("Team -> Players array is empty");
