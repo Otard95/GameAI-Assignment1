@@ -70,6 +70,10 @@ public class DefencePlayer : Player {
 				Pass();
 				PassTransitions();
 				break;
+			case States.Stunned:
+				StunTick();
+				StunnedTransitions();
+				break;
 		}
 
 	}

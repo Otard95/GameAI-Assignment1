@@ -3,16 +3,17 @@ using UnityEngine;
 
 public class KeeperPlayer : Player {
 
-	enum State {
-		Idle,
-		Block,
-		Catch,
-		Pass
+	enum States {
+		Idle,   // The player is idle and has no goal
+		Block,  // The player will try to block the opponents shots
+		Catch,  // Try to get the ball
+		Pass,   // Will pass to a nearby friendly player
+		Stunned // Just lost the ball. Need some time to figure things out.
 	}
 
 	[SerializeField] float catchRange = 3;
 
-	State _current_state = State.Idle;
+	States _current_state = States.Idle;
 
 	[UsedImplicitly]
 	new void Start () {
@@ -33,21 +34,25 @@ public class KeeperPlayer : Player {
 		}
 
 		switch (_current_state) {
-			case State.Idle:
+			case States.Idle:
 				// Player does nothing
 				IdleTransitions();
 				break;
-			case State.Block:
+			case States.Block:
 				Block();
 				BlockTransitions();
 				break;
-			case State.Catch:
+			case States.Catch:
 				Catch();
 				CatchTransitions();
 				break;
-			case State.Pass:
+			case States.Pass:
 				Pass();
 				PassTransitions();
+				break;
+			case States.Stunned:
+				StunTick();
+				StunnedTransitions();
 				break;
 		}
 
@@ -55,24 +60,32 @@ public class KeeperPlayer : Player {
 
 	void IdleTransitions () {
 		if (!_game_manager.IsKickoff) {
-			_current_state = State.Block;
+			_current_state = States.Block;
 		}
 	}
 
 	void BlockTransitions () {
 		if ((_game_manager.SoccerBall.transform.position - transform.position).magnitude < catchRange)
-			_current_state = State.Catch;
+			_current_state = States.Catch;
 	}
 
 	void CatchTransitions () {
-		if (!_team.HasBall) _current_state = State.Block;
+		if (!_team.HasBall) _current_state = States.Block;
 		if ((_game_manager.SoccerBall.transform.position - _team.Goal.transform.position).magnitude > catchRange * 1.5)
-			_current_state = State.Block;
-		if (_has_ball) _current_state = State.Pass;
+			_current_state = States.Block;
+		if (_has_ball) _current_state = States.Pass;
 	}
 
 	void PassTransitions () {
-		if (!_has_ball) _current_state = State.Block;
+		if (!_has_ball) _current_state = States.Block;
+	}
+
+	void StunnedTransitions () {
+		//if no longer disoriented go support
+		if (!_stunned) {
+			_current_state = States.Block;
+			
+		}
 	}
 
 	#region State Actions
@@ -123,13 +136,22 @@ public class KeeperPlayer : Player {
 
 	}
 
+	void StunTick () {
+		if (_stunDuration >= _stunLimit) {
+			_stunned = false;
+			_stunDuration = 0;
+			return;
+		}
+		_stunDuration += Time.deltaTime;
+	}
+
 	#endregion
 
 	public override void KickOff () {
 
 		SeekDefaultPosition();
-		_current_state = State.Idle;
-		if (_has_ball) _current_state = State.Pass;
+		_current_state = States.Idle;
+		if (_has_ball) _current_state = States.Pass;
 
 	}
 
