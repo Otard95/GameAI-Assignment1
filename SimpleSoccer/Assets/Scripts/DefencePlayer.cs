@@ -245,7 +245,6 @@ public class DefencePlayer : Player {
 			steering *= (1 / steering.magnitude) * sphereCastRadius * 2;
 
 			_motor.AddMovement(steering);
-
 		}
 
 	}
