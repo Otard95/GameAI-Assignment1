@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-using TreeEditor;
 using UnityEngine;
 
 public class DefencePlayer : Player {

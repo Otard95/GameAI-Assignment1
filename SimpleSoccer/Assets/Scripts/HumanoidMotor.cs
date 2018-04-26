@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -13,12 +13,14 @@ public class HumanoidMotor : MonoBehaviour {
 	List<Vector3> _movements;
 	Rigidbody _rb;
 
+	[UsedImplicitly]
 	void Start () {
 		_rb = GetComponent<Rigidbody>();
 		_target_point = transform.position;
 		_movements = new List<Vector3>();
 	}
 
+	[UsedImplicitly]
 	void FixedUpdate () {
 
 		Movement();

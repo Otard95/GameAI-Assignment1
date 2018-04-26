@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class OffensivePlayer : Player {
@@ -24,17 +25,17 @@ public class OffensivePlayer : Player {
 	/**
  * ## Private Fields
 */
-	float _speed;
 	States _state;
 
+	[UsedImplicitly]
 	new void Start () {
 		base.Start();
-		_speed = 10;
 		_state = States.Idle;
 	}
 
 	// Update is called once per frame
-	public void Update () {
+	[UsedImplicitly]
+	void Update () {
 		if (_has_ball) {
 			if (_game_manager.SoccerBall != null) {
 				float distanceToBall = Vector3.Distance(transform.position, _game_manager.SoccerBall.transform.position);
@@ -322,7 +323,6 @@ public class OffensivePlayer : Player {
 			return;
 		}
 		stunDuration += Time.deltaTime;
-		return;
 	}
 
 	void Receive () {
@@ -332,12 +332,12 @@ public class OffensivePlayer : Player {
 
 	#endregion
 
-	private Vector3 GetBestShot () {
+	Vector3 GetBestShot () {
 		GameObject goal = _team.OtherTeam.Goal;
 		GameObject ball = _game_manager.SoccerBall.gameObject;
-		Collider collider = goal.GetComponent<Collider>();
+		Collider col = goal.GetComponent<Collider>();
 
-		float goalWidth = collider.bounds.size.z - collider.bounds.size.z / 10; //Goal width with a small offset so the AI does not hit the edges of the goal.
+		float goalWidth = col.bounds.size.z - col.bounds.size.z / 10; //Goal width with a small offset so the AI does not hit the edges of the goal.
 		float initialOffset = goalWidth/2;
 
 		Vector3 ballOffset = new Vector3(0, 0, ball.GetComponent<Collider>().bounds.size.z / 2);

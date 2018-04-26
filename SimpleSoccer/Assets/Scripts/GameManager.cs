@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] Team [] teams;
 	[SerializeField] Ball ball;
 	public Ball SoccerBall { get { return ball; } }
-	private Vector3 center;
+	Vector3 center;
 
 	/**
 	 * ## Class proporties
@@ -22,6 +21,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance { get; private set; }
 
+	[UsedImplicitly]
 	void Awake () {
 		Instance = this;
 	}

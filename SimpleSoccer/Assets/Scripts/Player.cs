@@ -112,6 +112,7 @@ public abstract class Player : MonoBehaviour {
 
 	}
 
+	[UsedImplicitly]
 	void OnCollisionEnter (Collision collision) {
 		if (collision.collider.CompareTag("Ball")) {
 			Ball ball = _game_manager.SoccerBall;

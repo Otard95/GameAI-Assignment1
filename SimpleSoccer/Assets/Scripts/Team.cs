@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,15 +15,15 @@ public class Team : MonoBehaviour {
 	public GameObject Goal { get { return goal; } }
 	public LayerMask OpponetLayerMask { get { return opponetLayerMask; } }
 
-	int _goals;
-	public int Goals { set { _goals = value; } get { return _goals; } }
+	public int Goals { set; get; }
+
 	public Team OtherTeam { get; set; }
 
-	private bool _has_ball;
-	public bool HasBall { set { _has_ball = value; } get { return _has_ball; } }
+	public bool HasBall { set; get; }
 
 	float _last_sort = 0;
 
+	[UsedImplicitly]
 	void Start () {
 
 		foreach (Player p in players) {
@@ -39,13 +37,14 @@ public class Team : MonoBehaviour {
 
 	}
 
+	[UsedImplicitly]
 	void Update () {
 
 		// Update _has_ball var.
-		_has_ball = false;
+		HasBall = false;
 		foreach (Player p in players) {
 			if (p.HasBall) {
-				_has_ball = true;
+				HasBall = true;
 			}
 		}
 
