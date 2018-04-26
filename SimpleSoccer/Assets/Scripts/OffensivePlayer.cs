@@ -50,7 +50,7 @@ public class OffensivePlayer : Player {
 
 		switch (_current_state) {
 			case States.Idle: {
-					Idle();
+					// Do nothing
 					IdleTransitions();
 					break;
 				}
@@ -312,11 +312,6 @@ public class OffensivePlayer : Player {
 		HasBall = false;
 	}
 
-	void Idle () {
-		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffensiveScalar) + (_team_base_transform.right * defaultRightScalar);
-		_motor.Seek(defaultPos);
-	}
-
 	void StunTick () {
 		if (_stunDuration >= _stunLimit) {
 			_stunned = false;
@@ -393,8 +388,9 @@ public class OffensivePlayer : Player {
 	}
 
 	public override void KickOff () {
+		SeekDefaultPosition();
 		_current_state = States.Idle;
-		HasBall = false;
+		_has_ball = false;
 	}
 
 	public override void ApplyStun () {
