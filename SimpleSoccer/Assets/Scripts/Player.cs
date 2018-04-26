@@ -15,8 +15,8 @@ public abstract class Player : MonoBehaviour {
 	 * ## Unity Proporties
 	*/
 
-	[SerializeField] protected float defaultOffenciveScalar = -15;
-	[SerializeField] protected float offensiveScalarMultiplyer = .7f;
+	[SerializeField] protected float defaultOffensiveScalar = -15;
+	[SerializeField] protected float offensiveScalarMultiplier = .7f;
 	[SerializeField] protected float defaultRightScalar = -10;
 	[SerializeField] protected float fleeRadius = 3;
 	[SerializeField] protected float fleeSpeed = 2;
@@ -51,11 +51,11 @@ public abstract class Player : MonoBehaviour {
 	protected Transform _team_base_transform;
 	protected Team _team;
 	protected HumanoidMotor _motor;
-	protected float offenciveScalar;
-	protected float rightScalar;
-	protected bool Stunned;
-	protected float stunLimit = 1f;
-	protected float stunDuration = 0;
+	protected float _offensiveScalar;
+	protected float _rightScalar;
+	protected bool _stunned;
+	protected float _stunLimit = 1f;
+	protected float _stunDuration = 0;
 
 	/**
 	 * ## Components
@@ -75,26 +75,27 @@ public abstract class Player : MonoBehaviour {
 		_team = transform.parent.GetComponent<Team>();
 		_motor = GetComponent<HumanoidMotor>();
 
-		offenciveScalar = defaultOffenciveScalar;
-		rightScalar = defaultRightScalar;
+		_offensiveScalar = defaultOffensiveScalar;
+		_rightScalar = defaultRightScalar;
 
 		_rb = GetComponent<Rigidbody>();
 	}
 
+	/**
+		* This method does almost the same as SeekDefaultPosition,
+		* however it also considers the balls position.
+		* The player will therefore move up or down the field as the ball does.
+	*/
 	protected void DefaultSeek () {
-		/**
-		 * This methoud does almost the dame as SeekDefault position,
-		 * however it also considers the balls position.
-		 * The player will therefor move up or down the field as the ball does.
-		*/
-		offenciveScalar = defaultOffenciveScalar + (_game_manager.SoccerBall.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplyer;
+		
+		_offensiveScalar = defaultOffensiveScalar + (_game_manager.SoccerBall.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplier;
 
-		Vector3 targetPosition = _team_base_transform.position + (_team_base_transform.forward * offenciveScalar) + (_team_base_transform.right * rightScalar);
+		Vector3 targetPosition = _team_base_transform.position + (_team_base_transform.forward * _offensiveScalar) + (_team_base_transform.right * _rightScalar);
 		_motor.Seek(targetPosition);
 	}
 
 	protected void SeekDefaultPosition () {
-		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
+		Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffensiveScalar) + (_team_base_transform.right * defaultRightScalar);
 		_motor.Seek(defaultPos);
 	}
 
@@ -118,7 +119,7 @@ public abstract class Player : MonoBehaviour {
 	}
 
 	[UsedImplicitly]
-	void OnCollisionEnter (Collision collision) {
+	protected void OnCollisionEnter (Collision collision) {
 		if (collision.collider.CompareTag("Ball")) {
 			Ball ball = _game_manager.SoccerBall;
 			Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
@@ -129,7 +130,7 @@ public abstract class Player : MonoBehaviour {
 
 				HasBall = true;
 				ball.Owner = this;
-			} else if (!_team.IsPlayerOnTeam(ball.Owner) && !Stunned) {
+			} else if (!_team.IsPlayerOnTeam(ball.Owner) && !_stunned) {
 				ball.Owner.HasBall = false;
 				ball.Owner._team.HasBall = false;
 				ball.Owner.ApplyStun();

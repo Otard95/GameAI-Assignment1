@@ -7,13 +7,13 @@ public class Team : MonoBehaviour {
 	[SerializeField] Player[] players;
 	[SerializeField] float playersSortInterval = .5f;
 	[SerializeField] GameObject goal;
-	[SerializeField] LayerMask opponetLayerMask;
+	[SerializeField] LayerMask opponentLayerMask;
 
 	[Header("UI")]
 	[SerializeField] Text scoreText;
 
 	public GameObject Goal { get { return goal; } }
-	public LayerMask OpponetLayerMask { get { return opponetLayerMask; } }
+	public LayerMask OpponentLayerMask { get { return opponentLayerMask; } }
 
 	public int Goals { set; get; }
 

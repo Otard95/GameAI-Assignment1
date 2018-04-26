@@ -10,7 +10,8 @@ public class DefencePlayer : Player {
 		Support, // Player's team has the ball. The player advances up the pitch with the team, but stays further back to defend.
 		Block,   // The player will try to block the opponents passes
 		Receive, // The player is being passed the ball, and activly tries to catch it.
-		Pass     // The player has the ball and is trying to pass it to another player(offensive)
+		Pass,    // The player has the ball and is trying to pass it to another player(offensive)
+		Stunned  // Just lost the ball. Need some time to figure things out.
 	}
 
 	/**
@@ -36,13 +37,13 @@ public class DefencePlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
-		if (Stunned) {
-			if (stunDuration >= stunLimit) {
-				stunDuration = 0;
-				Stunned = false;
+		if (_stunned) {
+			if (_stunDuration >= _stunLimit) {
+				_stunDuration = 0;
+				_stunned = false;
 			}
 
-			stunDuration += Time.deltaTime;
+			_stunDuration += Time.deltaTime;
 			return;
 		}
 
@@ -97,7 +98,7 @@ public class DefencePlayer : Player {
 		// if player lost the ball to an opponent go to Block state
 		if (!_has_ball) _current_state = States.Block;
 		// If an opponent gets to close try doing a pass
-		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponetLayerMask).Length != 0 ||
+		if (Physics.OverlapSphere(transform.position, minOpponentDistForPass, _team.OpponentLayerMask).Length != 0 ||
 				_rb.velocity.magnitude < 1) {
 			_current_state = States.Pass;
 		}
@@ -154,7 +155,7 @@ public class DefencePlayer : Player {
 		_motor.AddMovement(_team.OtherTeam.transform.position - transform.position);
 
 		// Avoid opponets
-		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, _team.OpponetLayerMask);
+		Collider[] opponents = Physics.OverlapSphere(transform.position, fleeRadius, _team.OpponentLayerMask);
 
 		foreach (var opponent in opponents) {
 			_motor.Flee(opponent.transform.position, fleeSpeed);
@@ -178,7 +179,7 @@ public class DefencePlayer : Player {
 		List<Collider> opponentsColliders = new List<Collider>();
 
 		// if a player is between the player and the ball
-		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
+		if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponentLayerMask)) {
 
 			// add to list of opponents
 			opponentsColliders.Add(hit.collider);
@@ -198,7 +199,7 @@ public class DefencePlayer : Player {
 			Vector3 ball_to_self_normal = new Vector3(ball_to_self.z, 0, -ball_to_self.x).normalized;
 			ray.direction += ball_to_self_normal * sphereCastRadius;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponentLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 
@@ -207,7 +208,7 @@ public class DefencePlayer : Player {
 
 			ray.direction -= ball_to_self_normal * sphereCastRadius * 2;
 
-			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponetLayerMask)) {
+			if (Physics.SphereCast(ray, sphereCastRadius, out hit, ball_to_self.magnitude, _team.OpponentLayerMask)) {
 
 				opponentsColliders.Add(hit.collider);
 
@@ -308,7 +309,7 @@ public class DefencePlayer : Player {
 		KickBall(passDirection);
 
 		_has_ball = false;
-		Stunned = true;
+		_stunned = true;
 
 	}
 
