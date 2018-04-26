@@ -82,6 +82,11 @@ public abstract class Player : MonoBehaviour {
 	}
 
 	protected void DefaultSeek () {
+		/**
+		 * This methoud does almost the dame as SeekDefault position,
+		 * however it also considers the balls position.
+		 * The player will therefor move up or down the field as the ball does.
+		*/
 		offenciveScalar = defaultOffenciveScalar + (_game_manager.SoccerBall.transform.position - _team_base_transform.position).x * _team_base_transform.forward.x * offensiveScalarMultiplyer;
 
 		Vector3 targetPosition = _team_base_transform.position + (_team_base_transform.forward * offenciveScalar) + (_team_base_transform.right * rightScalar);
