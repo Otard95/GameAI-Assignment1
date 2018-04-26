@@ -37,16 +37,6 @@ public class DefencePlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
-		if (_stunned) {
-			if (_stunDuration >= _stunLimit) {
-				_stunDuration = 0;
-				_stunned = false;
-			}
-
-			_stunDuration += Time.deltaTime;
-			return;
-		}
-
 		//Vector3 defaultPos = _team_base_transform.position + (_team_base_transform.forward * defaultOffenciveScalar) + (_team_base_transform.right * defaultRightScalar);
 		//_motor.MoveToPoint(defaultPos);
 
@@ -138,6 +128,21 @@ public class DefencePlayer : Player {
 	void PassTransitions () {
 		// player goes to Support state when ball is passed
 		if (!_has_ball) _current_state = States.Support;
+	}
+
+	void StunnedTransitions () {
+		//if no longer disoriented go support
+		if (!_stunned) {
+			if (_team.HasBall)
+			{
+				_current_state = States.Support;
+			}
+			else
+			{
+				_current_state = States.Block;
+			}
+			
+		}
 	}
 
 	#endregion
@@ -313,6 +318,16 @@ public class DefencePlayer : Player {
 
 	}
 
+	
+	void StunTick () {
+		if (_stunDuration >= _stunLimit) {
+			_stunned = false;
+			_stunDuration = 0;
+			return;
+		}
+		_stunDuration += Time.deltaTime;
+	}
+
 	public override void KickOff () {
 		SeekDefaultPosition();
 		_current_state = States.Idle;
@@ -320,7 +335,9 @@ public class DefencePlayer : Player {
 	}
 
 	public override void ApplyStun () {
-
+		_current_state = States.Stunned;
+		_stunned = true;
+		_motor.Stop();
 	}
 }
 

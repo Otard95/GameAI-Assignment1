@@ -23,16 +23,6 @@ public class KeeperPlayer : Player {
 	[UsedImplicitly]
 	void Update () {
 
-		if (Stunned) {
-			if (stunDuration >= stunLimit) {
-				stunDuration = 0;
-				Stunned = false;
-			}
-
-			stunDuration += Time.deltaTime;
-			return;
-		}
-
 		// Special case where if keeper has the ball
 		// The game goes to a kickoff state and players return to theis positions but the keeper still holds the ball
 		// THen he is ready he will pass the ball to a team player.
@@ -109,7 +99,7 @@ public class KeeperPlayer : Player {
 
 		_game_manager.SoccerBall.transform.position = transform.position + transform.forward;
 
-		if (Physics.OverlapSphere(transform.position, 20, _team.OpponetLayerMask).Length == 0) {
+		if (Physics.OverlapSphere(transform.position, 20, _team.OpponentLayerMask).Length == 0) {
 			// Find Best player to pass to.
 			var players = _team.GetPlayersByAggression();
 			Player pass_to = players[players.Length - 1];
@@ -127,7 +117,7 @@ public class KeeperPlayer : Player {
 			pass_to.IsBeingPassedBall = true;
 			
 			_has_ball = false;
-			Stunned = true;
+			_stunned = true;
 
 		}
 
@@ -143,7 +133,5 @@ public class KeeperPlayer : Player {
 
 	}
 
-	public override void ApplyStun () {
-
-	}
+	public override void ApplyStun () {}
 }
